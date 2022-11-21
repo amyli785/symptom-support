@@ -2,9 +2,9 @@
 
 <template>
   <main>
-    <section v-if="$store.state.username">
+    <section v-if="$store.state.displayName">
       <header>
-        <h2>Welcome @{{ $store.state.username }}</h2>
+        <h2>Welcome {{ $store.state.displayName }}</h2>
       </header>
     </section>
     <section v-else>
