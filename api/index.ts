@@ -7,9 +7,8 @@ import http from 'http';
 import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo';
 import dotenv from 'dotenv';
-
-// import * as userValidator from '../server/user/middleware';
-// import {userRouter} from '../server/user/router';
+import * as userValidator from '../server/user/middleware';
+import {userRouter} from '../server/user/router';
 
 // Load environmental variables
 dotenv.config({});
@@ -64,11 +63,11 @@ app.use(session({
   })
 }));
 
-// // This makes sure that if a user is logged in, they still exist in the database
-// app.use(userValidator.isCurrentSessionUserExists);
+// This makes sure that if a user is logged in, they still exist in the database
+app.use(userValidator.isCurrentSessionUserExists);
 
-// // Add routers from routes folder
-// app.use('/api/users', userRouter);
+// Add routers from routes folder
+app.use('/api/users', userRouter);
 
 // Catch all the other routes and display error message
 app.all('*', (req: Request, res: Response) => {
