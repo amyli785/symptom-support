@@ -8,8 +8,6 @@ const router = express.Router();
 
 /**
  * Get the signed in user
- * TODO: may need better route and documentation
- * (so students don't accidentally delete this when copying over)
  *
  * @name GET /api/users/session
  *
@@ -105,7 +103,7 @@ router.post(
     userValidator.isValidPassword
   ],
   async (req: Request, res: Response) => {
-    const user = await UserCollection.addOne(req.body.username, req.body.password);
+    const user = await UserCollection.addOne(req.body.username, req.body.password, req.body.displayName);
     req.session.userId = user._id.toString();
     res.status(201).json({
       message: `Your account was created successfully. You have been logged in as ${user.username}`,

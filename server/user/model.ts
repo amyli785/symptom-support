@@ -6,6 +6,7 @@ export type User = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   username: string;
   password: string;
+  displayName: string;
   dateJoined: Date;
 };
 
@@ -20,6 +21,10 @@ const UserSchema = new Schema({
   },
   // The user's password
   password: {
+    type: String,
+    required: true
+  },
+  displayName: {
     type: String,
     required: true
   },
