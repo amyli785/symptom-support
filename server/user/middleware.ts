@@ -56,7 +56,7 @@ const isValidPassword = (req: Request, res: Response, next: NextFunction) => {
  * Checks if a display name in req.body is valid
  */
  const isValidDisplayName = (req: Request, res: Response, next: NextFunction) => {
-  const nameRegex = /^\w+$/i;
+  const nameRegex = /^[\w ]+$/i;
   if (!nameRegex.test(req.body.displayName)) {
     res.status(400).json({
       error: 'Display name must be a nonempty alphanumeric string.'
