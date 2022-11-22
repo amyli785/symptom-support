@@ -6,6 +6,8 @@ type SupportResponse = {
     supported: string;
     supporter: string;
     permission: string;
+    supportedDisplay: string;
+    supporterDisplay: string;
 };
 
 /**
@@ -24,12 +26,16 @@ const constructSupportResponse = (support: HydratedDocument<Support>): SupportRe
 
     const supported = supportCopy.supported.username;
     const supporter = supportCopy.supporter.username;
+    const supportedDisplay = supportCopy.supported.displayName;
+    const supporterDisplay = supportCopy.supporter.displayName;
 
     return{
         ...supportCopy,
         supported: supported,
         supporter: supporter,
-        permission: supportCopy.permission.toString()
+        permission: supportCopy.permission.toString(),
+        supportedDisplay: supportedDisplay,
+        supporterDisplay: supporterDisplay,
     };
 };
 

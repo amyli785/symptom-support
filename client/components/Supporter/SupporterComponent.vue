@@ -6,6 +6,9 @@
       class="supporter"
     >
       <header>
+        <h2>
+            {{supporter.supporterDisplay}}
+        </h2>
         <h3 class="author">
             <!-- {{ supporter.supporter.displayName }} -->
           @{{ supporter.supporter }}
@@ -113,29 +116,29 @@
             this.editing = false;
             this.draft = this.supporter.permission;
         },
-    submitEdit() {
-        /**
-         * Updates freet to have the submitted draft content.
-         */
-        this.editing = false;
-        if (this.supporter.permission === this.draft) {
-            const error = 'Error: Edited permission level should be different than current permission level.';
-            this.$set(this.alerts, error, 'error'); // Set an alert to be the error text, timeout of 3000 ms
-            setTimeout(() => this.$delete(this.alerts, error), 3000);
-            return;
-        }
-
-        const params = {
-            method: 'PATCH',
-            message: 'Successfully edited permission!',
-            body: JSON.stringify({permission: this.draft}),
-            callback: () => {
-            this.$set(this.alerts, params.message, 'success');
-            setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+        submitEdit() {
+            /**
+             * Updates freet to have the submitted draft content.
+             */
+            this.editing = false;
+            if (this.supporter.permission === this.draft) {
+                const error = 'Error: Edited permission level should be different than current permission level.';
+                this.$set(this.alerts, error, 'error'); // Set an alert to be the error text, timeout of 3000 ms
+                setTimeout(() => this.$delete(this.alerts, error), 3000);
+                return;
             }
-        };
-        this.request(params);
-    },
+
+            const params = {
+                method: 'PATCH',
+                message: 'Successfully edited permission!',
+                body: JSON.stringify({permission: this.draft}),
+                callback: () => {
+                this.$set(this.alerts, params.message, 'success');
+                setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+                }
+            };
+            this.request(params);
+        },
         async request(params) {
         /**
          * Submits a request to the support endpoint

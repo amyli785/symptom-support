@@ -5,6 +5,9 @@
       class="supported"
     >
       <header>
+        <h2>
+          {{ supported.supportedDisplay }}
+        </h2>
         <h3 class="author">
           @{{ supported.supported }}
         </h3>
