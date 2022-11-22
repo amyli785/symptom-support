@@ -13,6 +13,18 @@
       <router-link to="/">
         Home
       </router-link>
+      <router-link 
+        v-if="$store.state.username"
+        to="/supporter"
+      >
+        Supporters
+      </router-link>
+      <router-link 
+        v-if="$store.state.username"
+        to="/supported"
+      >
+        Supported
+      </router-link>
       <router-link
         v-if="$store.state.username"
         to="/account"

@@ -70,7 +70,9 @@ export default {
       setUsername: false, // Whether or not the stored username should be updated after form submission
       alerts: {}, // Displays success/error messages encountered during form submission
       callback: null, // Function to run after successful form submission
-      validationFunction: null // Function to validate form input
+      validationFunction: null, // Function to validate form input
+      refreshSupported: false,
+      refreshSupporter: false,
     };
   },
   methods: {
@@ -120,6 +122,13 @@ export default {
           this.$store.commit('setDisplayName', res.user ? res.user.displayName : null);
         }
 
+        if (this.refreshSupported) {
+          this.$store.commit('refreshSupported');
+        }
+
+        if (this.refreshSupporter) {
+          this.$store.commit('refreshSupporter');
+        }
 
         if (this.callback) {
           this.callback();

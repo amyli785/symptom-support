@@ -11,6 +11,8 @@ const store = new Vuex.Store({
   state: {
     username: null, // Username of the logged in user
     displayName: null, //Display name of logged in user
+    supported: [],
+    supporter: [],
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
   mutations: {
@@ -36,6 +38,36 @@ const store = new Vuex.Store({
        * @param displayName - new display name to set
        */
        state.displayName = displayName;
+    },
+    updateSupported(state, supported) {
+      /**
+       * Update the stored supported to the provided supported.
+       * @param supported - Supported to store
+       */
+      state.supported = supported;
+    },
+    async refreshSupported(state) {
+      /**
+       * Request the server for the currently available supported.
+       */
+      const url = `/api/supports/supported`;
+      const res = await fetch(url).then(async r => r.json());
+      state.supported = res;
+    },
+    updateSupporter(state, supporter) {
+      /**
+       * Update the stored supporters to the provided supporters.
+       * @param supporter - Supporters to store
+       */
+      state.supporter = supporter;
+    },
+    async refreshSupporter(state) {
+      /**
+       * Request the server for the currently available supporters.
+       */
+      const url = `/api/supports/supporter`;
+      const res = await fetch(url).then(async r => r.json());
+      state.supporter = res;
     },
   },
   // Store data across page refreshes, only discard on browser close

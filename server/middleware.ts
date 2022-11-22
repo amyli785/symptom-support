@@ -3,7 +3,7 @@ import UserCollection from '../user/collection';
 
 /**
  * Checks if the current session user (if any) still exists in the database, for instance,
- * a user may try to post an entry in some browser while the account has been deleted in another or
+ * a user may try to post a freet in some browser while the account has been deleted in another or
  * when a user tries to modify an account in some browser while it has been deleted in another
  */
 const isCurrentSessionUserExists = async (req: Request, res: Response, next: NextFunction) => {
@@ -45,21 +45,6 @@ const isValidPassword = (req: Request, res: Response, next: NextFunction) => {
   if (!passwordRegex.test(req.body.password)) {
     res.status(400).json({
       error: 'Password must be a nonempty string.'
-    });
-    return;
-  }
-
-  next();
-};
-
-/**
- * Checks if a display name in req.body is valid
- */
- const isValidDisplayName = (req: Request, res: Response, next: NextFunction) => {
-  const nameRegex = /^[a-zA-Z ]+$/;
-  if (!nameRegex.test(req.body.displayName)) {
-    res.status(400).json({
-      error: 'Display name must be a nonempty alphanumeric string.'
     });
     return;
   }
@@ -159,92 +144,6 @@ const isAuthorExists = async (req: Request, res: Response, next: NextFunction) =
   next();
 };
 
-/**
- * Checks if a user with username in req.body exists
- */
- const isUserInBodyExists = async (req: Request, res: Response, next: NextFunction) => {
-  if (!req.body.username) {
-    res.status(400).json({
-      error: 'Provided username must be nonempty.'
-    });
-    return;
-  }
-
-  const user = await UserCollection.findOneByUsername(req.body.username as string);
-  if (!user) {
-    res.status(404).json({
-      error: `A user with username ${req.body.username as string} does not exist.`
-    });
-    return;
-  }
-
-  next();
-};
-
-/**
- * Checks if a user with username in req.params exists
- */
- const isUserParamExists = async (req: Request, res: Response, next: NextFunction) => {
-  if (!req.params.username) {
-    res.status(400).json({
-      error: 'Provided username must be nonempty.'
-    });
-    return;
-  }
-
-  const user = await UserCollection.findOneByUsername(req.params.username as string);
-  if (!user) {
-    res.status(404).json({
-      error: `A user with username ${req.params.username as string} does not exist.`
-    });
-    return;
-  }
-
-  next();
-};
-
-/**
- * Checks that the username provided in req.body is not equal to the username of the logged in user.
- */
-const isBodyNotEqualLoggedInUser = async(req:Request, res:Response, next: NextFunction) => {
-  const loggedInUser = await UserCollection.findOneByUserId((req.session.userId as string) ?? '')
-  if (!req.body.username){
-    res.status(400).json({
-      error: 'Provided username must be nonempty.'
-    });
-    return;
-  }
-
-  if (loggedInUser.username == req.body.username){
-    res.status(409).json({
-      error: `The provided user must be different from yourself.`
-    });
-    return;
-  }
-  next();
-}
-
-/**
- * Checks that the username provided in req.params is not equal to the username of the logged in user.
- */
-const isParamsNotEqualLoggedInUser = async(req:Request, res:Response, next: NextFunction) => {
-  const loggedInUser = await UserCollection.findOneByUserId((req.session.userId as string) ?? '')
-  if (!req.params.username){
-    res.status(400).json({
-      error: 'Provided username must be nonempty.'
-    });
-    return;
-  }
-
-  if (loggedInUser.username == req.params.username){
-    res.status(409).json({
-      error: `The provided user must be different from yourself.`
-    });
-    return;
-  }
-  next();
-}
-
 export {
   isCurrentSessionUserExists,
   isUserLoggedIn,
@@ -253,10 +152,5 @@ export {
   isAccountExists,
   isAuthorExists,
   isValidUsername,
-  isValidPassword,
-  isValidDisplayName,
-  isUserInBodyExists,
-  isUserParamExists,
-  isBodyNotEqualLoggedInUser,
-  isParamsNotEqualLoggedInUser,
+  isValidPassword
 };
