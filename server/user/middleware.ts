@@ -53,6 +53,21 @@ const isValidPassword = (req: Request, res: Response, next: NextFunction) => {
 };
 
 /**
+ * Checks if a display name in req.body is valid
+ */
+ const isValidDisplayName = (req: Request, res: Response, next: NextFunction) => {
+  const nameRegex = /^\w+$/i;
+  if (!nameRegex.test(req.body.displayName)) {
+    res.status(400).json({
+      error: 'Display name must be a nonempty alphanumeric string.'
+    });
+    return;
+  }
+
+  next();
+};
+
+/**
  * Checks if a user with username and password in req.body exists
  */
 const isAccountExists = async (req: Request, res: Response, next: NextFunction) => {
@@ -152,5 +167,6 @@ export {
   isAccountExists,
   isAuthorExists,
   isValidUsername,
-  isValidPassword
+  isValidPassword,
+  isValidDisplayName,
 };

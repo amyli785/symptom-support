@@ -100,7 +100,8 @@ router.post(
     userValidator.isUserLoggedOut,
     userValidator.isValidUsername,
     userValidator.isUsernameNotAlreadyInUse,
-    userValidator.isValidPassword
+    userValidator.isValidPassword,
+    userValidator.isValidDisplayName,
   ],
   async (req: Request, res: Response) => {
     const user = await UserCollection.addOne(req.body.username, req.body.password, req.body.displayName);
@@ -130,7 +131,8 @@ router.patch(
     userValidator.isUserLoggedIn,
     userValidator.isValidUsername,
     userValidator.isUsernameNotAlreadyInUse,
-    userValidator.isValidPassword
+    userValidator.isValidPassword,
+    userValidator.isValidDisplayName,
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
