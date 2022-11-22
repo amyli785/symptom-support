@@ -30,7 +30,13 @@
     <article v-else>
       <p>{{ content }}</p>
     </article>
-    <button
+    <button v-if="validationFunction && fields"
+      :disabled="!validationFunction(fields)"
+      type="submit"
+    >
+      {{ title }}
+    </button>
+    <button v-else
       type="submit"
     >
       {{ title }}
@@ -59,9 +65,12 @@ export default {
       url: '', // Url to submit form to
       method: 'GET', // Form request method
       hasBody: false, // Whether or not form request has a body
-      setUsername: false, // Whether or not stored username should be updated after form submission
+      setUserDetails: false, // Whether or not the stored display name and username should be updated after form submission
+      setDisplayName: false, // Whether or not the stored display name should be updated after form submission
+      setUsername: false, // Whether or not the stored username should be updated after form submission
       alerts: {}, // Displays success/error messages encountered during form submission
-      callback: null // Function to run after successful form submission
+      callback: null, // Function to run after successful form submission
+      validationFunction: null // Function to validate form input
     };
   },
   methods: {
@@ -92,11 +101,25 @@ export default {
           throw new Error(res.error);
         }
 
+        if (this.setUserDetails) {
+          const text = await r.text();
+          const res = text ? JSON.parse(text) : {user: null};
+          this.$store.commit('setUsername', res.user ? res.user.username : null);
+          this.$store.commit('setDisplayName', res.user ? res.user.displayName : null);
+        }
+
         if (this.setUsername) {
           const text = await r.text();
           const res = text ? JSON.parse(text) : {user: null};
           this.$store.commit('setUsername', res.user ? res.user.username : null);
         }
+
+        if (this.setDisplayName) {
+          const text = await r.text();
+          const res = text ? JSON.parse(text) : {user: null};
+          this.$store.commit('setDisplayName', res.user ? res.user.displayName : null);
+        }
+
 
         if (this.callback) {
           this.callback();

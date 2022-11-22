@@ -8,6 +8,7 @@
         <h2>Account settings for {{ $store.state.displayName}}</h2>
       </header>
       <ChangeUsernameForm />
+      <ChangeDisplayNameForm />
       <ChangePasswordForm />
     </section>
     <section>
@@ -23,6 +24,7 @@
 <script>
 import ChangeUsernameForm from '@/components/Account/ChangeUsernameForm.vue';
 import ChangePasswordForm from '@/components/Account/ChangePasswordForm.vue';
+import ChangeDisplayNameForm from '@/components/Account/ChangeDisplayNameForm.vue';
 import DeleteAccountForm from '@/components/Account/DeleteAccountForm.vue';
 import LogoutForm from '@/components/Account/LogoutForm.vue';
 
@@ -31,6 +33,7 @@ export default {
   components: {
     ChangeUsernameForm,
     ChangePasswordForm,
+    ChangeDisplayNameForm,
     DeleteAccountForm,
     LogoutForm
   }

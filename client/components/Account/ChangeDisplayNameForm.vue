@@ -1,26 +1,27 @@
-<!-- Form for changing password (block style) -->
+<!-- Form for changing display name (block style) -->
 
 <script>
 import BlockForm from '@/components/common/BlockForm.vue';
 
 export default {
-  name: 'ChangePasswordForm',
+  name: 'ChangeDisplayNameForm',
   mixins: [BlockForm],
   data() {
     return {
       url: '/api/users',
       method: 'PATCH',
       hasBody: true,
+      setDisplayName: true,
       fields: [
-        {id: 'password', label: 'Password', value: ''}
+        {id: 'displayName', label: 'Display Name', value: ''}
       ],
       validationFunction: (fieldValues) => {
-        const passwordRegex = /^\S+$/;
-        return passwordRegex.test(fieldValues[0].value) && (6 <= fieldValues[0].value.length) && (fieldValues[0].value.length <= 50);
+        const displayNameRegex = /^[a-zA-Z ]+$/;
+        return displayNameRegex.test(fieldValues[0].value);
       },
-      title: 'Change password',
+      title: 'Change display name',
       callback: () => {
-        const message = 'Successfully changed password!';
+        const message = 'Successfully changed display name!';
         this.$set(this.alerts, message, 'success');
         setTimeout(() => this.$delete(this.alerts, message), 3000);
       }

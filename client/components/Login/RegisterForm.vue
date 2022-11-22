@@ -11,11 +11,22 @@ export default {
       url: '/api/users',
       method: 'POST',
       hasBody: true,
-      setUsername: true,
+      setUserDetails: true,
       fields: [
         {id: 'username', label: 'Username', value: ''},
+        {id: 'displayName', label: 'Display Name', value: ''},
         {id: 'password', label: 'Password', value: ''}
       ],
+      validationFunction: (fields) => {
+        const username = fields[0].value;
+        const displayName = fields[1].value;
+        const password = fields[2].value;
+        const usernameRegex = /^\w+$/i;
+        const passwordRegex = /^\S+$/;
+        const displayNameRegex = /^[a-zA-Z ]+$/;
+        return usernameRegex.test(username) && passwordRegex.test(password) && displayNameRegex.test(displayName) 
+                && password.length >= 6 && password.length <= 50;
+      },
       title: 'Create account',
       callback: () => {
         const message = 'Successfully created an account!';

@@ -15,6 +15,10 @@ export default {
       fields: [
         {id: 'username', label: 'Username', value: ''}
       ],
+      validationFunction: (fieldValues) => {
+        const usernameRegex = /^\w+$/i;
+        return usernameRegex.test(fieldValues[0].value);
+      },
       title: 'Change username',
       callback: () => {
         const message = 'Successfully changed username!';

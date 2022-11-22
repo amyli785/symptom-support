@@ -35,7 +35,7 @@ const store = new Vuex.Store({
        * Update the stored display name to the specified one.
        * @param displayName - new display name to set
        */
-       state.username = displayName;
+       state.displayName = displayName;
     },
   },
   // Store data across page refreshes, only discard on browser close
