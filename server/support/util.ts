@@ -5,6 +5,7 @@ import type {Support, PopulatedSupport} from '../support/model';
 type SupportResponse = {
     supported: string;
     supporter: string;
+    permission: string;
 };
 
 /**
@@ -27,7 +28,8 @@ const constructSupportResponse = (support: HydratedDocument<Support>): SupportRe
     return{
         ...supportCopy,
         supported: supported,
-        supporter: supporter
+        supporter: supporter,
+        permission: supportCopy.permission.toString()
     };
 };
 

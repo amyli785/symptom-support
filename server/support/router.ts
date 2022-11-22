@@ -27,12 +27,14 @@ router.post(
         userValidator.isUserLoggedIn,
         userValidator.isUserInBodyExists,
         userValidator.isBodyNotEqualLoggedInUser,
-        supportValidator.isSupportAlreadyExists
+        supportValidator.isSupportAlreadyExists,
+        supportValidator.isPermissionInBody
     ],
     async (req: Request, res: Response) => {
         const userId = (req.session.userId as string) ?? '';
         const supporter = await UserCollection.findOneByUsername(req.body.username);
-        const support = await SupportCollection.addOne(userId,supporter._id);
+        const permission = req.body.permission as string ?? '';
+        const support = await SupportCollection.addOne(userId,supporter._id, permission);
 
         res.status(201).json({
             message: `You added ${req.body.username} as a supporter successfully.`,
@@ -150,5 +152,39 @@ router.get(
         res.status(200).json(response);
     }
 )
+
+/**
+ * Modify a support
+ *
+ * @name PATCH /api/supports/supporter/:username
+ *
+ * @param {string} content - the new content for the freet
+ * @return {FreetResponse} - the updated freet
+ * @throws {403} - if the user is not logged in or not the author of
+ *                 of the freet
+ * @throws {404} - If the freetId is not valid
+ * @throws {400} - If the freet content is empty or a stream of empty spaces
+ * @throws {413} - If the freet content is more than 140 characters long
+ */
+router.patch(
+    '/supporter/:username?',
+    [
+        userValidator.isUserLoggedIn,
+        supportValidator.isSupportExists,
+        //   supportValidator.isValidSupportModifier,
+        supportValidator.isValidUpdatePermission,
+    ],
+    async (req: Request, res: Response) => {
+        let support = undefined;
+  
+        const supported = (req.session.userId as string) ?? '';
+        const supporter = await UserCollection.findOneByUsername(req.params.username);
+        support = await SupportCollection.updateOnePermission(supported, supporter._id, req.body.permission);
+        res.status(200).json({
+            message: 'Your support was updated successfully.',
+            support: util.constructSupportResponse(support)
+        });
+    }
+  );
 
 export {router as supportRouter};

@@ -7,12 +7,16 @@ class SupportCollection{
     /**
      * Support a user.
      */
-    static async addOne(supported: Types.ObjectId | string, supporter: Types.ObjectId | string): Promise<HydratedDocument<Support>> {
+    static async addOne(supported: Types.ObjectId | string, supporter: Types.ObjectId | string, permission: String): Promise<HydratedDocument<Support>> {
+        console.log('entered')
+        console.log(permission);
         const support = new SupportModel({
             supported,
-            supporter
+            supporter,
+            permission
         });
         await support.save()
+        console.log('here')
         return support
     }
 
@@ -65,6 +69,20 @@ class SupportCollection{
      */
      static async findAllSupporterByUserId(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<Support>>> {
         return SupportModel.find({supported: userId}).populate(['supported','supporter']);
+    }
+
+    /**
+     * Update a support with the new permission level
+     *
+     * @param {string} supportId - The id of the support to be updated
+     * @param {string} permission - The new permission level of the supporter in the support
+     * @return {Promise<HydratedDocument<Freet>>} - The newly updated freet
+     */
+    static async updateOnePermission(supported: Types.ObjectId | string, supporter: Types.ObjectId | string, permission: string): Promise<HydratedDocument<Support>> {
+        const support = await SupportModel.findOne({supported: supported, supporter: supporter});
+        support.permission = permission;
+        await support.save();
+        return support.populate(['supported','supporter']);
     }
 }
 

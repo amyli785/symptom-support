@@ -85,9 +85,69 @@ const isSupportRelationDoesNotExist = async(req: Request, res:Response, next: Ne
     next();
 }
 
+/**
+ * Checks if a user with username in req.body exists
+ */
+const isPermissionInBody = async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.body.permission) {
+      res.status(400).json({
+        error: 'Provided permission level must be nonempty.'
+      });
+      return;
+    }
+  
+    next();
+};
+
+/**
+ * Checks if a support with supporter is req.params and supported as logged in user exists
+ */
+const isSupportExists = async (req: Request, res: Response, next: NextFunction) => {
+    const userId = (req.session.userId as string) ?? '';
+    const supporter = await UserCollection.findOneByUsername(req.params.username);
+
+    const support = await SupportCollection.findOne(userId, supporter._id);
+
+    if (!support) {
+      res.status(404).json({
+        error: `Support relationship with ${req.params.username} does not exist.`
+      });
+      return;
+    }
+  
+    next();
+};
+
+/**
+ * Checks if the permission level is one of "viewer", "creator", or "manager."
+ */
+const isValidUpdatePermission = async (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.permission){
+        const {permission} = req.body as {permission: string};
+        if (!permission.trim()) {
+            res.status(400).json({
+                error: 'Permission content must be at least one character long.'
+            });
+            return;
+        }
+    
+        if (!(permission == 'viewer' || permission == 'creator' || permission == 'manager')) {
+            res.status(400).json({
+                error: 'not a valid permission level'
+            });
+            return;
+        }
+    }
+    
+    next();
+};
+
 export {
     isSupportAlreadyExists,
     isSupportDoesNotExist,
     isSupportedDoesNotExist,
-    isSupportRelationDoesNotExist
+    isSupportRelationDoesNotExist,
+    isPermissionInBody,
+    isSupportExists,
+    isValidUpdatePermission
 };

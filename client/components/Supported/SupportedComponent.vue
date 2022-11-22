@@ -8,6 +8,9 @@
         <h3 class="author">
           @{{ supported.supported }}
         </h3>
+        <p>
+            {{supported.permission}}
+        </p>
         <div
           v-if="$store.state.username"
           class="actions"

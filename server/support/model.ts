@@ -10,11 +10,13 @@ import type {User} from '../user/model';
 export type Support = {
     supported: Types.ObjectId;
     supporter: Types.ObjectId;
+    permission: String;
 };
 
 export type PopulatedSupport = {
     supported: User;
     supporter: User;
+    permission: String;
   };
 
 const SupportSchema = new Schema({
@@ -31,6 +33,11 @@ const SupportSchema = new Schema({
         ref: "User",
         required: true
     },
+
+    permission: {
+        type: String,
+        required: true,
+    }
 });
 
 const SupportModel = model<Support>('Support', SupportSchema);
