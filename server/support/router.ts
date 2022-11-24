@@ -170,8 +170,8 @@ router.patch(
     '/supporter/:username?',
     [
         userValidator.isUserLoggedIn,
-        supportValidator.isSupportExists,
-        //   supportValidator.isValidSupportModifier,
+        supportValidator.isSupportBySupporterExists,
+        // supportValidator.isPermissionInBody,
         supportValidator.isValidUpdatePermission,
     ],
     async (req: Request, res: Response) => {
@@ -179,12 +179,59 @@ router.patch(
   
         const supported = (req.session.userId as string) ?? '';
         const supporter = await UserCollection.findOneByUsername(req.params.username);
-        support = await SupportCollection.updateOnePermission(supported, supporter._id, req.body.permission);
-        res.status(200).json({
-            message: 'Your support was updated successfully.',
-            support: util.constructSupportResponse(support)
-        });
+        if (req.body.permission){
+            support = await SupportCollection.updateOnePermission(supported, supporter._id, req.body.permission);
+            res.status(200).json({
+                message: 'Your support was updated successfully.',
+                support: util.constructSupportResponse(support)
+            });
+        }
+        else{
+            res.status(400).json({
+                error: 'No update content provided.'
+            });
+        }
     }
   );
+
+/**
+ * Modify a support
+ *
+ * @name PATCH /api/supports/supported/:username
+ *
+ * @param {string} content - the new content for the freet
+ * @return {FreetResponse} - the updated freet
+ * @throws {403} - if the user is not logged in or not the author of
+ *                 of the freet
+ * @throws {404} - If the freetId is not valid
+ * @throws {400} - If the freet content is empty or a stream of empty spaces
+ * @throws {413} - If the freet content is more than 140 characters long
+ */
+router.patch(
+    '/supported/:username?',
+    [
+        userValidator.isUserLoggedIn,
+        supportValidator.isSupportBySupportedExists,
+        supportValidator.isValidUpdatePermission,
+    ],
+    async (req: Request, res: Response) => {
+        let support = undefined;
+
+        const supporter = (req.session.userId as string) ?? '';
+        const supported = await UserCollection.findOneByUsername(req.params.username);
+        if (req.body.inviteStatus){
+            support = await SupportCollection.updateOneInviteStatus(supported._id, supporter, req.body.inviteStatus);
+            res.status(200).json({
+                message: 'Your support was accepted successfully.',
+                support: util.constructSupportResponse(support)
+            });
+        }
+        else{
+            res.status(400).json({
+                error: 'No update content provided.'
+            });
+        }
+    }
+);
 
 export {router as supportRouter};

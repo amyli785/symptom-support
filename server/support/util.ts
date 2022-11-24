@@ -8,6 +8,7 @@ type SupportResponse = {
     permission: string;
     supportedDisplay: string;
     supporterDisplay: string;
+    inviteStatus: string;
 };
 
 /**
@@ -36,6 +37,7 @@ const constructSupportResponse = (support: HydratedDocument<Support>): SupportRe
         permission: supportCopy.permission.toString(),
         supportedDisplay: supportedDisplay,
         supporterDisplay: supporterDisplay,
+        inviteStatus: supportCopy.inviteStatus.toString(),
     };
 };
 

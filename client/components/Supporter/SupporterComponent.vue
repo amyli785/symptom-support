@@ -29,7 +29,9 @@
         >
           {{ supporter.permission }}
         </p>
-
+        <p>
+            {{supporter.inviteStatus}}
+        </p>
         <div
             class="actions"
         >

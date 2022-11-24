@@ -8,15 +8,13 @@ class SupportCollection{
      * Support a user.
      */
     static async addOne(supported: Types.ObjectId | string, supporter: Types.ObjectId | string, permission: String): Promise<HydratedDocument<Support>> {
-        console.log('entered')
-        console.log(permission);
         const support = new SupportModel({
             supported,
             supporter,
-            permission
+            permission,
+            inviteStatus: "invited"
         });
         await support.save()
-        console.log('here')
         return support
     }
 
@@ -81,6 +79,13 @@ class SupportCollection{
     static async updateOnePermission(supported: Types.ObjectId | string, supporter: Types.ObjectId | string, permission: string): Promise<HydratedDocument<Support>> {
         const support = await SupportModel.findOne({supported: supported, supporter: supporter});
         support.permission = permission;
+        await support.save();
+        return support.populate(['supported','supporter']);
+    }
+
+    static async updateOneInviteStatus(supported: Types.ObjectId | string, supporter: Types.ObjectId | string, inviteStatus: string): Promise<HydratedDocument<Support>> {
+        const support = await SupportModel.findOne({supported: supported, supporter: supporter});
+        support.inviteStatus = inviteStatus;
         await support.save();
         return support.populate(['supported','supporter']);
     }

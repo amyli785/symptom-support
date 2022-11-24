@@ -86,7 +86,7 @@ const isSupportRelationDoesNotExist = async(req: Request, res:Response, next: Ne
 }
 
 /**
- * Checks if a user with username in req.body exists
+ * Checks if a permission is provided in req.body
  */
 const isPermissionInBody = async (req: Request, res: Response, next: NextFunction) => {
     if (!req.body.permission) {
@@ -102,11 +102,30 @@ const isPermissionInBody = async (req: Request, res: Response, next: NextFunctio
 /**
  * Checks if a support with supporter is req.params and supported as logged in user exists
  */
-const isSupportExists = async (req: Request, res: Response, next: NextFunction) => {
+const isSupportBySupporterExists = async (req: Request, res: Response, next: NextFunction) => {
     const userId = (req.session.userId as string) ?? '';
     const supporter = await UserCollection.findOneByUsername(req.params.username);
 
     const support = await SupportCollection.findOne(userId, supporter._id);
+
+    if (!support) {
+      res.status(404).json({
+        error: `Support relationship with ${req.params.username} does not exist.`
+      });
+      return;
+    }
+  
+    next();
+};
+
+/**
+ * Checks if a support with supported is req.params and supporter as logged in user exists
+ */
+ const isSupportBySupportedExists = async (req: Request, res: Response, next: NextFunction) => {
+    const supporter = (req.session.userId as string) ?? '';
+    const supported = await UserCollection.findOneByUsername(req.params.username);
+
+    const support = await SupportCollection.findOne(supported._id, supporter);
 
     if (!support) {
       res.status(404).json({
@@ -142,12 +161,53 @@ const isValidUpdatePermission = async (req: Request, res: Response, next: NextFu
     next();
 };
 
+/**
+ * Checks if an inviteStatus is provided in req.body
+ */
+ const isInviteStatusInBody = async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.body.inviteStatus) {
+      res.status(400).json({
+        error: 'Provided invite status must be nonempty.'
+      });
+      return;
+    }
+  
+    next();
+};
+
+/**
+ * Checks if the invite status is one of "invited" or "accepted."
+ */
+ const isValidUpdateInviteStatus = async (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.inviteStatus){
+        const {inviteStatus} = req.body as {inviteStatus: string};
+        if (!inviteStatus.trim()) {
+            res.status(400).json({
+                error: 'Invite Status must be at least one character long.'
+            });
+            return;
+        }
+    
+        if (!(inviteStatus == 'invited' || inviteStatus == 'accepted')) {
+            res.status(400).json({
+                error: 'Not a valid invite status'
+            });
+            return;
+        }
+    }
+    
+    next();
+};
+
 export {
     isSupportAlreadyExists,
     isSupportDoesNotExist,
     isSupportedDoesNotExist,
     isSupportRelationDoesNotExist,
     isPermissionInBody,
-    isSupportExists,
-    isValidUpdatePermission
+    isSupportBySupporterExists,
+    isSupportBySupportedExists,
+    isValidUpdatePermission,
+    isInviteStatusInBody,
+    isValidUpdateInviteStatus
 };
