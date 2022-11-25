@@ -176,11 +176,49 @@ const isValidUpdatePermission = async (req: Request, res: Response, next: NextFu
 };
 
 /**
+ * Checks if an inviteStatus is provided in req.query
+ */
+ const isInviteStatusInQuery = async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.query.inviteStatus) {
+      res.status(400).json({
+        error: 'Provided invite status must be nonempty.'
+      });
+      return;
+    }
+  
+    next();
+};
+
+/**
  * Checks if the invite status is one of "invited" or "accepted."
  */
  const isValidUpdateInviteStatus = async (req: Request, res: Response, next: NextFunction) => {
     if (req.body.inviteStatus){
         const {inviteStatus} = req.body as {inviteStatus: string};
+        if (!inviteStatus.trim()) {
+            res.status(400).json({
+                error: 'Invite Status must be at least one character long.'
+            });
+            return;
+        }
+    
+        if (!(inviteStatus == 'invited' || inviteStatus == 'accepted')) {
+            res.status(400).json({
+                error: 'Not a valid invite status'
+            });
+            return;
+        }
+    }
+    
+    next();
+};
+
+/**
+ * Checks if the invite status is one of "invited" or "accepted."
+ */
+ const isValidQueryInviteStatus = async (req: Request, res: Response, next: NextFunction) => {
+    if (req.query.inviteStatus){
+        const {inviteStatus} = req.query as {inviteStatus: string};
         if (!inviteStatus.trim()) {
             res.status(400).json({
                 error: 'Invite Status must be at least one character long.'
@@ -209,5 +247,7 @@ export {
     isSupportBySupportedExists,
     isValidUpdatePermission,
     isInviteStatusInBody,
-    isValidUpdateInviteStatus
+    isValidUpdateInviteStatus,
+    isInviteStatusInQuery,
+    isValidQueryInviteStatus
 };

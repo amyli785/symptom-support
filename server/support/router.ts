@@ -20,6 +20,8 @@ const router = express.Router();
  * @throws {404} - If user with username does not exist
  * @throws {409} - If the username belongs to the logged in user
  * @throws {409} - If support relation already exists
+ * @throws {400} - If the permission level isn't provided
+ * @throws {400} - If the permission level isn't valid (i.e. "creator", "viewer", or "manager")
  */
 router.post(
     '/',
@@ -28,7 +30,8 @@ router.post(
         userValidator.isUserInBodyExists,
         userValidator.isBodyNotEqualLoggedInUser,
         supportValidator.isSupportAlreadyExists,
-        supportValidator.isPermissionInBody
+        supportValidator.isPermissionInBody,
+        supportValidator.isValidUpdatePermission,
     ],
     async (req: Request, res: Response) => {
         const userId = (req.session.userId as string) ?? '';
@@ -86,7 +89,7 @@ router.delete(
  * @throws {400} - If username is not provided
  * @throws {404} - If user with username does not exist
  * @throws {409} - If username belongs to logged in user
- * @throws {404} - If follow relationship does not exist
+ * @throws {404} - If the support relationship does not exist
  */
  router.delete(
     '/supported/:username?',
@@ -119,13 +122,13 @@ router.delete(
  *
  */
 /**
- * Get freets by author.
+ * Get user's supported by invite status.
  *
  * @name GET /api/supports/supported?inviteStatus=inviteStatus
  *
  * @return {SupporttResponse[]} - An array of supports where supporter = user and match the invite status
- * @throws {400} - If author is not given
- * @throws {404} - If no user has given author
+ * @throws {400} - If inviteStatus is not provided
+ * @throws {400} - If inviteStatus is not valid (i.e. "invited" or "accepted")
  *
  */
 router.get(
@@ -144,7 +147,8 @@ router.get(
         res.status(200).json(response);
     },
     [
-        // other middleware?
+        supportValidator.isInviteStatusInQuery,
+        supportValidator.isValidQueryInviteStatus
     ],
     async (req:Request, res:Response) => {
         let userId = (req.session.userId as string) ?? '';
@@ -165,6 +169,16 @@ router.get(
  * @throws {403} - If user not logged in
  *
  */
+/**
+ * Get user's supporters by invite status.
+ *
+ * @name GET /api/supports/supporter?inviteStatus=inviteStatus
+ *
+ * @return {SupporttResponse[]} - An array of supports where supported = user and match the invite status
+ * @throws {400} - If inviteStatus is not provided
+ * @throws {400} - If inviteStatus is not valid (i.e. "invited" or "accepted")
+ *
+ */
 router.get(
     '/supporter',
     [
@@ -181,7 +195,8 @@ router.get(
         res.status(200).json(response);
     },
     [
-        // other middleware?
+        supportValidator.isInviteStatusInQuery,
+        supportValidator.isValidQueryInviteStatus
     ],
     async (req:Request, res: Response, next:NextFunction) => {
         let userId = (req.session.userId as string) ?? '';
@@ -197,20 +212,18 @@ router.get(
  *
  * @name PATCH /api/supports/supporter/:username
  *
- * @param {string} content - the new content for the freet
- * @return {FreetResponse} - the updated freet
- * @throws {403} - if the user is not logged in or not the author of
- *                 of the freet
- * @throws {404} - If the freetId is not valid
- * @throws {400} - If the freet content is empty or a stream of empty spaces
- * @throws {413} - If the freet content is more than 140 characters long
+ * @return {SupportResponse} - the updated support
+ * @throws {403} - if the user is not logged in
+ * @throws {404} - If the support relationship does not exist
+ * @throws {400} - If the permission level is not provided
+ * @throws {400} - If the permission level is not a valid option
  */
 router.patch(
     '/supporter/:username?',
     [
         userValidator.isUserLoggedIn,
         supportValidator.isSupportBySupporterExists,
-        // supportValidator.isPermissionInBody,
+        supportValidator.isPermissionInBody,
         supportValidator.isValidUpdatePermission,
     ],
     async (req: Request, res: Response) => {
@@ -238,20 +251,18 @@ router.patch(
  *
  * @name PATCH /api/supports/supported/:username
  *
- * @param {string} content - the new content for the freet
- * @return {FreetResponse} - the updated freet
- * @throws {403} - if the user is not logged in or not the author of
- *                 of the freet
- * @throws {404} - If the freetId is not valid
- * @throws {400} - If the freet content is empty or a stream of empty spaces
- * @throws {413} - If the freet content is more than 140 characters long
+ * @return {SupportResponse} - the updated freet
+ * @throws {403} - if the user is not logged in
+ * @throws {404} - If the support relationship does not exist
+ * @throws {400} - If the permission level is not provided
+ * @throws {400} - If the permission level is not a valid option
  */
 router.patch(
     '/supported/:username?',
     [
         userValidator.isUserLoggedIn,
         supportValidator.isSupportBySupportedExists,
-        supportValidator.isValidUpdatePermission,
+        supportValidator.isValidUpdateInviteStatus,
     ],
     async (req: Request, res: Response) => {
         let support = undefined;
