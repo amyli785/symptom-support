@@ -76,7 +76,6 @@
         this.request(params);
       },
       acceptInvite(){
-        // console.log('accepted!')
         const params = {
             method: 'PATCH',
             message: 'Successfully accepted invite!',

@@ -77,7 +77,6 @@ const store = new Vuex.Store({
        * @param supporter - Supporters to store
        */
       state.supportedRequests = supportedRequests;
-      console.log(state.supportedRequests);
     },
     async refreshSupportedRequest(state) {
       /**
@@ -86,7 +85,6 @@ const store = new Vuex.Store({
       const url = `/api/supports/supported?inviteStatus=invited`;
       const res = await fetch(url).then(async r => r.json());
       state.supportedRequests = res;
-      console.log(state.supportedRequests);
     },
     updateSupporterRequest(state, supporterRequests) {
       /**
