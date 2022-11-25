@@ -3,16 +3,6 @@
 <template>
     <main>
       <section v-if="$store.state.username">
-        <header>
-          <h2>Supporters</h2>
-        </header>
-        <CreateSupportForm />
-        <button
-          v-if="$store.state.username"
-          @click="toSupporterPage"
-        >
-          View supporter requests
-        </button>
       </section>
       <section v-else>
         <header>
@@ -23,20 +13,23 @@
             <router-link to="/login">
               Sign in
             </router-link>
-            to view supporters.
+            to view supporter requests.
           </h3>
         </article>
       </section>
       <section v-if="$store.state.username">
         <header>
           <div class="left">
+            <h2>
+              Supporter Requests
+            </h2>
           </div>
         </header>
         <section
-          v-if="$store.state.supporter.length"
+          v-if="$store.state.supporterRequests.length"
         >
           <SupporterComponent
-            v-for="supporter in $store.state.supporter"
+            v-for="supporter in $store.state.supporterRequests"
             :key="supporter.id"
             :supporter="supporter"
           />
@@ -44,7 +37,7 @@
         <article
           v-else
         >
-          <h3>No accepted supporters found.</h3>
+          <h3>No requests found.</h3>
         </article>
       </section>
     </main>
@@ -52,26 +45,19 @@
   
   <script>
   import SupporterComponent from '@/components/Supporter/SupporterComponent.vue';
-  import CreateSupportForm from '@/components/Supporter/CreateSupportForm.vue';
   
   export default {
-    name: 'SupporterPage',
-    components: {SupporterComponent, CreateSupportForm},
-    methods:{
-      toSupporterPage() {
-        this.$router.push({name: 'Supporter Request'})
-      }
-    },
+    name: 'SupporterRequestPage',
+    components: {SupporterComponent},
     async mounted() {
-      const url = `/api/supports/supporter?inviteStatus=accepted`;
+      const url = `/api/supports/supporter?inviteStatus=invited`;
       try {
         const r = await fetch(url);
         const res = await r.json();
         if (!r.ok) {
           throw new Error(res.error);
         }
-  
-        this.$store.commit('updateSupporter', res);
+        this.$store.commit('updateSupporterRequest', res);
       } catch (e) {
   
         this.$set(this.alerts, e, 'error');

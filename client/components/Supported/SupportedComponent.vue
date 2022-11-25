@@ -110,7 +110,7 @@
           }
   
           this.$store.commit('refreshSupported');
-  
+          this.$store.commit('refreshSupportedRequest');
           params.callback();
         } catch (e) {
           this.$set(this.alerts, e, 'error');

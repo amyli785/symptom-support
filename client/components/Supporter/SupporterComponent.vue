@@ -163,7 +163,7 @@
                 }
 
                 this.$store.commit('refreshSupporter');
-
+                this.$store.commit('refreshSupporterRequest');
                 params.callback();
             } catch (e) {
                 this.$set(this.alerts, e, 'error');

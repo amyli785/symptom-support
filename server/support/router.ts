@@ -118,18 +118,43 @@ router.delete(
  * @throws {403} - If user not logged in
  *
  */
+/**
+ * Get freets by author.
+ *
+ * @name GET /api/supports/supported?inviteStatus=inviteStatus
+ *
+ * @return {SupporttResponse[]} - An array of supports where supporter = user and match the invite status
+ * @throws {400} - If author is not given
+ * @throws {404} - If no user has given author
+ *
+ */
 router.get(
     '/supported',
     [
         userValidator.isUserLoggedIn,
     ],
-    async (req:Request, res:Response) => {
+    async (req:Request, res:Response, next: NextFunction) => {
+        if (req.query.inviteStatus !== undefined) {
+            next();
+            return;
+        }
         const userId = (req.session.userId as string) ?? '';
         const allSupported = await SupportCollection.findAllSupportedByUserId(userId);
         const response = allSupported.map(util.constructSupportResponse);
         res.status(200).json(response);
+    },
+    [
+        // other middleware?
+    ],
+    async (req:Request, res:Response) => {
+        let userId = (req.session.userId as string) ?? '';
+        if (userId === ''){userId = undefined};
+        const allSupported = await SupportCollection.findAllSupportedByUserIdAndInviteStatus(userId,req.query.inviteStatus as string);
+        const response = allSupported.map(util.constructSupportResponse);
+        res.status(200).json(response);
     }
 )
+
 
 /**
  * Get all of the users that the logged in user has added as supporters.
@@ -145,9 +170,23 @@ router.get(
     [
         userValidator.isUserLoggedIn,
     ],
-    async (req:Request, res:Response) => {
+    async (req:Request, res:Response, next:NextFunction) => {
+        if (req.query.inviteStatus !== undefined) {
+            next();
+            return;
+        }
         const userId = (req.session.userId as string) ?? '';
         const allSupporter = await SupportCollection.findAllSupporterByUserId(userId);
+        const response = allSupporter.map(util.constructSupportResponse);
+        res.status(200).json(response);
+    },
+    [
+        // other middleware?
+    ],
+    async (req:Request, res: Response, next:NextFunction) => {
+        let userId = (req.session.userId as string) ?? '';
+        if (userId === ''){userId = undefined};
+        const allSupporter = await SupportCollection.findAllSupporterByUserIdAndInviteStatus(userId,req.query.inviteStatus as string);
         const response = allSupporter.map(util.constructSupportResponse);
         res.status(200).json(response);
     }

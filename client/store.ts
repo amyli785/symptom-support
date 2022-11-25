@@ -13,6 +13,8 @@ const store = new Vuex.Store({
     displayName: null, //Display name of logged in user
     supported: [],
     supporter: [],
+    supportedRequests: [],
+    supporterRequests: [],
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
   mutations: {
@@ -50,7 +52,7 @@ const store = new Vuex.Store({
       /**
        * Request the server for the currently available supported.
        */
-      const url = `/api/supports/supported`;
+      const url = `/api/supports/supported?inviteStatus=accepted`;
       const res = await fetch(url).then(async r => r.json());
       state.supported = res;
     },
@@ -65,9 +67,41 @@ const store = new Vuex.Store({
       /**
        * Request the server for the currently available supporters.
        */
-      const url = `/api/supports/supporter`;
+      const url = `/api/supports/supporter?inviteStatus=accepted`;
       const res = await fetch(url).then(async r => r.json());
       state.supporter = res;
+    },
+    updateSupportedRequest(state, supportedRequests) {
+      /**
+       * Update the stored supporters to the provided supporters.
+       * @param supporter - Supporters to store
+       */
+      state.supportedRequests = supportedRequests;
+      console.log(state.supportedRequests);
+    },
+    async refreshSupportedRequest(state) {
+      /**
+       * Request the server for the currently available supporters.
+       */
+      const url = `/api/supports/supported?inviteStatus=invited`;
+      const res = await fetch(url).then(async r => r.json());
+      state.supportedRequests = res;
+      console.log(state.supportedRequests);
+    },
+    updateSupporterRequest(state, supporterRequests) {
+      /**
+       * Update the stored supporters to the provided supporters.
+       * @param supporter - Supporters to store
+       */
+      state.supporterRequests = supporterRequests;
+    },
+    async refreshSupporterRequest(state) {
+      /**
+       * Request the server for the currently available supporters.
+       */
+      const url = `/api/supports/supporter?inviteStatus=invited`;
+      const res = await fetch(url).then(async r => r.json());
+      state.supporterRequests = res;
     },
   },
   // Store data across page refreshes, only discard on browser close

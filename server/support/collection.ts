@@ -70,6 +70,26 @@ class SupportCollection{
     }
 
     /**
+     * Find all the Supports for people who the User supports (supporter = userId) and match the invite status
+     *
+     * @param {string} userId - The userId whose supporters we want to find
+     * @return {Promise<HydratedDocument<Support>[]>} - An array of all of the Supports
+     */
+     static async findAllSupportedByUserIdAndInviteStatus(userId: Types.ObjectId | string, inviteStatus: string): Promise<Array<HydratedDocument<Support>>> {
+        return SupportModel.find({supporter: userId, inviteStatus:inviteStatus}).populate(['supported','supporter']);
+    }
+    
+    /**
+     * Find all the Supports for people who support User (supported = userId) and match the invite status
+     *
+     * @param {string} userId - The userId whose supporters we want to find
+     * @return {Promise<HydratedDocument<Support>[]>} - An array of all of the Supports
+     */
+     static async findAllSupporterByUserIdAndInviteStatus(userId: Types.ObjectId | string, inviteStatus: string): Promise<Array<HydratedDocument<Support>>> {
+        return SupportModel.find({supported: userId, inviteStatus:inviteStatus}).populate(['supported','supporter']);
+    }
+
+    /**
      * Update a support with the new permission level
      *
      * @param {string} supportId - The id of the support to be updated
