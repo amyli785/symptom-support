@@ -20,13 +20,40 @@
         </h3>
       </article>
     </section>
+
+    <section
+      v-if="$store.state.entries.length"
+      class = "entries"
+    >
+      <FreetComponent
+        v-for="entry in $store.state.entries"
+        :key="entry.id"
+        :entry="entry"
+      />
+    </section>
+    <section v-else>
+      <h3>No entries found</h3>
+    </section>
+
   </main>
 </template>
 
 <script>
+import EntryComponent from '@/components/Entry/EntryComponent.vue'
 
 export default {
   name: 'EntryPage',
+  components: {
+    EntryComponent,
+  },
+  data() {
+    return {
+      alerts: {},
+    };
+  },
+  mounted() {
+    //get all entries? submit call to store?
+  }
 };
 </script>
 
@@ -37,15 +64,14 @@ section {
 }
 
 header, header > * {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 button {
-    margin-right: 10px;
+  margin-right: 10px;
 }
-
 section .scrollbox {
   flex: 1 0 50vh;
   padding: 3%;

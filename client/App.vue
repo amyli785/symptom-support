@@ -34,6 +34,10 @@ export default {
   box-sizing: border-box;
 }
 
+:root {
+  --primary-color: #000;
+}
+
 body {
   height: 100vh;
   flex-direction: column;

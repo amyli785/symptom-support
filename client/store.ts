@@ -13,6 +13,7 @@ const store = new Vuex.Store({
     displayName: null, //Display name of logged in user
     supported: [],
     supporter: [],
+    entries: [],
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
   mutations: {
