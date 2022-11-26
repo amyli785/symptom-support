@@ -20,6 +20,8 @@ const router = express.Router();
  * @throws {404} - If user with username does not exist
  * @throws {409} - If the username belongs to the logged in user
  * @throws {409} - If support relation already exists
+ * @throws {400} - If the permission level isn't provided
+ * @throws {400} - If the permission level isn't valid (i.e. "creator", "viewer", or "manager")
  */
 router.post(
     '/',
@@ -28,7 +30,8 @@ router.post(
         userValidator.isUserInBodyExists,
         userValidator.isBodyNotEqualLoggedInUser,
         supportValidator.isSupportAlreadyExists,
-        supportValidator.isPermissionInBody
+        supportValidator.isPermissionInBody,
+        supportValidator.isValidUpdatePermission,
     ],
     async (req: Request, res: Response) => {
         const userId = (req.session.userId as string) ?? '';
@@ -86,7 +89,7 @@ router.delete(
  * @throws {400} - If username is not provided
  * @throws {404} - If user with username does not exist
  * @throws {409} - If username belongs to logged in user
- * @throws {404} - If follow relationship does not exist
+ * @throws {404} - If the support relationship does not exist
  */
  router.delete(
     '/supported/:username?',
@@ -118,18 +121,44 @@ router.delete(
  * @throws {403} - If user not logged in
  *
  */
+/**
+ * Get user's supported by invite status.
+ *
+ * @name GET /api/supports/supported?inviteStatus=inviteStatus
+ *
+ * @return {SupporttResponse[]} - An array of supports where supporter = user and match the invite status
+ * @throws {400} - If inviteStatus is not provided
+ * @throws {400} - If inviteStatus is not valid (i.e. "invited" or "accepted")
+ *
+ */
 router.get(
     '/supported',
     [
         userValidator.isUserLoggedIn,
     ],
-    async (req:Request, res:Response) => {
+    async (req:Request, res:Response, next: NextFunction) => {
+        if (req.query.inviteStatus !== undefined) {
+            next();
+            return;
+        }
         const userId = (req.session.userId as string) ?? '';
         const allSupported = await SupportCollection.findAllSupportedByUserId(userId);
         const response = allSupported.map(util.constructSupportResponse);
         res.status(200).json(response);
+    },
+    [
+        supportValidator.isInviteStatusInQuery,
+        supportValidator.isValidQueryInviteStatus
+    ],
+    async (req:Request, res:Response) => {
+        let userId = (req.session.userId as string) ?? '';
+        if (userId === ''){userId = undefined};
+        const allSupported = await SupportCollection.findAllSupportedByUserIdAndInviteStatus(userId,req.query.inviteStatus as string);
+        const response = allSupported.map(util.constructSupportResponse);
+        res.status(200).json(response);
     }
 )
+
 
 /**
  * Get all of the users that the logged in user has added as supporters.
@@ -140,14 +169,39 @@ router.get(
  * @throws {403} - If user not logged in
  *
  */
+/**
+ * Get user's supporters by invite status.
+ *
+ * @name GET /api/supports/supporter?inviteStatus=inviteStatus
+ *
+ * @return {SupporttResponse[]} - An array of supports where supported = user and match the invite status
+ * @throws {400} - If inviteStatus is not provided
+ * @throws {400} - If inviteStatus is not valid (i.e. "invited" or "accepted")
+ *
+ */
 router.get(
     '/supporter',
     [
         userValidator.isUserLoggedIn,
     ],
-    async (req:Request, res:Response) => {
+    async (req:Request, res:Response, next:NextFunction) => {
+        if (req.query.inviteStatus !== undefined) {
+            next();
+            return;
+        }
         const userId = (req.session.userId as string) ?? '';
         const allSupporter = await SupportCollection.findAllSupporterByUserId(userId);
+        const response = allSupporter.map(util.constructSupportResponse);
+        res.status(200).json(response);
+    },
+    [
+        supportValidator.isInviteStatusInQuery,
+        supportValidator.isValidQueryInviteStatus
+    ],
+    async (req:Request, res: Response, next:NextFunction) => {
+        let userId = (req.session.userId as string) ?? '';
+        if (userId === ''){userId = undefined};
+        const allSupporter = await SupportCollection.findAllSupporterByUserIdAndInviteStatus(userId,req.query.inviteStatus as string);
         const response = allSupporter.map(util.constructSupportResponse);
         res.status(200).json(response);
     }
@@ -158,20 +212,18 @@ router.get(
  *
  * @name PATCH /api/supports/supporter/:username
  *
- * @param {string} content - the new content for the freet
- * @return {FreetResponse} - the updated freet
- * @throws {403} - if the user is not logged in or not the author of
- *                 of the freet
- * @throws {404} - If the freetId is not valid
- * @throws {400} - If the freet content is empty or a stream of empty spaces
- * @throws {413} - If the freet content is more than 140 characters long
+ * @return {SupportResponse} - the updated support
+ * @throws {403} - if the user is not logged in
+ * @throws {404} - If the support relationship does not exist
+ * @throws {400} - If the permission level is not provided
+ * @throws {400} - If the permission level is not a valid option
  */
 router.patch(
     '/supporter/:username?',
     [
         userValidator.isUserLoggedIn,
-        supportValidator.isSupportExists,
-        //   supportValidator.isValidSupportModifier,
+        supportValidator.isSupportBySupporterExists,
+        supportValidator.isPermissionInBody,
         supportValidator.isValidUpdatePermission,
     ],
     async (req: Request, res: Response) => {
@@ -179,12 +231,57 @@ router.patch(
   
         const supported = (req.session.userId as string) ?? '';
         const supporter = await UserCollection.findOneByUsername(req.params.username);
-        support = await SupportCollection.updateOnePermission(supported, supporter._id, req.body.permission);
-        res.status(200).json({
-            message: 'Your support was updated successfully.',
-            support: util.constructSupportResponse(support)
-        });
+        if (req.body.permission){
+            support = await SupportCollection.updateOnePermission(supported, supporter._id, req.body.permission);
+            res.status(200).json({
+                message: 'Your support was updated successfully.',
+                support: util.constructSupportResponse(support)
+            });
+        }
+        else{
+            res.status(400).json({
+                error: 'No update content provided.'
+            });
+        }
     }
   );
+
+/**
+ * Modify a support
+ *
+ * @name PATCH /api/supports/supported/:username
+ *
+ * @return {SupportResponse} - the updated freet
+ * @throws {403} - if the user is not logged in
+ * @throws {404} - If the support relationship does not exist
+ * @throws {400} - If the permission level is not provided
+ * @throws {400} - If the permission level is not a valid option
+ */
+router.patch(
+    '/supported/:username?',
+    [
+        userValidator.isUserLoggedIn,
+        supportValidator.isSupportBySupportedExists,
+        supportValidator.isValidUpdateInviteStatus,
+    ],
+    async (req: Request, res: Response) => {
+        let support = undefined;
+
+        const supporter = (req.session.userId as string) ?? '';
+        const supported = await UserCollection.findOneByUsername(req.params.username);
+        if (req.body.inviteStatus){
+            support = await SupportCollection.updateOneInviteStatus(supported._id, supporter, req.body.inviteStatus);
+            res.status(200).json({
+                message: 'Your support was accepted successfully.',
+                support: util.constructSupportResponse(support)
+            });
+        }
+        else{
+            res.status(400).json({
+                error: 'No update content provided.'
+            });
+        }
+    }
+);
 
 export {router as supportRouter};

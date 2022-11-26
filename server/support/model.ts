@@ -11,12 +11,14 @@ export type Support = {
     supported: Types.ObjectId;
     supporter: Types.ObjectId;
     permission: String;
+    inviteStatus: String;
 };
 
 export type PopulatedSupport = {
     supported: User;
     supporter: User;
     permission: String;
+    inviteStatus: String;
   };
 
 const SupportSchema = new Schema({
@@ -37,6 +39,11 @@ const SupportSchema = new Schema({
     permission: {
         type: String,
         required: true,
+    },
+
+    inviteStatus: {
+        type: String,
+        required: true
     }
 });
 

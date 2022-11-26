@@ -14,6 +14,9 @@
         <p>
             {{supported.permission}}
         </p>
+        <p>
+            {{supported.inviteStatus}}
+        </p>
         <div
           v-if="$store.state.username"
           class="actions"
@@ -22,6 +25,12 @@
             ❌ Stop supporting
           </button>
         </div>
+        <button
+          v-if="supported.inviteStatus === 'invited'"
+          @click="acceptInvite"
+        >
+          Accept Invite
+        </button>
       </header>
       <section class="alerts">
         <article
@@ -66,6 +75,18 @@
         };
         this.request(params);
       },
+      acceptInvite(){
+        const params = {
+            method: 'PATCH',
+            message: 'Successfully accepted invite!',
+            body: JSON.stringify({inviteStatus: 'accepted'}),
+            callback: () => {
+            this.$set(this.alerts, params.message, 'success');
+            setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+            }
+        };
+        this.request(params);
+      },
       async request(params) {
         /**
          * Submits a request to the support endpoint
@@ -88,7 +109,7 @@
           }
   
           this.$store.commit('refreshSupported');
-  
+          this.$store.commit('refreshSupportedRequest');
           params.callback();
         } catch (e) {
           this.$set(this.alerts, e, 'error');

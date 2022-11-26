@@ -19,12 +19,24 @@
       >
         Supporters
       </router-link>
+      <!-- <router-link 
+        v-if="$store.state.username"
+        to="/supporterRequest"
+      >
+        Supporter Requests
+      </router-link> -->
       <router-link 
         v-if="$store.state.username"
         to="/supported"
       >
         Supported
       </router-link>
+      <!-- <router-link 
+        v-if="$store.state.username"
+        to="/supportedRequest"
+      >
+        Supported Requests
+      </router-link> -->
       <router-link
         v-if="$store.state.username"
         to="/account"

@@ -8,15 +8,13 @@ class SupportCollection{
      * Support a user.
      */
     static async addOne(supported: Types.ObjectId | string, supporter: Types.ObjectId | string, permission: String): Promise<HydratedDocument<Support>> {
-        console.log('entered')
-        console.log(permission);
         const support = new SupportModel({
             supported,
             supporter,
-            permission
+            permission,
+            inviteStatus: "invited"
         });
         await support.save()
-        console.log('here')
         return support
     }
 
@@ -72,15 +70,51 @@ class SupportCollection{
     }
 
     /**
+     * Find all the Supports for people who the User supports (supporter = userId) and match the invite status
+     *
+     * @param {string} userId - The userId whose supporters we want to find
+     * @return {Promise<HydratedDocument<Support>[]>} - An array of all of the Supports
+     */
+     static async findAllSupportedByUserIdAndInviteStatus(userId: Types.ObjectId | string, inviteStatus: string): Promise<Array<HydratedDocument<Support>>> {
+        return SupportModel.find({supporter: userId, inviteStatus:inviteStatus}).populate(['supported','supporter']);
+    }
+    
+    /**
+     * Find all the Supports for people who support User (supported = userId) and match the invite status
+     *
+     * @param {string} userId - The userId whose supporters we want to find
+     * @return {Promise<HydratedDocument<Support>[]>} - An array of all of the Supports
+     */
+     static async findAllSupporterByUserIdAndInviteStatus(userId: Types.ObjectId | string, inviteStatus: string): Promise<Array<HydratedDocument<Support>>> {
+        return SupportModel.find({supported: userId, inviteStatus:inviteStatus}).populate(['supported','supporter']);
+    }
+
+    /**
      * Update a support with the new permission level
      *
-     * @param {string} supportId - The id of the support to be updated
+     * @param {string} supported - The user that's supported in the relationship
+     * @param {string} supporter - The user that is the supporter in the relationship
      * @param {string} permission - The new permission level of the supporter in the support
      * @return {Promise<HydratedDocument<Freet>>} - The newly updated freet
      */
     static async updateOnePermission(supported: Types.ObjectId | string, supporter: Types.ObjectId | string, permission: string): Promise<HydratedDocument<Support>> {
         const support = await SupportModel.findOne({supported: supported, supporter: supporter});
         support.permission = permission;
+        await support.save();
+        return support.populate(['supported','supporter']);
+    }
+
+    /**
+     * Update a support with the new invite status
+     *
+     * @param {string} supported - The user that's supported in the relationship
+     * @param {string} supporter - The user that is the supporter in the relationship
+     * @param {string} inviteStatus - The new inviteStatus of the support
+     * @return {Promise<HydratedDocument<Freet>>} - The newly updated freet
+     */
+    static async updateOneInviteStatus(supported: Types.ObjectId | string, supporter: Types.ObjectId | string, inviteStatus: string): Promise<HydratedDocument<Support>> {
+        const support = await SupportModel.findOne({supported: supported, supporter: supporter});
+        support.inviteStatus = inviteStatus;
         await support.save();
         return support.populate(['supported','supporter']);
     }
