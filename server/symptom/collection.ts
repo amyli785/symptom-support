@@ -35,7 +35,7 @@ class SymptomCollection {
      */
     static async deleteOne(symptomId: Types.ObjectId | string): Promise<boolean>{
         const symptom = await SymptomModel.deleteOne({_id: symptomId});
-        return symptomId !== null;
+        return symptom !== null;
     }
 
 
