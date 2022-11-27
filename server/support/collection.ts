@@ -118,6 +118,48 @@ class SupportCollection{
         await support.save();
         return support.populate(['supported','supporter']);
     }
+
+    /**
+     * Checks if the supporter for the supported user is able to view the user's entries
+     * @param supported - the user that's supported in the relationship
+     * @param supporter - the user that's the supporter in the relationship
+     * @returns - true if the supporter is a viewer or creator, false otherwise
+     */
+    static async canView(supported: Types.ObjectId | string, supporter: Types.ObjectId | string): Promise<boolean> {
+        if (supported.toString() === supporter.toString()) {
+            return true;
+        }
+        const support = await SupportModel.findOne({supported: supported, supporter: supporter});
+        return !!support;
+    }
+
+    /**
+     * Checks if the supporter for the supported user is able to create entries for the user
+     * @param supported - the user that's supported in the relationship
+     * @param supporter - the user that's the supporter in the relationship
+     * @returns - true if the supporter is a manager or creator, false otherwise
+     */
+     static async canCreate(supported: Types.ObjectId | string, supporter: Types.ObjectId | string): Promise<boolean> {
+        if (supported.toString() === supporter.toString()) {
+            return true;
+        }
+        const support = await SupportModel.findOne({supported: supported, supporter: supporter});
+        return support && (support.permission == 'manager' || support.permission == 'creator')
+    }
+
+    /**
+     * Checks if the supporter for the supported user is able to manage the user's entries
+     * @param supported - the user that's supported in the relationship
+     * @param supporter - the user that's the supporter in the relationship
+     * @returns - true if the supporter is a manager, false otherwise
+     */
+     static async canManage(supported: Types.ObjectId | string, supporter: Types.ObjectId | string): Promise<boolean> {
+        if (supported.toString() === supporter.toString()) {
+            return true;
+        }
+        const support = await SupportModel.findOne({supported: supported, supporter: supporter});
+        return support && support.permission == 'manager'
+    }
 }
 
 export default SupportCollection; 
