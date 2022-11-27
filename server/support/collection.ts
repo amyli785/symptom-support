@@ -127,7 +127,7 @@ class SupportCollection{
      */
     static async canView(supported: Types.ObjectId | string, supporter: Types.ObjectId | string): Promise<boolean> {
         const support = await SupportModel.findOne({supported: supported, supporter: supporter});
-        return support && (support.permission == 'viewer' || support.permission == 'creator')
+        return !!support;
     }
 
     /**
