@@ -126,6 +126,9 @@ class SupportCollection{
      * @returns - true if the supporter is a viewer or creator, false otherwise
      */
     static async canView(supported: Types.ObjectId | string, supporter: Types.ObjectId | string): Promise<boolean> {
+        if (supported.toString() === supporter.toString()) {
+            return true;
+        }
         const support = await SupportModel.findOne({supported: supported, supporter: supporter});
         return !!support;
     }
@@ -137,6 +140,9 @@ class SupportCollection{
      * @returns - true if the supporter is a manager or creator, false otherwise
      */
      static async canCreate(supported: Types.ObjectId | string, supporter: Types.ObjectId | string): Promise<boolean> {
+        if (supported.toString() === supporter.toString()) {
+            return true;
+        }
         const support = await SupportModel.findOne({supported: supported, supporter: supporter});
         return support && (support.permission == 'manager' || support.permission == 'creator')
     }
@@ -148,6 +154,9 @@ class SupportCollection{
      * @returns - true if the supporter is a manager, false otherwise
      */
      static async canManage(supported: Types.ObjectId | string, supporter: Types.ObjectId | string): Promise<boolean> {
+        if (supported.toString() === supporter.toString()) {
+            return true;
+        }
         const support = await SupportModel.findOne({supported: supported, supporter: supporter});
         return support && support.permission == 'manager'
     }
