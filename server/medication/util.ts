@@ -5,3 +5,8 @@ function isValidMedicationName(name: string): Boolean {
 function isValidDosage(dosage: number): Boolean {
     return dosage > 0;
 }
+
+export {
+    isValidMedicationName,
+    isValidDosage,
+};

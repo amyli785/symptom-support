@@ -35,6 +35,9 @@
       <h3>No entries found</h3>
     </section>
 
+    <article @click="testDelete">
+      click this to test
+    </article>
   </main>
 </template>
 
@@ -54,6 +57,101 @@ export default {
   mounted() {
     //get all entries? submit call to store?
   }
+  methods: {
+    async testFetch(url, options) {
+      try {
+        const r = await fetch(url, options);
+        const res = await r.json();
+        if (!r.ok) {
+          throw new Error(res.error);
+        }
+
+        console.log(res);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async testGetByUsername() {
+      const url = `/api/entries?username=amy2`;
+      const options = {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'same-origin',
+      };
+      this.testFetch(url, options);
+    },
+    async testGetByEntryId() {
+      const url = `/api/entries/63840268ec134f2fe5eb8ea4`;
+      const options = {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'same-origin',
+      };
+      this.testFetch(url, options);
+    },
+    async testPost() {
+      const url = `/api/entries`;
+      const options = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          owner: 'amy2',
+          dateStarted: '2011-01-10T14:48:00.000+09:00',
+          symptoms: [
+            {
+              name: 'headache',
+              intensity: 3,
+              location: 'head',
+            },
+          ],
+          medications: [
+            {
+              name: 'advil',
+              dosage: 231.2,
+            },
+          ],
+          mood: 4,
+        }),
+      };
+      this.testFetch(url, options);
+    },
+    async testPatch() {
+      const url = `/api/entries/63840268ec134f2fe5eb8ea4`;
+      const options = {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          dateStarted: '2011-01-10T14:48:00.000+09:00',
+          symptoms: [
+            {
+              name: 'different',
+              intensity: 3,
+              location: 'head',
+            },
+          ],
+          medications: [
+            {
+              name: 'other',
+              dosage: 231.2,
+            },
+          ],
+          mood: 10,
+        }),
+      };
+      this.testFetch(url, options);
+    },
+    async testDelete() {
+      const url = `/api/entries/63840268ec134f2fe5eb8ea4`;
+      const options = {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'same-origin',
+      };
+      this.testFetch(url, options);
+    },
+  },
 };
 </script>
 

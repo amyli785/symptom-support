@@ -3,5 +3,10 @@ function isValidSymptomName(name: string): Boolean {
 }
 
 function isValidIntensity(intensity: number): Boolean {
-    return intensity <= 10 && intensity >= 1;
+    return Number.isInteger(intensity) && intensity <= 10 && intensity >= 1;
 }
+
+export {
+    isValidSymptomName,
+    isValidIntensity,
+};
