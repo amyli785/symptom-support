@@ -10,7 +10,7 @@
       </p>
       <div v-for="sym in entry.symptoms.slice(0,3)">
         <p class = "sym box">
-          {{sym.name}} ({{sym.level}}) - {{sym.location}}
+          {{sym.name}} ({{sym.intensity}}) - {{sym.location}}
         </p>
       </div>
       <div v-if = "entry.symptoms.length < 3">
@@ -50,14 +50,8 @@
       </div>
       
       <div class = "bottom">
-        <div class = "button-label" @click="editEntry">
           <div class = "icon edit"></div>
-          <div class = "label">Edit</div>
-        </div>
-        <div class = "button-label" @click="deleteEntry">
           <div class = "icon delete"></div>
-          <div class = "label">Delete</div>
-        </div>
       </div>
     </div>
   </article>
@@ -117,7 +111,7 @@ p {
   padding: 0;
 }
 .entry {
-  border: 2px solid var(--primary-color);
+  border: 2px solid var(--light-blue);
   color: black;
   border-radius: 20px;
   padding: 1.5%;
@@ -128,17 +122,18 @@ p {
   flex-direction: row;
 }
 .info-side {
-  width: 80%;
+  width: 90%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 .icons-side {
-  width: 20%;
+  width: 10%;
   height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
 }
 .top {
@@ -146,11 +141,9 @@ p {
   flex-direction: row-reverse;
 }
 .bottom {
-  position: absolute;
-  bottom:0;
-  right:2%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
 }
 .date {
   font-weight: bold;
@@ -160,23 +153,23 @@ p {
   border-radius: 5px;
   padding-left: 5px;
   padding-right: 5px;
-  margin-bottom:1px;
-  border: 1px solid black;
+  margin-bottom: 3px;
 }
 .sym{
-  background-color: rgba(255,100,255,0.1);
+  background-color: var(--salmon);
 }
 .med {
-  background-color: rgba(55, 100, 255, 0.1);
+  background-color: var(--dark-blue);
 }
+
 .inv {
   opacity: 0;
 }
 .icon{
-  height:40px;
-  width:40px;
-  padding:0;
-  margin:0;
+  height:30px;
+  width:30px;
+  padding:0px;
+  margin:0px;
   list-style-type: none;
   cursor: pointer;
   display: inline-block;
@@ -187,6 +180,7 @@ p {
 .button-label{
   display:flex;
   flex-direction: column;
+  align-items: center;
 }
 .label{
   color: #ffffff;

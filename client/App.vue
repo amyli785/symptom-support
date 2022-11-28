@@ -35,7 +35,9 @@ export default {
 }
 
 :root {
-  --primary-color: #000;
+  --light-blue: #75cae6;
+  --dark-blue: #2c5784;
+  --salmon: #ef798a;
 }
 
 body {
