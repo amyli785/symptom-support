@@ -15,7 +15,7 @@ class EntryCollection {
    * @param {Array<string>} medications - The ids of the medications of the entry
    * @param {number} mood - The mood of the entry
    * @param {string} notes - The notes of the entry
-   * @return {Promise<HydratedDocument<Symptom>>} - The newly created entry
+   * @return {Promise<HydratedDocument<Entry>>} - The newly created entry
    */
   static async addOne(
     owner: Types.ObjectId | string,
@@ -85,7 +85,7 @@ class EntryCollection {
    * @param {Array<string>} medications - The ids of the medications of the entry
    * @param {number} mood - The mood of the entry
    * @param {string} notes - The notes of the entry
-   * @return {Promise<HydratedDocument<Symptom>>} - The updated symptom
+   * @return {Promise<HydratedDocument<Entry>>} - The updated entry
    */
     static async updateOne(
     entryId: Types.ObjectId | string,
