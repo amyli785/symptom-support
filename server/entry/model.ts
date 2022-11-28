@@ -5,7 +5,7 @@ import type { Symptom } from '../symptom/model';
 import type { Medication } from '../medication/model';
 
 /**
- * This file defines the propoerties stored in a Entry.
+ * This file defines the properties stored in a Entry.
  */
 
 // Type definition for Entry on the backend

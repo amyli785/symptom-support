@@ -2,7 +2,7 @@ import type {Types} from 'mongoose';
 import { Schema, model } from 'mongoose';
 
 /**
- * This file defines the propoerties stored in a Medication.
+ * This file defines the properties stored in a Medication.
  */
 
 // Type definition for Medication on the backend
