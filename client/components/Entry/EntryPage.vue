@@ -25,7 +25,7 @@
       v-if="$store.state.entries.length"
       class = "entries"
     >
-      <FreetComponent
+      <EntryComponent
         v-for="entry in $store.state.entries"
         :key="entry.id"
         :entry="entry"
@@ -34,10 +34,6 @@
     <section v-else>
       <h3>No entries found</h3>
     </section>
-
-    <article @click="testDelete">
-      click this to test
-    </article>
   </main>
 </template>
 
@@ -55,8 +51,8 @@ export default {
     };
   },
   mounted() {
-    //get all entries? submit call to store?
-  }
+    this.$store.commit('refreshEntries');
+  },
   methods: {
     async testFetch(url, options) {
       try {
@@ -174,5 +170,12 @@ section .scrollbox {
   flex: 1 0 50vh;
   padding: 3%;
   overflow-y: scroll;
+}
+
+.entries {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 </style>

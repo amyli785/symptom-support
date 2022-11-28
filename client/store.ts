@@ -42,6 +42,14 @@ const store = new Vuex.Store({
        */
        state.displayName = displayName;
     },
+    async refreshEntries(state){
+      /**
+       * Request the server for the logged in user's entries
+       */
+      const url = `/api/entries?username=${state.username}`;
+      const res = await fetch(url).then(async r => r.json());
+      state.entries = res;
+    },
     updateSupported(state, supported) {
       /**
        * Update the stored supported to the provided supported.
