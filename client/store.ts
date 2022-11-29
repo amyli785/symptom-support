@@ -16,6 +16,7 @@ const store = new Vuex.Store({
     entries: [],
     supportedRequests: [],
     supporterRequests: [],
+    entryStatus: null,
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
   mutations: {
@@ -49,6 +50,9 @@ const store = new Vuex.Store({
       const url = `/api/entries?username=${state.username}`;
       const res = await fetch(url).then(async r => r.json());
       state.entries = res;
+    },
+    goToEntry(state, entryStatus){
+      state.entryStatus = entryStatus;
     },
     updateSupported(state, supported) {
       /**

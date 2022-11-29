@@ -2,11 +2,11 @@
 <!-- We've tagged some elements with classes; consider writing CSS using those classes to style them... -->
 
 <template>
-  <article class = "entry" @click = "viewEntry">
-    <div class = "info-side">
+  <article class = "entry">
+    <div class = "info-side" @click = "viewEntry">
       <p class = "date">
-        {{ entry.dateStarted }}
-        <i v-if = "entry.dateEnded"> - {{entry.dateEnded}}</i>
+        {{ Date(entry.dateStarted) }}
+        <i v-if = "entry.dateEnded"> - {{Date(entry.dateEnded)}}</i>
       </p>
       <div v-for="sym in entry.symptoms.slice(0,3)">
         <p class = "sym box">
@@ -50,8 +50,14 @@
       </div>
       
       <div class = "bottom">
-          <div class = "icon edit"></div>
-          <div class = "icon delete"></div>
+          <div 
+            class = "icon edit" 
+            @click = "editEntry"
+          ></div>
+          <div 
+            class = "icon delete"
+            @click = "deleteEntry"
+          ></div>
       </div>
     </div>
   </article>
@@ -78,28 +84,38 @@ export default {
     //find if entry is flagged
   },
   methods: {
-    deleteEntry() {
-      
+    async deleteEntry() {
+      const options = {
+        method: 'DELETE', headers: {'Content-Type': 'application/json'}
+      };
+
+      try {
+        const r = await fetch(`/api/entries/${this.entry._id}`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+
+        this.$store.commit('refreshEntries');
+
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
     },
     editEntry() {
-      
+      this.$router.push({name: 'View Entry'});
+      this.$store.commit('goToEntry', {entry: this.entry, owner: this.$store.state.username, status: 'editing', viewOnly: false});
     },
     viewEntry() {
-
+      this.$router.push({name: 'View Entry'});//, params: {entry: this.entry}});
+      this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: false});
     },
     unflag(){
       this.flagged = false;
     },
     flag(){
       this.flagged = true;
-    },
-    async request(params) {
-      /**
-       * Submits a request to the freet's endpoint
-       * @param params - Options for the request
-       * @param params.body - Body for the request, if it exists
-       * @param params.callback - Function to run if the the request succeeds
-       */
     },
   }
 };
@@ -162,9 +178,6 @@ p {
   background-color: var(--dark-blue);
 }
 
-.inv {
-  opacity: 0;
-}
 .icon{
   height:30px;
   width:30px;
@@ -176,28 +189,6 @@ p {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center
-}
-.button-label{
-  display:flex;
-  flex-direction: column;
-  align-items: center;
-}
-.label{
-  color: #ffffff;
-  text-align: center;
-  line-height: 17px;
-  font-size: 0.7em;
-  width: fit-content + 1em;
-  height: 1.2em;
-  background-color: var(--primary-color);
-  position: relative;
-  top: 5px;
-  border-radius: 20px;
-  opacity: 0;
-  transition: opacity .2s ease-in-out 0s;
-}
-.button-label:hover .label{
-  opacity: 1;
 }
 .edit{
   background-image: url("../../public/pencil.png");
