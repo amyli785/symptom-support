@@ -58,7 +58,7 @@ const isEntryIdExists = async (req: Request, res: Response, next: NextFunction) 
  */
 const isEntryIdViewable = async (req: Request, res: Response, next: NextFunction) => {
   const entry = await EntryCollection.findOneByEntryId(req.params.entryId as string);
-  const canView = await SupportCollection.canView(entry.owner, req.session.userId as string);
+  const canView = await SupportCollection.canView(entry.owner._id, req.session.userId as string);
 
   if (!canView) {
     res.status(403).json({
@@ -75,7 +75,7 @@ const isEntryIdViewable = async (req: Request, res: Response, next: NextFunction
  */
 const isEntryIdManageable = async (req: Request, res: Response, next: NextFunction) => {
   const entry = await EntryCollection.findOneByEntryId(req.params.entryId as string);
-  const canManage = await SupportCollection.canManage(entry.owner, req.session.userId as string);
+  const canManage = await SupportCollection.canManage(entry.owner._id, req.session.userId as string);
 
   if (!canManage) {
     res.status(403).json({
