@@ -59,7 +59,7 @@ class EntryCollection {
    * @return {Promise<HydratedDocument<Entry>[]>} - The entries with the given ids
    */
   static async findAllByEntryIds(entryIds: (Types.ObjectId | string)[]): Promise<Array<HydratedDocument<Entry>>> {
-    const entries = Promise.all(entryIds.map(async (entryId) => {
+    const entries = await Promise.all(entryIds.map(async (entryId) => {
       const entry = await EntryModel.findOne({_id: entryId});
       return entry.populate(['owner', 'author', 'symptoms', 'medications']);
     }));
@@ -73,7 +73,7 @@ class EntryCollection {
    * @return {Promise<HydratedDocument<Entry>[]>} - The entries with the given owner id
    */
   static async findAllByOwner(ownerId: Types.ObjectId | string): Promise<Array<HydratedDocument<Entry>>> {
-    return EntryModel.find({owner: ownerId}).populate(['owner', 'author', 'symptoms', 'medications']);
+    return EntryModel.find({owner: ownerId}).sort({dateStarted: -1}).populate(['owner', 'author', 'symptoms', 'medications']);
   }
 
   /**
