@@ -13,8 +13,7 @@ class ShareCollection {
   static async addOne(items: (Types.ObjectId | string)[], name: string | undefined): Promise<HydratedDocument<Share>> {
     const dateCreated = new Date();
     const share = new ShareModel({items, name, dateCreated});
-    await share.save();
-    return share.populate(['items']);
+    return share.save();
   }
 
   /**
@@ -25,8 +24,7 @@ class ShareCollection {
    */
   static async findOneByShareId(shareId: Types.ObjectId | string): Promise<HydratedDocument<Share>> {
     const share = await ShareModel.findOne({_id: shareId});
-    return share.populate(['items']); // TODO - does this populate parts of each entry correctly?
-    // ['owner', 'author', 'symptoms', 'medications']
+    return share;
   }
 
   /**

@@ -187,7 +187,7 @@ const isDateEndedValid = async (req: Request, res: Response, next: NextFunction)
 };
 
 /**
- * Checks that req.body.symptoms is an array and each element of each array is in the correct format.
+ * Checks that req.body.symptoms is an array and each element of the array is in the correct format.
  */
 const isSymptomsValid = async (req: Request, res: Response, next: NextFunction) => {
   const symptoms = req.body.symptoms;
@@ -227,7 +227,7 @@ const isSymptomsValid = async (req: Request, res: Response, next: NextFunction) 
 };
 
 /**
- * Checks that req.body.medications is an array and each element of each array is in the correct format.
+ * Checks that req.body.medications is an array and each element of the array is in the correct format.
  */
 const isMedicationsValid = async (req: Request, res: Response, next: NextFunction) => {
   const medications = req.body.medications;

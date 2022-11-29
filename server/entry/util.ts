@@ -4,7 +4,7 @@ import type { Entry , PopulatedEntry } from './model';
 import type { Symptom } from '../symptom/model';
 import type { Medication } from '../medication/model';
 
-type EntryResponse = {
+export type EntryResponse = {
   _id: string;
   owner: string;
   author: string;

@@ -11,6 +11,7 @@ import * as userValidator from '../server/user/middleware';
 import {userRouter} from '../server/user/router';
 import {supportRouter} from '../server/support/router';
 import {entryRouter} from '../server/entry/router';
+import {shareRouter} from '../server/share/router';
 
 // Load environmental variables
 dotenv.config({});
@@ -72,6 +73,7 @@ app.use(userValidator.isCurrentSessionUserExists);
 app.use('/api/users', userRouter);
 app.use('/api/supports', supportRouter);
 app.use('/api/entries', entryRouter);
+app.use('/api/shares', shareRouter);
 
 // Catch all the other routes and display error message
 app.all('*', (req: Request, res: Response) => {
