@@ -22,7 +22,7 @@ export type EntryResponse = {
  * @param {Date} date - A date object
  * @returns {string} - formatted date as string
  */
-const formatDate = (date: Date): string => moment(date).format('MMM D, YYYY, h:mm a');
+const formatDate = (date: Date): string => date.toString();
 
 /**
  * Transform a raw Entry object from the database into an object
