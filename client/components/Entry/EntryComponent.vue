@@ -108,7 +108,7 @@ export default {
 <style scoped>
 p {
   margin: 0;
-  padding: 0;
+  padding: 0.25em;
 }
 .entry {
   border: 2px solid var(--light-blue);

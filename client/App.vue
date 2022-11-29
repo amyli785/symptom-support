@@ -53,6 +53,27 @@ main {
   padding: 0 5em 5em;
 }
 
+button {
+  background-color: var(--light-blue);
+  border: 0;
+  border-radius: 10px;
+  padding: 5px;
+  color: white;
+}
+
+button:hover:enabled{
+  filter: brightness(80%);
+}
+
+button:active:enabled{
+  filter: brightness(120%);
+}
+
+button:disabled,
+button[disabled]{
+  background-color: #cccccc;
+}
+
 .alerts {
     position: absolute;
     z-index: 99;
