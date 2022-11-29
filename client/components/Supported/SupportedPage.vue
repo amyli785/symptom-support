@@ -8,14 +8,23 @@
             <h2>
               Supported
             </h2>
-            <button
+            <!-- <button
               v-if="$store.state.username"
               @click="toSupportedPage"
             >
               View supported requests
-            </button>
+            </button> -->
           </div>
         </header>
+        <section
+          v-if="$store.state.supportedRequests.length"
+        >
+          <SupportedComponent
+            v-for="supported in $store.state.supportedRequests"
+            :key="supported.id"
+            :supported="supported"
+          />
+        </section>
         <section
           v-if="$store.state.supported.length"
         >
@@ -59,7 +68,7 @@
       }
     },
     async mounted() {
-      const url = `/api/supports/supported?inviteStatus=accepted`;
+      let url = `/api/supports/supported?inviteStatus=accepted`;
       try {
         const r = await fetch(url);
         const res = await r.json();
@@ -67,6 +76,20 @@
           throw new Error(res.error);
         }
         this.$store.commit('updateSupported', res);
+      } catch (e) {
+  
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+
+      url = `/api/supports/supported?inviteStatus=invited`;
+      try {
+        const r = await fetch(url);
+        const res = await r.json();
+        if (!r.ok) {
+          throw new Error(res.error);
+        }
+        this.$store.commit('updateSupportedRequest', res);
       } catch (e) {
   
         this.$set(this.alerts, e, 'error');
