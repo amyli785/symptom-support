@@ -7,12 +7,12 @@
           <h2>Supporters</h2>
         </header>
         <CreateSupportForm />
-        <button
+        <!-- <button
           v-if="$store.state.username"
           @click="toSupporterPage"
         >
           View supporter requests
-        </button>
+        </button> -->
       </section>
       <section v-else>
         <header>
@@ -32,6 +32,15 @@
           <div class="left">
           </div>
         </header>
+        <section
+          v-if="$store.state.supporterRequests.length"
+        >
+          <SupporterComponent
+            v-for="supporter in $store.state.supporterRequests"
+            :key="supporter.id"
+            :supporter="supporter"
+          />
+        </section>
         <section
           v-if="$store.state.supporter.length"
         >
@@ -63,7 +72,7 @@
       }
     },
     async mounted() {
-      const url = `/api/supports/supporter?inviteStatus=accepted`;
+      let url = `/api/supports/supporter?inviteStatus=accepted`;
       try {
         const r = await fetch(url);
         const res = await r.json();
@@ -72,6 +81,20 @@
         }
   
         this.$store.commit('updateSupporter', res);
+      } catch (e) {
+  
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+
+      url = `/api/supports/supporter?inviteStatus=invited`;
+      try {
+        const r = await fetch(url);
+        const res = await r.json();
+        if (!r.ok) {
+          throw new Error(res.error);
+        }
+        this.$store.commit('updateSupporterRequest', res);
       } catch (e) {
   
         this.$set(this.alerts, e, 'error');
