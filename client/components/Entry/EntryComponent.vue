@@ -5,8 +5,10 @@
   <article class = "entry">
     <div class = "info-side" @click = "viewEntry">
       <p class = "date">
-        {{ Date(entry.dateStarted) }}
-        <i v-if = "entry.dateEnded"> - {{Date(entry.dateEnded)}}</i>
+        {{ new Date(this.entry.dateStarted) }}
+      </p>
+      <p v-if = "entry.dateEnded" class="date">
+         - {{ new Date(this.entry.dateEnded)}}
       </p>
       <div v-for="sym in entry.symptoms.slice(0,3)">
         <p class = "sym box">
