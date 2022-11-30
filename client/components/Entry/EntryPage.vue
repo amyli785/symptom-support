@@ -18,12 +18,10 @@
         ></div>
         <div
             v-if = "flagged" 
-            @click = "unflag"
             class = "icon black-flag"
         ></div>
         <div
             v-else 
-            @click = "flag"
             class = "icon white-flag"
         ></div>
       </div>
@@ -36,7 +34,7 @@
             type = "datetime-local"
             id = "dateStarted"
             class = "date"
-            :value="dateStarted" 
+            :value="displayDate(dateStarted)" 
             @input="dateStarted = $event.target.value"
           />
         </div>
@@ -46,7 +44,7 @@
             type="datetime-local"
             id="dateEnded"
             class="date"
-            :value="dateEnded" 
+            :value="displayDate(dateEnded)" 
             @input="dateEnded = $event.target.value"
           />
         </div>
@@ -121,9 +119,10 @@
 </template>
 
 <script>
+import moment from 'moment';
 
 export default {
-  name: 'EntryPage',
+  name: 'OneEntryPage',
   components: {},
   props: {},
   data() {
@@ -142,7 +141,7 @@ export default {
       alerts: {},
     };
   },
-  mounted(){
+  async mounted(){
     let entryStatus = this.$store.state.entryStatus;
     this.entry = entryStatus.entry;
     this.owner = entryStatus.owner;
@@ -167,6 +166,9 @@ export default {
 
   },
   methods: {
+    displayDate(date) {
+      return moment(new Date(date)).format('yyyy-MM-DDThh:mm');
+    },
     async deleteEntry() {
       const options = {
         method: 'DELETE', headers: {'Content-Type': 'application/json'}
@@ -193,12 +195,6 @@ export default {
       document.getElementById("dateEnded").disabled = false;
       document.getElementById("notes").disabled = false;
       this.status = 'editing';
-    },
-    unflag(){
-      this.flagged = false;
-    },
-    flag(){
-      this.flagged = true;
     },
     submit(){
       const params = {
@@ -259,7 +255,6 @@ export default {
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
     },
-
     async request2(params){
       const options = {
         method: params.method,

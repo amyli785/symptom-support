@@ -81,8 +81,8 @@ export default {
       alerts: {},
     };
   },
-  async mounted() {
-    // find if entry is flagged
+  mounted() {
+    this.findFlagStatus();
   },
   methods: {
     displayDate(date) {
@@ -115,9 +115,56 @@ export default {
       this.$router.push({name: 'View Entry'}); // params: {entry: this.entry}});
       this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: false});
     },
-    toggleFlag() {
-      this.flagged = !this.flagged;
+    async toggleFlag() {
+      if (this.flagged){
+        this.flagged = false;
+        const options = {
+          method: 'DELETE', headers: {'Content-Type': 'application/json'}
+        };
+        try {
+          const r = await fetch(`/api/flags/${this.entry._id}`, options);
+          if (!r.ok) {
+            const res = await r.json();
+            throw new Error(res.error);
+          }
+        } catch (e) {
+          this.$set(this.alerts, e, 'error');
+          setTimeout(() => this.$delete(this.alerts, e), 3000);
+        }
+      } else {
+        this.flagged = true;
+        const options = {
+          method: 'POST', body: JSON.stringify({entryId: this.entry._id}), headers: {'Content-Type': 'application/json'}
+        };
+        try {
+          const r = await fetch(`/api/flags/`, options);
+          if (!r.ok) {
+            const res = await r.json();
+            throw new Error(res.error);
+          }
+        } catch (e) {
+          this.$set(this.alerts, e, 'error');
+          setTimeout(() => this.$delete(this.alerts, e), 3000);
+        }
+      }
     },
+    async findFlagStatus(){
+      const options = {
+        method: 'GET', headers: {'Content-Type': 'application/json'}
+      };
+      try {
+        const r = await fetch(`/api/flags?entryId=${this.entry._id}`, options);
+        const res = await r.json();
+        if (!r.ok) {
+          throw new Error(res.error);
+        }
+        this.flagged = res;
+
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+    }
   }
 };
 </script>
@@ -144,7 +191,6 @@ p {
 }
 .left-content {
   flex: 0 1 100%;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -189,5 +235,4 @@ p {
   font-weight: bold;
   font-size: medium;
 }
-
 </style>
