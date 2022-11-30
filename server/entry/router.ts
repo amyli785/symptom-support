@@ -90,8 +90,8 @@ export type MedicationDetails = {
  * @throws {400} - If `owner` is empty
  * @throws {404} - If no user with username `owner` exists
  * @throws {403} - If user lacks permissions to create an entry for user with username `owner`
- * @throws {400} - If `dateStarted` is empty or not a valid date in the correct format ("YYYY-MM-DDTHH:mm", eg. "2011-01-10T14:48")
- * @throws {400} - If `dateEnded` is non-empty and not a valid date in the correct format
+ * @throws {400} - If `dateStarted` is empty or not a valid date or in the past
+ * @throws {400} - If `dateEnded` is non-empty and not a valid date or in the past or before `dateStarted`
  * @throws {400} - If `symptoms` is not an array or contains an element that is not properly formatted (non-empty name, integer intensity between 1 and 10, inclusive)
  * @throws {400} - If `medications` is not an array or contains an element that is not properly formatted (non-empty name, number dosage greater than 0)
  * @throws {400} - If `mood` is non-empty and not in the correct format (integer between 1 and 10, inclusive)
@@ -159,8 +159,8 @@ router.post(
  * @throws {400} - If `entryId` is empty or not in the correct format
  * @throws {404} - If no entry with `entryId` exists
  * @throws {403} - If user lacks permissions to manage entry with id `entryId`
- * @throws {400} - If `dateStarted` is empty or not a valid date in the correct format ("YYYY-MM-DDTHH:mm", eg. "2011-01-10T14:48")
- * @throws {400} - If `dateEnded` is non-empty and not a valid date in the correct format
+ * @throws {400} - If `dateStarted` is empty or not a valid date or in the past
+ * @throws {400} - If `dateEnded` is non-empty and not a valid date or in the past or before `dateStarted`
  * @throws {400} - If `symptoms` is not an array or contains an element that is not properly formatted (non-empty name, integer intensity between 1 and 10, inclusive)
  * @throws {400} - If `medications` is not an array or contains an element that is not properly formatted (non-empty name, number dosage greater than 0)
  * @throws {400} - If `mood` is non-empty and not in the correct format (integer between 1 and 10, inclusive)
