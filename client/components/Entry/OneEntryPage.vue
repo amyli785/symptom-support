@@ -141,7 +141,8 @@ export default {
       notes: "",
     };
   },
-  mounted(){
+  async mounted(){
+    this.findFlagStatus();
     let entryStatus = this.$store.state.entryStatus;
     this.entry = entryStatus.entry;
     this.owner = entryStatus.owner;
@@ -193,11 +194,37 @@ export default {
       document.getElementById("notes").disabled = false;
       this.status = 'editing';
     },
-    unflag(){
+    async unflag(){
       this.flagged = false;
+      const options = {
+        method: 'DELETE', headers: {'Content-Type': 'application/json'}
+      };
+      try {
+        const r = await fetch(`/api/flags/${this.entry._id}`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
     },
-    flag(){
+    async flag(){
       this.flagged = true;
+      const options = {
+        method: 'POST', boy: {entryId: this.entry._id}, headers: {'Content-Type': 'application/json'}
+      };
+      try {
+        const r = await fetch(`/api/flags/`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
     },
     submit(){
       const params = {
@@ -273,6 +300,23 @@ export default {
         }
         await this.$store.commit('refreshEntries');
         this.$router.push({name: 'Home'});
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+    },
+    async findFlagStatus(){
+      const options = {
+        method: 'GET', headers: {'Content-Type': 'application/json'}
+      };
+      try {
+        const r = await fetch(`/api/flags?entryId=${this.entry._id}`, options);
+        const res = await r.json();
+        if (!r.ok) {
+          throw new Error(res.error);
+        }
+        this.flagged = res;
+
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
