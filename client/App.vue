@@ -74,6 +74,14 @@ button[disabled]{
   background-color: #cccccc;
 }
 
+.icon-button {
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  transform: scale(1.1, 1.1);
+}
+
 .alerts {
     position: absolute;
     z-index: 99;
