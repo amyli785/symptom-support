@@ -1,11 +1,13 @@
 <template>
-	<div class="flag-button-container" @click="$emit('click')">
-    <div v-if="flagged">
-      flagged
-    </div>
-    <div v-else>
-      unflagged
-    </div>
+	<div class="flag-button-container icon-button" @click="$emit('click')">
+    <font-awesome-icon
+      v-if="flagged"
+      icon="fa-solid fa-flag"
+    />
+    <font-awesome-icon
+      v-else
+      icon="fa-regular fa-flag"
+    />
   </div>
 </template>
 
@@ -23,7 +25,7 @@ export default {
 
 <style scoped>
 
-.flag-button-contained {
+.flag-button-container {
   display: flex;
 
   flex-direction: column;

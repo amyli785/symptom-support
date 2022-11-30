@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="app">
     <header>
       <NavBar />
     </header>
@@ -40,6 +40,10 @@ export default {
   --salmon: #ef798a;
 }
 
+.app {
+  font-family: sans-serif;
+}
+
 body {
   height: 100vh;
   flex-direction: column;
@@ -72,6 +76,14 @@ button:active:enabled{
 button:disabled,
 button[disabled]{
   background-color: #cccccc;
+}
+
+.icon-button {
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  transform: scale(1.1, 1.1);
 }
 
 .alerts {
