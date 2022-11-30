@@ -11,39 +11,39 @@
       </div>
       <SymptomComponent
         v-for="symptom in entry.symptoms.slice(0,3)"
-        :key="symptom.name"
+        :key="(entry.dateStarted.toString()+' '+symptom.name+symptom.intensity)"
         :name="symptom.name"
         :intensity="symptom.intensity"
         :location="symptom.location"
       />
       <SymptomComponent
         v-for="i in Math.max(0, 3 - entry.symptoms.length)"
-        :key="i"
+        :key="(entry.dateStarted.toString()+' symptom '+i)"
         :name="''"
         :intensity="''"
         :location="''"
       />
       
-      <div v-for="med in entry.medications.slice(0,3)">
-        <p class = "med details-container">
-          {{med.name}} ({{med.dosage}})
-        </p>
-      </div>
-      <div v-if = "entry.medications.length < 3">
-        <div v-for="i in 3 - entry.medications.length">
-          <p class = "med details-container">
-            -
-          </p>
-        </div>
-      </div>
+      <MedicationComponent
+        v-for="medication in entry.medications.slice(0,3)"
+        :key="(entry.dateStarted.toString()+' '+medication.name+medication.dosage)"
+        :name="medication.name"
+        :dosage="medication.dosage"
+      />
+      <MedicationComponent
+        v-for="i in Math.max(0, 3 - entry.medications.length)"
+        :key="(entry.dateStarted.toString()+' medication '+i)"
+        :name="''"
+        :dosage="''"
+      />
     </div>
 
     <div class = "right-icons">
-      <div class = "top">
+      <div class = "icons-top">
         <FlagButton :flagged="flagged" @click="toggleFlag" />
       </div>
       
-      <div class = "bottom">
+      <div class = "icons-bottom">
         <EditButton @click="editEntry" />
         <DeleteButton @click="deleteEntry" />
       </div>
@@ -54,6 +54,7 @@
 <script>
 import moment from 'moment';
 import SymptomComponent from './SymptomComponent';
+import MedicationComponent from './MedicationComponent';
 import FlagButton from '../common/FlagButton';
 import EditButton from '../common/EditButton';
 import DeleteButton from '../common/DeleteButton';
@@ -65,6 +66,7 @@ export default {
     EditButton,
     DeleteButton,
     SymptomComponent,
+    MedicationComponent,
   },
   props: {
     // Data from the stored entry
@@ -138,7 +140,7 @@ p {
   flex-direction: row;
   justify-content: space-between;
 
-  gap: 6px;
+  gap: 12px;
 }
 .left-content {
   flex: 0 1 100%;
@@ -148,67 +150,44 @@ p {
   justify-content: space-between;
   align-items: stretch;
 
-  gap: 6px;
+  gap: 4px;
 }
 .right-icons {
-  flex: 0 0 10%;
+  flex: 1 0 0%;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
 }
-.top {
-  display: flex;
-  flex-direction: row-reverse;
-}
-.bottom {
+.icons-top {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
+
+  gap: 12px;
 }
+
+.icons-bottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  gap: 12px;
+}
+
 .entry-dates-container {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
 
+  padding: 0 8px;
+
   font-weight: bold;
   font-size: medium;
 }
 
-.sym{
-  background-color: var(--salmon);
-}
-.med {
-  background-color: var(--dark-blue);
-}
-
-.icon{
-  height:30px;
-  width:30px;
-  padding:0px;
-  margin:0px;
-  list-style-type: none;
-  cursor: pointer;
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center
-}
-.edit{
-  background-image: url("../../public/pencil.png");
-}
-.delete{
-  background-image:url("../../public/trash.png");
-}
-.white-flag{
-  background-image: url("../../public/flag.png");
-}
-.black-flag{
-  background-image: url("../../public/flag-filled.png");
-}
-.icon:hover {
-  transform: scale(1.1, 1.1);
-}
 </style>
