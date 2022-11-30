@@ -1,6 +1,3 @@
-<!-- Reusable component representing a single freet and its actfreet.authorions -->
-<!-- We've tagged some elements with classes; consider writing CSS using those classes to style them... -->
-
 <template>
   <article class = "entry">
     <div class = "info-side" @click = "viewEntry">
@@ -39,16 +36,7 @@
 
     <div class = "icons-side">
       <div class = "top">
-        <div
-            v-if="flagged" 
-            @click="unflag"
-            class = "icon black-flag"
-        ></div>
-        <div
-            v-else 
-            @click="flag"
-            class = "icon white-flag"
-        ></div>
+        <FlagButton :flagged="flagged" @click="toggleFlag" />
       </div>
       
       <div class = "bottom">
@@ -67,10 +55,11 @@
 
 <script>
 import moment from 'moment';
+import FlagButton from '../common/FlagButton';
 
 export default {
   name: 'EntryComponent',
-  components: {},
+  components: {FlagButton},
   props: {
     // Data from the stored entry
     entry: {
@@ -85,7 +74,7 @@ export default {
     };
   },
   async mounted() {
-    //find if entry is flagged
+    // find if entry is flagged
   },
   methods: {
     displayDate(date) {
@@ -115,14 +104,11 @@ export default {
       this.$store.commit('goToEntry', {entry: this.entry, owner: this.$store.state.username, status: 'editing', viewOnly: false});
     },
     viewEntry() {
-      this.$router.push({name: 'View Entry'});//, params: {entry: this.entry}});
+      this.$router.push({name: 'View Entry'}); // params: {entry: this.entry}});
       this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: false});
     },
-    unflag(){
-      this.flagged = false;
-    },
-    flag(){
-      this.flagged = true;
+    toggleFlag() {
+      this.flagged = !this.flagged;
     },
   }
 };
