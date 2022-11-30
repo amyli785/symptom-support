@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import EntryPage from './components/Entry/EntryPage.vue';
+import EntryFeed from './components/Entry/EntryFeed.vue';
 import AccountPage from './components/Account/AccountPage.vue';
 import LoginPage from './components/Login/LoginPage.vue';
 import SupporterPage from './components/Supporter/SupporterPage.vue';
@@ -13,7 +13,7 @@ import NotFound from './NotFound.vue';
 Vue.use(VueRouter);
 
 const routes = [
-  {path: '/', name: 'Home', component: EntryPage},
+  {path: '/', name: 'Home', component: EntryFeed},
   {path: '/supporter', name: 'Supporters', component: SupporterPage},
   {path: '/supported', name: 'Supported', component: SupportedPage},
   {path: '/supportedRequest', name: 'Supported Request', component: SupportedRequestPage},

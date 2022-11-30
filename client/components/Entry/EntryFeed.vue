@@ -43,7 +43,7 @@
 import EntryComponent from '@/components/Entry/EntryComponent.vue'
 
 export default {
-  name: 'EntryPage',
+  name: 'EntryFeed',
   components: {
     EntryComponent,
   },
