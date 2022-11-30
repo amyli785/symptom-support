@@ -14,6 +14,7 @@ const store = new Vuex.Store({
     supported: [],
     supporter: [],
     entries: [],
+    flagged: [],
     supportedRequests: [],
     supporterRequests: [],
     entryStatus: null,
@@ -53,6 +54,14 @@ const store = new Vuex.Store({
     },
     goToEntry(state, entryStatus){
       state.entryStatus = entryStatus;
+    },
+    async refreshFlagged(state){
+      /**
+       * Request the server for the logged in user's entries
+       */
+      const url = `/api/flags?username=${state.username}`;
+      const res = await fetch(url).then(async r => r.json());
+      state.flagged = res;
     },
     updateSupported(state, supported) {
       /**

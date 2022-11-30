@@ -8,6 +8,7 @@ import SupportedPage from './components/Supported/SupportedPage.vue';
 import SupportedRequestPage from './components/Supported/SupportedRequestPage.vue';
 import SupporterRequestPage from './components/Supporter/SupporterRequestPage.vue';
 import OneEntryPage from './components/Entry/OneEntryPage.vue';
+import FlaggedPage from './components/Flag/FlaggedPage.vue';
 import NotFound from './NotFound.vue';
 
 Vue.use(VueRouter);
@@ -20,7 +21,8 @@ const routes = [
   {path: '/supporterRequest', name: 'Supporter Request', component: SupporterRequestPage},
   {path: '/account', name: 'Account', component: AccountPage},
   {path: '/login', name: 'Login', component: LoginPage},
-  {path: '/viewEntry', name: 'View Entry', component: OneEntryPage, props: true},
+  {path: '/viewEntry', name: 'View Entry', component: OneEntryPage},
+  {path: '/flagged', name: 'Flagged Entries', component: FlaggedPage},
   {path: '*', name: 'Not Found', component: NotFound}
 ];
 

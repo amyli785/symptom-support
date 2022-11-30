@@ -36,7 +36,16 @@
 
     <div class = "icons-side">
       <div class = "top">
-        <FlagButton :flagged="flagged" @click="toggleFlag" />
+        <div
+            v-if="flagged" 
+            @click="unflag"
+            class = "icon black-flag"
+        ></div>
+        <div
+            v-else 
+            @click="flag"
+            class = "icon white-flag"
+        ></div>
       </div>
       
       <div class = "bottom">
