@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="app">
     <header>
       <NavBar />
     </header>
@@ -38,6 +38,10 @@ export default {
   --light-blue: #75cae6;
   --dark-blue: #2c5784;
   --salmon: #ef798a;
+}
+
+.app {
+  font-family: sans-serif;
 }
 
 body {

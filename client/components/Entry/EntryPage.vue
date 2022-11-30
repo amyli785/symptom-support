@@ -86,10 +86,13 @@ section .scrollbox {
 }
 
 .entries {
-  display:flex;
+  display: flex;
+
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  gap: 40px;
 }
 .createEntry{
   width: 100%;

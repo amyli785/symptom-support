@@ -1,53 +1,51 @@
 <template>
-  <article class = "entry">
-    <div class = "info-side" @click = "viewEntry">
-      <p class = "date">
-        {{ displayDate(entry.dateStarted) }}
-      </p>
-      <p v-if = "entry.dateEnded" class="date">
-         - {{ displayDate(entry.dateEnded) }}
-      </p>
-      <div v-for="sym in entry.symptoms.slice(0,3)">
-        <p class = "sym box">
-          {{sym.name}} ({{sym.intensity}}) - {{sym.location}}
-        </p>
-      </div>
-      <div v-if = "entry.symptoms.length < 3">
-        <div v-for="i in 3 - entry.symptoms.length">
-          <p class = "sym box">
-            -
-          </p>
+  <article class = "entry-container">
+    <div class = "left-content" @click = "viewEntry">
+      <div class="entry-dates-container">
+        <div>
+          {{ displayDate(entry.dateStarted) }}
+        </div>
+        <div v-if = "entry.dateEnded">
+          &nbsp;-&nbsp;{{ displayDate(entry.dateEnded) }}
         </div>
       </div>
+      <SymptomComponent
+        v-for="symptom in entry.symptoms.slice(0,3)"
+        :key="symptom.name"
+        :name="symptom.name"
+        :intensity="symptom.intensity"
+        :location="symptom.location"
+      />
+      <SymptomComponent
+        v-for="i in Math.max(0, 3 - entry.symptoms.length)"
+        :key="i"
+        :name="''"
+        :intensity="''"
+        :location="''"
+      />
       
       <div v-for="med in entry.medications.slice(0,3)">
-        <p class = "med box">
+        <p class = "med details-container">
           {{med.name}} ({{med.dosage}})
         </p>
       </div>
       <div v-if = "entry.medications.length < 3">
         <div v-for="i in 3 - entry.medications.length">
-          <p class = "med box">
+          <p class = "med details-container">
             -
           </p>
         </div>
       </div>
     </div>
 
-    <div class = "icons-side">
+    <div class = "right-icons">
       <div class = "top">
         <FlagButton :flagged="flagged" @click="toggleFlag" />
       </div>
       
       <div class = "bottom">
-          <div 
-            class = "icon edit" 
-            @click = "editEntry"
-          ></div>
-          <div 
-            class = "icon delete"
-            @click = "deleteEntry"
-          ></div>
+        <EditButton @click="editEntry" />
+        <DeleteButton @click="deleteEntry" />
       </div>
     </div>
   </article>
@@ -55,11 +53,19 @@
 
 <script>
 import moment from 'moment';
+import SymptomComponent from './SymptomComponent';
 import FlagButton from '../common/FlagButton';
+import EditButton from '../common/EditButton';
+import DeleteButton from '../common/DeleteButton';
 
 export default {
   name: 'EntryComponent',
-  components: {FlagButton},
+  components: {
+    FlagButton,
+    EditButton,
+    DeleteButton,
+    SymptomComponent,
+  },
   props: {
     // Data from the stored entry
     entry: {
@@ -119,31 +125,38 @@ p {
   margin: 0;
   padding: 0.25em;
 }
-.entry {
+.entry-container {
   border: 2px solid var(--light-blue);
+  /* border: 0 none; */
   color: black;
   border-radius: 20px;
-  padding: 1.5%;
-  margin-bottom: 2%;
-  position: relative;
-  width: 49%;
+  padding: 20px;
+
+  flex-basis: calc(50% - 40px);
+
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+
+  gap: 6px;
 }
-.info-side {
-  width: 90%;
-  height: 100%;
+.left-content {
+  flex: 0 1 100%;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: stretch;
+
+  gap: 6px;
 }
-.icons-side {
-  width: 10%;
-  height: 100%;
+.right-icons {
+  flex: 0 0 10%;
+
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: space-between;
 }
 .top {
   display: flex;
@@ -154,16 +167,16 @@ p {
   flex-direction: column;
   align-items: center;
 }
-.date {
+.entry-dates-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
   font-weight: bold;
   font-size: medium;
 }
-.box{
-  border-radius: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin-bottom: 3px;
-}
+
 .sym{
   background-color: var(--salmon);
 }
