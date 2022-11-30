@@ -13,8 +13,8 @@ export type Entry = {
   _id: Types.ObjectId,
   owner: Types.ObjectId,
   author: Types.ObjectId,
-  dateStarted: Date,
-  dateEnded: Date,
+  dateStarted: String,
+  dateEnded: String,
   symptoms: Types.ObjectId[],
   medications: Types.ObjectId[],
   mood: Number,
@@ -24,8 +24,8 @@ export type Entry = {
 export type PopulatedEntry = {
   owner: User,
   author: User,
-  dateStarted: Date,
-  dateEnded: Date,
+  dateStarted: String,
+  dateEnded: String,
   symptoms: Symptom[],
   medications: Medication[],
   mood: Number,
@@ -49,13 +49,13 @@ const EntrySchema = new Schema({
   
   // The date started of the content of the entry
   dateStarted: {
-    type: Date,
+    type: String,
     required: true,
   },
   
   // The date ended of the content of the entry
   dateEnded: {
-    type: Date,
+    type: String,
     required: false,
   },
   

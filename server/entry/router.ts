@@ -112,8 +112,8 @@ router.post(
     const owner = await UserCollection.findOneByUsername(req.body.owner as string);
     const authorId = (req.session.userId as string) ?? '';
     
-    const dateStarted = new Date(req.body.dateStarted as string);
-    const dateEnded = req.body.dateEnded ? new Date(req.body.dateEnded as string) : undefined;
+    const dateStarted = req.body.dateStarted;
+    const dateEnded = req.body.dateEnded ? req.body.dateEnded : "";//I think if its empty then its alreayd '' so this might be unnecessary
 
     const symptoms = await Promise.all(req.body.symptoms.map((symptomDetails: SymptomDetails) => 
       SymptomCollection.addOne(symptomDetails.name as string, Number(symptomDetails.intensity), symptomDetails.location as string)
@@ -178,8 +178,8 @@ router.patch(
   async (req: Request, res: Response) => {
     const entry = await EntryCollection.findOneByEntryId(req.params.entryId as string);
 
-    const dateStarted = new Date(req.body.dateStarted as string);
-    const dateEnded = req.body.dateEnded ? new Date(req.body.dateEnded as string) : undefined;
+    const dateStarted = req.body.dateStarted;
+    const dateEnded = req.body.dateEnded ? req.body.dateEnded as string : "";
 
     await Promise.all([
       Promise.all(entry.symptoms.map(symptom => SymptomCollection.deleteOne(symptom))),

@@ -136,12 +136,12 @@ const isDateStartedValid = async (req: Request, res: Response, next: NextFunctio
     if (!dateStarted) {
       throw new Error('Provided date started must be nonempty.');
     }
-
+    /*
     const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}[+-]\d{2}:\d{2}$/;
     if (dateStarted.match(regex) === null) {
       throw new Error('Provided date started must be in format "YYYY-MM-DDTHH:mm:ss.sssZ".');
     }
-
+    **/
     const obj = new Date(dateStarted);
     if (obj.toString() === 'Invalid Date') {
       throw new Error('Provided date started not in valid date format.');
@@ -166,12 +166,12 @@ const isDateEndedValid = async (req: Request, res: Response, next: NextFunction)
       next();
       return;
     }
-
+    /*
     const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}[+-]\d{2}:\d{2}$/;
     if (dateEnded.match(regex) === null) {
       throw new Error('Provided date ended must be in format "YYYY-MM-DDTHH:mm:ss.sssZ".');
     }
-
+    **/
     const obj = new Date(dateEnded);
     if (obj.toString() === 'Invalid Date') {
       throw new Error('Provided date ended not in valid date format.');

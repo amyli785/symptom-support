@@ -9,8 +9,8 @@ class EntryCollection {
    * 
    * @param {string} owner - The id of the owner of the entry
    * @param {string} author - The id of the author of the entry
-   * @param {Date} dateStarted - The date started of the content of the entry
-   * @param {Date} dateEnded - The date ended of the content of the entry
+   * @param {string} dateStarted - The date started of the content of the entry
+   * @param {string} dateEnded - The date ended of the content of the entry
    * @param {Array<string>} symptoms - The ids of the symptoms of the entry
    * @param {Array<string>} medications - The ids of the medications of the entry
    * @param {number} mood - The mood of the entry
@@ -20,8 +20,8 @@ class EntryCollection {
   static async addOne(
     owner: Types.ObjectId | string,
     author: Types.ObjectId | string,
-    dateStarted: Date,
-    dateEnded: Date | undefined,
+    dateStarted: String,
+    dateEnded: String,
     symptoms: (Types.ObjectId | string)[],
     medications: (Types.ObjectId | string)[],
     mood: number | undefined,
@@ -59,7 +59,7 @@ class EntryCollection {
    * @return {Promise<HydratedDocument<Entry>[]>} - The entries with the given ids
    */
   static async findAllByEntryIds(entryIds: (Types.ObjectId | string)[]): Promise<Array<HydratedDocument<Entry>>> {
-    const entries = Promise.all(entryIds.map(async (entryId) => {
+    const entries = await Promise.all(entryIds.map(async (entryId) => {
       const entry = await EntryModel.findOne({_id: entryId});
       return entry.populate(['owner', 'author', 'symptoms', 'medications']);
     }));
@@ -73,14 +73,14 @@ class EntryCollection {
    * @return {Promise<HydratedDocument<Entry>[]>} - The entries with the given owner id
    */
   static async findAllByOwner(ownerId: Types.ObjectId | string): Promise<Array<HydratedDocument<Entry>>> {
-    return EntryModel.find({owner: ownerId}).populate(['owner', 'author', 'symptoms', 'medications']);
+    return EntryModel.find({owner: ownerId}).sort({dateStarted: -1}).populate(['owner', 'author', 'symptoms', 'medications']);
   }
 
   /**
    * Update an entry.
    * 
-   * @param {Date} dateStarted - The date started of the content of the entry
-   * @param {Date} dateEnded - The date ended of the content of the entry
+   * @param {string} dateStarted - The date started of the content of the entry
+   * @param {string} dateEnded - The date ended of the content of the entry
    * @param {Array<string>} symptoms - The ids of the symptoms of the entry
    * @param {Array<string>} medications - The ids of the medications of the entry
    * @param {number} mood - The mood of the entry
@@ -89,8 +89,8 @@ class EntryCollection {
    */
     static async updateOne(
     entryId: Types.ObjectId | string,
-    dateStarted: Date,
-    dateEnded: Date | undefined,
+    dateStarted: String,
+    dateEnded: String,
     symptoms: (Types.ObjectId | string)[],
     medications: (Types.ObjectId | string)[],
     mood: Number | undefined,
