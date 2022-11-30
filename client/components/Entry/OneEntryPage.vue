@@ -139,6 +139,7 @@ export default {
       medications: [],
       mood: 0,
       notes: "",
+      alerts: {},
     };
   },
   mounted(){

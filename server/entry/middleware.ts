@@ -141,6 +141,11 @@ const isDateStartedValid = async (req: Request, res: Response, next: NextFunctio
     if (obj.toString() === 'Invalid Date') {
       throw new Error('Provided date started not in valid date format.');
     }
+
+    const now = new Date();
+    if (!(now.getTime() - obj.getTime() > 0)) {
+      throw new Error('Provided date started must be in the past.');
+    }
   } catch (e) {
     res.status(400).json({
       error: (e as Error).message,
@@ -165,6 +170,16 @@ const isDateEndedValid = async (req: Request, res: Response, next: NextFunction)
     const obj = new Date(dateEnded);
     if (obj.toString() === 'Invalid Date') {
       throw new Error('Provided date ended not in valid date format.');
+    }
+
+    const now = new Date();
+    if (!(now.getTime() - obj.getTime() > 0)) {
+      throw new Error('Provided date ended must be in the past.');
+    }
+
+    const start = new Date(req.body.dateStarted as string);
+    if (!(obj.getTime() - start.getTime() > 0)) {
+      throw new Error('Provided date ended must be after provided date started.');
     }
   } catch (e) {
     res.status(400).json({
