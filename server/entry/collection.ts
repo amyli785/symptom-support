@@ -9,8 +9,8 @@ class EntryCollection {
    * 
    * @param {string} owner - The id of the owner of the entry
    * @param {string} author - The id of the author of the entry
-   * @param {string} dateStarted - The date started of the content of the entry
-   * @param {string} dateEnded - The date ended of the content of the entry
+   * @param {Date} dateStarted - The date started of the content of the entry
+   * @param {Date} dateEnded - The date ended of the content of the entry
    * @param {Array<string>} symptoms - The ids of the symptoms of the entry
    * @param {Array<string>} medications - The ids of the medications of the entry
    * @param {number} mood - The mood of the entry
@@ -20,8 +20,8 @@ class EntryCollection {
   static async addOne(
     owner: Types.ObjectId | string,
     author: Types.ObjectId | string,
-    dateStarted: String,
-    dateEnded: String,
+    dateStarted: Date,
+    dateEnded: Date | undefined,
     symptoms: (Types.ObjectId | string)[],
     medications: (Types.ObjectId | string)[],
     mood: number | undefined,
@@ -79,8 +79,8 @@ class EntryCollection {
   /**
    * Update an entry.
    * 
-   * @param {string} dateStarted - The date started of the content of the entry
-   * @param {string} dateEnded - The date ended of the content of the entry
+   * @param {Date} dateStarted - The date started of the content of the entry
+   * @param {Date} dateEnded - The date ended of the content of the entry
    * @param {Array<string>} symptoms - The ids of the symptoms of the entry
    * @param {Array<string>} medications - The ids of the medications of the entry
    * @param {number} mood - The mood of the entry
@@ -89,8 +89,8 @@ class EntryCollection {
    */
     static async updateOne(
     entryId: Types.ObjectId | string,
-    dateStarted: String,
-    dateEnded: String,
+    dateStarted: Date,
+    dateEnded: Date | undefined,
     symptoms: (Types.ObjectId | string)[],
     medications: (Types.ObjectId | string)[],
     mood: Number | undefined,

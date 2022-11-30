@@ -5,10 +5,10 @@
   <article class = "entry">
     <div class = "info-side" @click = "viewEntry">
       <p class = "date">
-        {{ new Date(this.entry.dateStarted) }}
+        {{ displayDate(entry.dateStarted) }}
       </p>
       <p v-if = "entry.dateEnded" class="date">
-         - {{ new Date(this.entry.dateEnded)}}
+         - {{ displayDate(entry.dateEnded) }}
       </p>
       <div v-for="sym in entry.symptoms.slice(0,3)">
         <p class = "sym box">
@@ -66,6 +66,8 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
   name: 'EntryComponent',
   components: {},
@@ -86,6 +88,9 @@ export default {
     //find if entry is flagged
   },
   methods: {
+    displayDate(date) {
+      return moment(new Date(date)).format('MMM D, YYYY, h:mm a');
+    },
     async deleteEntry() {
       const options = {
         method: 'DELETE', headers: {'Content-Type': 'application/json'}
