@@ -90,7 +90,7 @@ export type MedicationDetails = {
  * @throws {400} - If `owner` is empty
  * @throws {404} - If no user with username `owner` exists
  * @throws {403} - If user lacks permissions to create an entry for user with username `owner`
- * @throws {400} - If `dateStarted` is empty or not a valid date in the correct format ("YYYY-MM-DDTHH:mm:ss.sssZ", eg. "2011-01-10T14:48:00.000+09:00")
+ * @throws {400} - If `dateStarted` is empty or not a valid date in the correct format ("YYYY-MM-DDTHH:mm", eg. "2011-01-10T14:48")
  * @throws {400} - If `dateEnded` is non-empty and not a valid date in the correct format
  * @throws {400} - If `symptoms` is not an array or contains an element that is not properly formatted (non-empty name, integer intensity between 1 and 10, inclusive)
  * @throws {400} - If `medications` is not an array or contains an element that is not properly formatted (non-empty name, number dosage greater than 0)
@@ -112,8 +112,8 @@ router.post(
     const owner = await UserCollection.findOneByUsername(req.body.owner as string);
     const authorId = (req.session.userId as string) ?? '';
     
-    const dateStarted = req.body.dateStarted;
-    const dateEnded = req.body.dateEnded ? req.body.dateEnded : "";//I think if its empty then its alreayd '' so this might be unnecessary
+    const dateStarted = new Date(req.body.dateStarted as string);
+    const dateEnded = req.body.dateEnded ? new Date(req.body.dateEnded as string) : undefined;
 
     const symptoms = await Promise.all(req.body.symptoms.map((symptomDetails: SymptomDetails) => 
       SymptomCollection.addOne(symptomDetails.name as string, Number(symptomDetails.intensity), symptomDetails.location as string)
@@ -159,7 +159,7 @@ router.post(
  * @throws {400} - If `entryId` is empty or not in the correct format
  * @throws {404} - If no entry with `entryId` exists
  * @throws {403} - If user lacks permissions to manage entry with id `entryId`
- * @throws {400} - If `dateStarted` is empty or not a valid date in the correct format ("YYYY-MM-DDTHH:mm:ss.sssZ", eg. "2011-01-10T14:48:00.000+09:00")
+ * @throws {400} - If `dateStarted` is empty or not a valid date in the correct format ("YYYY-MM-DDTHH:mm", eg. "2011-01-10T14:48")
  * @throws {400} - If `dateEnded` is non-empty and not a valid date in the correct format
  * @throws {400} - If `symptoms` is not an array or contains an element that is not properly formatted (non-empty name, integer intensity between 1 and 10, inclusive)
  * @throws {400} - If `medications` is not an array or contains an element that is not properly formatted (non-empty name, number dosage greater than 0)
@@ -178,8 +178,8 @@ router.patch(
   async (req: Request, res: Response) => {
     const entry = await EntryCollection.findOneByEntryId(req.params.entryId as string);
 
-    const dateStarted = req.body.dateStarted;
-    const dateEnded = req.body.dateEnded ? req.body.dateEnded as string : "";
+    const dateStarted = new Date(req.body.dateStarted as string);
+    const dateEnded = req.body.dateEnded ? new Date(req.body.dateEnded as string) : undefined;
 
     await Promise.all([
       Promise.all(entry.symptoms.map(symptom => SymptomCollection.deleteOne(symptom))),

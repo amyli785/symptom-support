@@ -1,14 +1,11 @@
-<!-- Reusable component representing a single freet and its actfreet.authorions -->
-<!-- We've tagged some elements with classes; consider writing CSS using those classes to style them... -->
-
 <template>
   <article class = "entry">
     <div class = "info-side" @click = "viewEntry">
       <p class = "date">
-        {{ new Date(this.entry.dateStarted) }}
+        {{ displayDate(entry.dateStarted) }}
       </p>
       <p v-if = "entry.dateEnded" class="date">
-         - {{ new Date(this.entry.dateEnded)}}
+         - {{ displayDate(entry.dateEnded) }}
       </p>
       <div v-for="sym in entry.symptoms.slice(0,3)">
         <p class = "sym box">
@@ -39,16 +36,7 @@
 
     <div class = "icons-side">
       <div class = "top">
-        <div
-            v-if="flagged" 
-            @click="unflag"
-            class = "icon black-flag"
-        ></div>
-        <div
-            v-else 
-            @click="flag"
-            class = "icon white-flag"
-        ></div>
+        <FlagButton :flagged="flagged" @click="toggleFlag" />
       </div>
       
       <div class = "bottom">
@@ -66,9 +54,12 @@
 </template>
 
 <script>
+import moment from 'moment';
+import FlagButton from '../common/FlagButton';
+
 export default {
   name: 'EntryComponent',
-  components: {},
+  components: {FlagButton},
   props: {
     // Data from the stored entry
     entry: {
@@ -86,6 +77,9 @@ export default {
     this.findFlagStatus();
   },
   methods: {
+    displayDate(date) {
+      return moment(new Date(date)).format('MMM D, YYYY, h:mm a');
+    },
     async deleteEntry() {
       const options = {
         method: 'DELETE', headers: {'Content-Type': 'application/json'}
@@ -110,7 +104,7 @@ export default {
       this.$store.commit('goToEntry', {entry: this.entry, owner: this.$store.state.username, status: 'editing', viewOnly: false});
     },
     viewEntry() {
-      this.$router.push({name: 'View Entry'});//, params: {entry: this.entry}});
+      this.$router.push({name: 'View Entry'}); // params: {entry: this.entry}});
       this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: false});
     },
     async unflag(){

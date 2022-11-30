@@ -6,6 +6,22 @@
       <header>
         <h2>Welcome {{ $store.state.displayName }}</h2>
       </header>
+      <button class = "createEntry" @click = 'createEntry'>
+        Create Entry
+      </button>
+      <section
+        v-if="$store.state.entries.length"
+        class = "entries"
+      >
+        <EntryComponent
+          v-for="entry in $store.state.entries"
+          :key="entry.id"
+          :entry="entry"
+        />
+      </section>
+      <section v-else>
+        <h3>No entries found</h3>
+      </section>
     </section>
     <section v-else>
       <header>
@@ -19,22 +35,6 @@
           to create, edit, and delete entries.
         </h3>
       </article>
-    </section>
-    <button class = "createEntry" @click = 'createEntry'>
-      Create Entry
-    </button>
-    <section
-      v-if="$store.state.entries.length"
-      class = "entries"
-    >
-      <EntryComponent
-        v-for="entry in $store.state.entries"
-        :key="entry.id"
-        :entry="entry"
-      />
-    </section>
-    <section v-else>
-      <h3>No entries found</h3>
     </section>
   </main>
 </template>
