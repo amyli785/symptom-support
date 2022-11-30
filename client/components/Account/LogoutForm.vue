@@ -20,6 +20,7 @@ export default {
         this.$store.commit('updateSupporter',[]);
         this.$store.commit('updateSupportedRequest',[]);
         this.$store.commit('updateSupporterRequest',[]);
+        this.$store.commit('setUsername',null);
         this.$store.commit('alert', {
           message: 'You are now signed out!', status: 'success'
         });

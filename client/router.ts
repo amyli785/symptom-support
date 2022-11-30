@@ -15,7 +15,7 @@ Vue.use(VueRouter);
 
 const routes = [
   {path: '/', name: 'Home', component: EntryFeed},
-  {path: '/supporter', name: 'Supporters', component: SupporterPage},
+  {path: '/supporter', name: 'Supporter', component: SupporterPage},
   {path: '/supported', name: 'Supported', component: SupportedPage},
   {path: '/supportedRequest', name: 'Supported Request', component: SupportedRequestPage},
   {path: '/supporterRequest', name: 'Supporter Request', component: SupporterRequestPage},
@@ -38,17 +38,9 @@ router.beforeEach((to, from, next) => {
       return;
     }
 
-    if (to.name === 'Account' && !router.app.$store.state.username) {
-      next({name: 'Login'}); // Go to Login page if user navigates to Account and are not signed in
+    if (to.name !== 'Login' && !router.app.$store.state.username){
+      next({name: 'Login'});
       return;
-    }
-
-    if (to.name === 'Supporter' && !router.app.$store.state.username){
-      next({name: 'Home'});
-    }
-
-    if (to.name === 'Supported' && !router.app.$store.state.username){
-      next({name: 'Home'});
     }
   }
 
