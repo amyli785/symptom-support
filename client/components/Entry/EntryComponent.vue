@@ -115,39 +115,37 @@ export default {
       this.$router.push({name: 'View Entry'}); // params: {entry: this.entry}});
       this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: false});
     },
-    toggleFlag() {
-      this.flagged = !this.flagged;
-    },
-    async unflag(){
-      this.flagged = false;
-      const options = {
-        method: 'DELETE', headers: {'Content-Type': 'application/json'}
-      };
-      try {
-        const r = await fetch(`/api/flags/${this.entry._id}`, options);
-        if (!r.ok) {
-          const res = await r.json();
-          throw new Error(res.error);
+    async toggleFlag() {
+      if (this.flagged){
+        this.flagged = false;
+        const options = {
+          method: 'DELETE', headers: {'Content-Type': 'application/json'}
+        };
+        try {
+          const r = await fetch(`/api/flags/${this.entry._id}`, options);
+          if (!r.ok) {
+            const res = await r.json();
+            throw new Error(res.error);
+          }
+        } catch (e) {
+          this.$set(this.alerts, e, 'error');
+          setTimeout(() => this.$delete(this.alerts, e), 3000);
         }
-      } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
-      }
-    },
-    async flag(){
-      this.flagged = true;
-      const options = {
-        method: 'POST', body: JSON.stringify({entryId: this.entry._id}), headers: {'Content-Type': 'application/json'}
-      };
-      try {
-        const r = await fetch(`/api/flags/`, options);
-        if (!r.ok) {
-          const res = await r.json();
-          throw new Error(res.error);
+      } else {
+        this.flagged = true;
+        const options = {
+          method: 'POST', body: JSON.stringify({entryId: this.entry._id}), headers: {'Content-Type': 'application/json'}
+        };
+        try {
+          const r = await fetch(`/api/flags/`, options);
+          if (!r.ok) {
+            const res = await r.json();
+            throw new Error(res.error);
+          }
+        } catch (e) {
+          this.$set(this.alerts, e, 'error');
+          setTimeout(() => this.$delete(this.alerts, e), 3000);
         }
-      } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
     },
     async findFlagStatus(){
