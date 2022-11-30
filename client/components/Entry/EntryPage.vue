@@ -123,7 +123,7 @@
 <script>
 
 export default {
-  name: 'OneEntryPage',
+  name: 'EntryPage',
   components: {},
   props: {},
   data() {
