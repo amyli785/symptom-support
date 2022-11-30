@@ -112,9 +112,9 @@ router.post(
     async (req:Request, res:Response) => {
         if (req.query.entryId !== undefined) {
             const flag = await FlagCollection.findOneByEntryId(req.query.entryId as string);
-            let response: any = false
+            let response: boolean = false
             if (flag){
-                response = util.constructFlagResponse(flag);
+                response = true;
             }
             res.status(200).json(response);
             return;
