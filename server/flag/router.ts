@@ -105,14 +105,17 @@ router.post(
         flagValidator.isValidQueryProvided,
         flagValidator.isEntryIdInQueryExists,
         flagValidator.isEntryIdQueryViewable,
-        flagValidator.isFlagInQueryExists,
+        // flagValidator.isFlagInQueryExists,
         flagValidator.isUserInQueryExists,
         flagValidator.isUserFlagsViewable,
     ],
     async (req:Request, res:Response) => {
         if (req.query.entryId !== undefined) {
             const flag = await FlagCollection.findOneByEntryId(req.query.entryId as string);
-            const response = util.constructFlagResponse(flag);
+            let response: any = false
+            if (flag){
+                response = util.constructFlagResponse(flag);
+            }
             res.status(200).json(response);
             return;
         }
