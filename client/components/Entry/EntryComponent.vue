@@ -40,16 +40,7 @@
 
     <div class = "right-icons">
       <div class = "top">
-        <div
-            v-if="flagged" 
-            @click="unflag"
-            class = "icon black-flag"
-        ></div>
-        <div
-            v-else 
-            @click="flag"
-            class = "icon white-flag"
-        ></div>
+        <FlagButton :flagged="flagged" @click="toggleFlag" />
       </div>
       
       <div class = "bottom">
@@ -122,6 +113,9 @@ export default {
       this.$router.push({name: 'View Entry'}); // params: {entry: this.entry}});
       this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: false});
     },
+    toggleFlag() {
+      this.flagged = !this.flagged;
+    },
     async unflag(){
       this.flagged = false;
       const options = {
@@ -186,28 +180,22 @@ p {
   color: black;
   border-radius: 20px;
   padding: 20px;
-
   flex-basis: calc(50% - 40px);
-
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
   gap: 6px;
 }
 .left-content {
   flex: 0 1 100%;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
-
   gap: 6px;
 }
 .right-icons {
   flex: 0 0 10%;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -227,18 +215,15 @@ p {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-
   font-weight: bold;
   font-size: medium;
 }
-
 .sym{
   background-color: var(--salmon);
 }
 .med {
   background-color: var(--dark-blue);
 }
-
 .icon{
   height:30px;
   width:30px;
