@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'MedicationComponent',
+  name: 'MedicationSingleLine',
   props: {
     name: {
       Type: String,
@@ -49,7 +49,7 @@ export default {
   flex: 1 0 100%;
 
   background-color: var(--dark-blue);
-  opacity: 0.4;
+  opacity: 0.6;
 
   border-radius: 8px;
   padding: 8px;

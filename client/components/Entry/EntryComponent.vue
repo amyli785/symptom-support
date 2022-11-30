@@ -9,14 +9,14 @@
           &nbsp;-&nbsp;{{ displayDate(entry.dateEnded) }}
         </div>
       </div>
-      <SymptomComponent
+      <SymptomSingleLine
         v-for="symptom in entry.symptoms.slice(0,3)"
         :key="(entry.dateStarted.toString()+' '+symptom.name+symptom.intensity)"
         :name="symptom.name"
         :intensity="symptom.intensity"
         :location="symptom.location"
       />
-      <SymptomComponent
+      <SymptomSingleLine
         v-for="i in Math.max(0, 3 - entry.symptoms.length)"
         :key="(entry.dateStarted.toString()+' symptom '+i)"
         :name="''"
@@ -24,13 +24,13 @@
         :location="''"
       />
       
-      <MedicationComponent
+      <MedicationSingleLine
         v-for="medication in entry.medications.slice(0,3)"
         :key="(entry.dateStarted.toString()+' '+medication.name+medication.dosage)"
         :name="medication.name"
         :dosage="medication.dosage"
       />
-      <MedicationComponent
+      <MedicationSingleLine
         v-for="i in Math.max(0, 3 - entry.medications.length)"
         :key="(entry.dateStarted.toString()+' medication '+i)"
         :name="''"
@@ -53,8 +53,8 @@
 
 <script>
 import moment from 'moment';
-import SymptomComponent from './SymptomComponent';
-import MedicationComponent from './MedicationComponent';
+import SymptomSingleLine from './SymptomSingleLine';
+import MedicationSingleLine from './MedicationSingleLine';
 import FlagButton from '../common/FlagButton';
 import EditButton from '../common/EditButton';
 import DeleteButton from '../common/DeleteButton';
@@ -65,8 +65,8 @@ export default {
     FlagButton,
     EditButton,
     DeleteButton,
-    SymptomComponent,
-    MedicationComponent,
+    SymptomSingleLine,
+    MedicationSingleLine,
   },
   props: {
     // Data from the stored entry
@@ -134,7 +134,7 @@ p {
   border-radius: 20px;
   padding: 20px;
 
-  flex-basis: calc(50% - 40px);
+  flex-basis: calc(50% - 20px);
 
   display: flex;
   flex-direction: row;

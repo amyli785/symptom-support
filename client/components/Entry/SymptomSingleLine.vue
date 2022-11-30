@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'SymptomComponent',
+  name: 'SymptomSingleLine',
   props: {
     name: {
       Type: String,
@@ -57,8 +57,8 @@ export default {
 .symptom-background {
   flex: 1 0 100%;
 
-  background-color: var(--salmon);
-  opacity: 0.4;
+  background-color: var(--light-blue);
+  opacity: 0.6;
 
   border-radius: 8px;
   padding: 8px;
