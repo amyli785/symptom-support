@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     createEntry(){
-      this.$router.push({name: 'View Entry'});//, params: {entry: this.entry}});
+      this.$router.push({name: 'Entry'});//, params: {entry: this.entry}});
       this.$store.commit('goToEntry', {entry: null, owner: this.$store.state.username, status: 'creating', viewOnly: false});
     },
   },

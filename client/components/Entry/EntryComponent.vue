@@ -108,11 +108,11 @@ export default {
       }
     },
     editEntry() {
-      this.$router.push({name: 'View Entry'});
+      this.$router.push({name: 'Entry'});
       this.$store.commit('goToEntry', {entry: this.entry, owner: this.$store.state.username, status: 'editing', viewOnly: false});
     },
     viewEntry() {
-      this.$router.push({name: 'View Entry'}); // params: {entry: this.entry}});
+      this.$router.push({name: 'Entry'}); // params: {entry: this.entry}});
       this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: false});
     },
     async toggleFlag() {
