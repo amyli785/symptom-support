@@ -73,18 +73,13 @@
             />
             <font-awesome-icon
               class = 'i'
-              v-else-if = "mood == 6"
+              v-else-if = "mood == 6 || mood == 5"
               icon = "fa-solid fa-face-meh"
-            />
-            <font-awesome-icon 
-              class = 'i'
-              v-else-if = "mood == 5"
-              icon = "fa-solid fa-flag fa-10x" 
             />
             <font-awesome-icon
               class = 'i'
               v-else-if = "mood == 4 || mood == 3"
-              icon = "fa-solid fa-face-frown-slight" 
+              icon = "fa-solid fa-face-frown" 
             />
             <font-awesome-icon
               class = 'i' 
