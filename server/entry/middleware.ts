@@ -209,12 +209,9 @@ const isSymptomsValid = async (req: Request, res: Response, next: NextFunction) 
       return false;
     }
 
-    const intensity = Number(symptom.intensity);
-    if (intensity === NaN) {
-      return false;
-    }
+    
 
-    if (!symptomUtil.isValidIntensity(intensity)) {
+    if (!symptomUtil.isValidSymptomUnitMeasurementCombo(symptom.measurement, symptom.unit)) {
       return false;
     }
 
@@ -223,7 +220,7 @@ const isSymptomsValid = async (req: Request, res: Response, next: NextFunction) 
 
   if (!symptomsValid) {
     res.status(400).json({
-      error: 'Provided symptoms must each include a name and integer intensity between 1 and 10, inclusive.'
+      error: 'Provided symptoms must each include a name. Unit and measurement, if any, must be a valid pair.'
     });
     return;
   }

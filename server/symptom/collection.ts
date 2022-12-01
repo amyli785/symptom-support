@@ -11,8 +11,8 @@ class SymptomCollection {
      * @param {string} location - The location of the symptom
      * @return {Promise<HydratedDocument<Symptom>>} - The newly created symptom
      */
-    static async addOne(name: string, intensity: number, location?: string): Promise<HydratedDocument<Symptom>> {
-        const symptom = new SymptomModel({name, intensity, location});
+    static async addOne(name: string, measurement?: number, unit?: string, location?: string): Promise<HydratedDocument<Symptom>> {
+        const symptom = new SymptomModel({name, measurement, unit, location});
         await symptom.save();
         return symptom;
     }
@@ -46,14 +46,18 @@ class SymptomCollection {
      * @param {Object} symptomDetails - An object with the symptoms's updated information
      * @return {Promise<HydratedDocument<Symptom>>} - The updated symptom
      */
-     static async updateOne(symptomId: Types.ObjectId | string, symptomDetails: {name?: string, intensity?: number, location?: string}): Promise<HydratedDocument<Symptom>>{
+     static async updateOne(symptomId: Types.ObjectId | string, symptomDetails: {name?: string, measurement?: number, unit?: string, location?: string}): Promise<HydratedDocument<Symptom>>{
         const symptom = await SymptomModel.findOne({_id: symptomId});
         if (symptomDetails.name){
             symptom.name = symptomDetails.name;
         }
 
-        if (symptomDetails.intensity){
-            symptom.intensity = symptomDetails.intensity;
+        if (symptomDetails.measurement){
+            symptom.measurement = symptomDetails.measurement;
+        }
+
+        if (symptomDetails.unit){
+            symptom.unit = symptomDetails.unit;
         }
 
         if (symptomDetails.location) {

@@ -12,7 +12,8 @@ const router = express.Router();
 
 export type SymptomDetails = {
   name: string,
-  intensity: number,
+  measurement: number,
+  unit: string,
   location: string,
 };
 
@@ -116,7 +117,8 @@ router.post(
     const dateEnded = req.body.dateEnded ? new Date(req.body.dateEnded as string) : undefined;
 
     const symptoms = await Promise.all(req.body.symptoms.map((symptomDetails: SymptomDetails) => 
-      SymptomCollection.addOne(symptomDetails.name as string, Number(symptomDetails.intensity), symptomDetails.location as string)
+      SymptomCollection.addOne(symptomDetails.name as string, symptomDetails.measurement, 
+      symptomDetails.unit as string, symptomDetails.location as string)
     ));
     const medications = await Promise.all(req.body.medications.map((medicationDetails: MedicationDetails) => 
       MedicationCollection.addOne(medicationDetails.name as string, Number(medicationDetails.dosage))
@@ -186,7 +188,8 @@ router.patch(
       Promise.all(entry.medications.map(medication => MedicationCollection.deleteOne(medication))),
     ]);
     const symptoms = await Promise.all(req.body.symptoms.map((symptomDetails: SymptomDetails) => 
-      SymptomCollection.addOne(symptomDetails.name as string, Number(symptomDetails.intensity), symptomDetails.location as string)
+      SymptomCollection.addOne(symptomDetails.name as string, symptomDetails.measurement, 
+      symptomDetails.unit, symptomDetails.location as string)
     ));
     const medications = await Promise.all(req.body.medications.map((medicationDetails: MedicationDetails) => 
       MedicationCollection.addOne(medicationDetails.name as string, Number(medicationDetails.dosage))

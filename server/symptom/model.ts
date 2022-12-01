@@ -9,13 +9,15 @@ import { Schema, model } from 'mongoose';
 export type Symptom = {
     _id: Types.ObjectId,
     name: String,
-    intensity: Number,
+    measurement: Number,
+    unit: String,
     location: String
 }
 
 export type PopulatedSymptom = {
     name: String,
-    intensity: Number,
+    measurement: Number,
+    unit: String,
     location: String
 }
 
@@ -26,12 +28,18 @@ const SymptomSchema = new Schema ({
         required: true
     },
 
-    // The intensity of the symptom (out of 10)
-    intensity: {
+    // The value of the measurement
+    measurement: {
         type: Number,
-        required: true
+        required: false
     },
 
+    // The unit of the measurement
+    unit: {
+        type: String,
+        required: false
+    },
+    
     // The location of the symptom
     location: {
         type: String,
