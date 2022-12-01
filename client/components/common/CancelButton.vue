@@ -1,20 +1,20 @@
 <template>
-	<div class="accept-button-container icon-button" @click="$emit('click')">
+	<div class="cancel-button-container icon-button" @click="$emit('click')">
     <font-awesome-icon
-      icon="fa-solid fa-check"
+      icon="fa-solid fa-ban"
     />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'AcceptButton',
+  name: 'CancelButton',
 }
 </script>
 
 <style scoped>
 
-.accept-button-container {
+.cancel-button-container {
   display: flex;
 
   flex-direction: column;
