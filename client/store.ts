@@ -55,6 +55,9 @@ const store = new Vuex.Store({
     goToEntry(state, entryStatus){
       state.entryStatus = entryStatus;
     },
+    cleanEntry(state){
+      state.entryStatus = null;
+    },
     async refreshFlagged(state){
       /**
        * Request the server for the logged in user's entries

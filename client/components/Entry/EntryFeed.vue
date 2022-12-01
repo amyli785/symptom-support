@@ -52,8 +52,8 @@ export default {
       alerts: {},
     };
   },
-  mounted() {
-    this.$store.commit('refreshEntries');
+  async mounted() {
+    await this.$store.commit('refreshEntries');
   },
   methods: {
     createEntry(){

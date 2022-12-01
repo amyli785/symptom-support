@@ -42,6 +42,14 @@ router.beforeEach((to, from, next) => {
       next({name: 'Login'});
       return;
     }
+    /*
+    if(to.name == 'Entry' && !router.app.$store.state.entryStatus){
+      next({name: 'Home'});
+      return;
+    }
+    We can add this when we make it so router push happens after setting entryStatus,
+    I just didn't want to touch Entry Component
+    **/ 
   }
 
   next();

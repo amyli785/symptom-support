@@ -7,23 +7,17 @@
       <h2 v-else-if = "this.status == 'editing'"> Editing Entry </h2>
       <h2 v-else-if = "this.status == 'creating'"> New Entry </h2>
       <div v-if = "!this.viewOnly" class = "icons">
-        <div 
+        <FlagButton 
+          :flagged="flagged" 
+          @click="toggleFlag"
+        />
+        <EditButton 
           v-if = "this.status == 'viewing'"
-          class = "icon edit"
-          @click = "editEntry"
-        ></div>
-        <div 
-          class = "icon delete"
-          @click = "deleteEntry"
-        ></div>
-        <div
-            v-if = "flagged" 
-            class = "icon black-flag"
-        ></div>
-        <div
-            v-else 
-            class = "icon white-flag"
-        ></div>
+          @click="editEntry"
+        />
+        <DeleteButton 
+          @click="deleteEntry"
+        />
       </div>
     </header>
     <article class = "form">
@@ -52,24 +46,14 @@
       <div class = "syms">
         <div class = "full box">
           <p>Symptoms:</p>
-          <div class = "all"> 
-            <div v-for="sym in this.symptoms">
-              <p class = "sym strip">
-                {{sym.name}} ({{sym.intensity}}) - {{sym.location}}
-              </p>
-            </div>
+          <div class = "all">
           </div>
         </div>
       </div>
       <div class = "meds">
         <div class = "full box">
           <p>Medications:</p>
-          <div class = "all"> 
-            <div v-for="med in this.medications">
-              <p class = "med strip">
-                {{med.name}} ({{med.dosage}})
-              </p>
-            </div>
+          <div class = "all">
           </div>
         </div>
       </div>
@@ -79,7 +63,7 @@
           <div class = "all">
             <input 
               type = "range" 
-              min = "0" 
+              min = "1" 
               max = "10" 
               :value = "mood"
               @input="mood = $event.target.value"
@@ -100,30 +84,38 @@
           />
         </div>
       </div>
-      <button
-        class = "submit"
-        v-if = "this.status == 'creating'"
-        @click = "submit"
-      >
-        Create Entry
-      </button>
-      <button
-        class = "submit"
-        v-else-if = "this.status == 'editing'"
-        @click = "save"
-      >
-        Save Changes
-      </button>
+      <div class = "end">
+        <div v-if = "this.status == 'creating'">
+          <button @click = "submit" class ="b creating">
+            Create Entry
+          </button>
+        </div>
+        <div v-else-if = "this.status == 'editing'" class = "both">
+          <button @click = "save" class = "b editing">
+            Save Changes
+          </button>
+          <button @click = "discard" class = "b editing">
+            Discard Changes
+          </button>
+        </div>
+      </div>
     </article>
   </main>
 </template>
 
 <script>
 import moment from 'moment';
+import FlagButton from '../common/FlagButton';
+import EditButton from '../common/EditButton';
+import DeleteButton from '../common/DeleteButton';
 
 export default {
   name: 'OneEntryPage',
-  components: {},
+  components: {
+    FlagButton,
+    EditButton,
+    DeleteButton,
+  },
   props: {},
   data() {
     return {
@@ -136,7 +128,7 @@ export default {
       dateEnded: "",
       symptoms: [],
       medications: [],
-      mood: 0,
+      mood: 5,
       notes: "",
       alerts: {},
     };
@@ -147,6 +139,7 @@ export default {
     this.owner = entryStatus.owner;
     this.status = entryStatus.status;
     this.viewOnly = entryStatus.viewOnly;
+    await this.findFlagStatus();
 
     if (this.status !== 'creating'){//prepopulate
       this.dateStarted = this.entry.dateStarted;
@@ -167,26 +160,33 @@ export default {
   },
   methods: {
     displayDate(date) {
-      return moment(new Date(date)).format('yyyy-MM-DDThh:mm');
+      let formattedDate = moment(new Date(date)).format('yyyy-MM-DDThh:mm');
+      return formattedDate == "Invalid date"? "" : formattedDate;
     },
     async deleteEntry() {
-      const options = {
-        method: 'DELETE', headers: {'Content-Type': 'application/json'}
-      };
-
-      try {
-        const r = await fetch(`/api/entries/${this.entry._id}`, options);
-        if (!r.ok) {
-          const res = await r.json();
-          throw new Error(res.error);
-        }
-
-        await this.$store.commit('refreshEntries');
+      if (this.status == 'creating'){
         this.$router.push({name: 'Home'});
+        this.$store.commit('cleanEntry');
+      } else {
+        const options = {
+          method: 'DELETE', headers: {'Content-Type': 'application/json'}
+        };
 
-      } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        try {
+          const r = await fetch(`/api/entries/${this.entry._id}`, options);
+          if (!r.ok) {
+            const res = await r.json();
+            throw new Error(res.error);
+          }
+
+          await this.$store.commit('refreshEntries');
+          this.$router.push({name: 'Home'});
+          this.$store.commit('cleanEntry');
+
+        } catch (e) {
+          this.$set(this.alerts, e, 'error');
+          setTimeout(() => this.$delete(this.alerts, e), 3000);
+        }
       }
     },
     editEntry() {
@@ -235,6 +235,19 @@ export default {
       };
       this.request2(params);
     },
+    discard(){
+      this.status = 'viewing';
+      this.dateStarted = this.entry.dateStarted;
+      this.dateEnded = this.entry.dateEnded;
+      this.mood = this.entry.mood;
+      this.notes = this.entry.notes;
+      this.symptoms = this.entry.symptoms;
+      this.medications = this.entry.medications;
+      document.getElementById("moodRange").disabled = true;
+      document.getElementById("dateStarted").disabled = true;
+      document.getElementById("dateEnded").disabled = true;
+      document.getElementById("notes").disabled = true;
+    },
     async request(params){
       const options = {
         method: params.method,
@@ -250,6 +263,7 @@ export default {
 
         await this.$store.commit('refreshEntries');
         this.$router.push({name: 'Home'});
+        this.$store.commit('cleanEntry');
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
@@ -269,6 +283,61 @@ export default {
         }
         await this.$store.commit('refreshEntries');
         this.$router.push({name: 'Home'});
+        this.$store.commit('cleanEntry');
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+    },
+    async toggleFlag() {
+      if (this.flagged){
+        this.flagged = false;
+        const options = {
+          method: 'DELETE', headers: {'Content-Type': 'application/json'}
+        };
+        try {
+          const r = await fetch(`/api/flags/${this.entry._id}`, options);
+          if (!r.ok) {
+            const res = await r.json();
+            throw new Error(res.error);
+          }
+        } catch (e) {
+          this.$set(this.alerts, e, 'error');
+          setTimeout(() => this.$delete(this.alerts, e), 3000);
+        }
+      } else {
+        this.flagged = true;
+        const options = {
+          method: 'POST', body: JSON.stringify({entryId: this.entry._id}), headers: {'Content-Type': 'application/json'}
+        };
+        try {
+          const r = await fetch(`/api/flags/`, options);
+          if (!r.ok) {
+            const res = await r.json();
+            throw new Error(res.error);
+          }
+        } catch (e) {
+          this.$set(this.alerts, e, 'error');
+          setTimeout(() => this.$delete(this.alerts, e), 3000);
+        }
+      }
+    },
+    async findFlagStatus(){
+      console.log('hi');
+      const options = {
+        method: 'GET', headers: {'Content-Type': 'application/json'}
+      };
+      try {
+        console.log('--');
+        const r = await fetch(`/api/flags?entryId=${this.entry._id}`, options);
+        console.log('++');
+        const res = await r.json();
+        console.log('hello');
+        if (!r.ok) {
+          throw new Error(res.error);
+        }
+        this.flagged = res;
+
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
@@ -343,6 +412,8 @@ p {
 }
 #notes {
   width: 85%;
+  border: 0;
+  border-radius: 5px;;
 }
 header {
   display: flex;
@@ -382,8 +453,21 @@ header {
 .icon:hover {
   transform: scale(1.1, 1.1);
 }
-.submit {
+.end {
   width: 100%;
+}
+.editing{
+  width: 49%;
+}
+.creating{
+  width: 100%;
+}
+.b{
   padding: 10px;
+}
+.both{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 </style>
