@@ -1,6 +1,6 @@
 <template>
-  <article class = "entry-container">
-    <div class = "left-content" @click = "viewEntry">
+  <article class = "entry-container" @click = "viewEntry">
+    <div class = "left-content">
       <div class="entry-dates-container">
         <div>
           {{ displayDate(entry.dateStarted) }}
@@ -89,6 +89,7 @@ export default {
       return moment(new Date(date)).format('MMM D, YYYY, h:mm a');
     },
     async deleteEntry() {
+      event.stopPropagation();
       const options = {
         method: 'DELETE', headers: {'Content-Type': 'application/json'}
       };
@@ -108,6 +109,7 @@ export default {
       }
     },
     editEntry() {
+      event.stopPropagation();
       this.$router.push({name: 'Entry'});
       this.$store.commit('goToEntry', {entry: this.entry, owner: this.$store.state.username, status: 'editing', viewOnly: false});
     },
@@ -116,6 +118,7 @@ export default {
       this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: false});
     },
     async toggleFlag() {
+      event.stopPropagation();
       if (this.flagged){
         this.flagged = false;
         const options = {
@@ -170,13 +173,10 @@ export default {
 </script>
 
 <style scoped>
-p {
-  margin: 0;
-  padding: 0.25em;
-}
+
 .entry-container {
-  border: 2px solid var(--light-blue);
-  /* border: 0 none; */
+  background-color: #ffffff;
+  filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
   color: black;
   border-radius: 20px;
   padding: 20px;
@@ -189,6 +189,12 @@ p {
 
   gap: 12px;
 }
+
+.entry-container:hover {
+  cursor: pointer;
+  filter: drop-shadow(0 0 4px var(--dark-blue-drop-shadow));
+}
+
 .left-content {
   flex: 0 1 100%;
   display: flex;
@@ -198,6 +204,7 @@ p {
 
   gap: 4px;
 }
+
 .right-icons {
   flex: 1 0 0%;
 
@@ -206,6 +213,7 @@ p {
   justify-content: space-between;
   align-items: center;
 }
+
 .icons-top {
   display: flex;
   flex-direction: column;
