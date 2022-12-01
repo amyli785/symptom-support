@@ -1,6 +1,7 @@
 <template>
 	<div class="edit-button-container icon-button" @click="$emit('click')">
     <font-awesome-icon
+      class = "i" 
       icon="fa-solid fa-pen"
     />
   </div>
@@ -21,5 +22,7 @@ export default {
   justify-self: center;
   align-items: center;
 }
-
+.i{
+  font-size: 25px;
+}
 </style>

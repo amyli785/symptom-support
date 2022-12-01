@@ -2,12 +2,16 @@ import type {NextFunction, Request, Response} from 'express';
 import express from 'express';
 import UserCollection from '../user/collection';
 import SupportCollection from '../support/collection';
+import EntryCollection from '../entry/collection';
 import FlagCollection from '../flag/collection';
+import type { Entry } from '../entry/model';
 import * as userValidator from '../user/middleware';
 import * as supportValidator from '../support/middleware'
 import * as entryValidator from '../entry/middleware'
 import * as flagValidator from '../flag/middleware'
 import * as util from './util';
+import * as util2 from '../entry/util';
+import { HydratedDocument } from 'mongoose';
 
 const router = express.Router();
 
@@ -123,7 +127,9 @@ router.post(
             const username = req.query.username as string;
             const owner = await UserCollection.findOneByUsername(username);
             const allFlags = await FlagCollection.findAllFlagByUserId(owner._id);
-            const response = allFlags.map(util.constructFlagResponse);
+            const allIds = allFlags.map(v => v.entry._id);
+            const allEntries = await EntryCollection.findAllByEntryIds(allIds);
+            const response = allEntries.map(util2.constructEntryResponse);
             res.status(200).json(response);
             return;
         }

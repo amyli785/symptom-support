@@ -59,7 +59,39 @@
       </div>
       <div class = "mood">
         <div class = "full box">
-          <p>Mood:</p>
+          <div>
+            <p>Mood:</p> 
+            <font-awesome-icon
+              class = 'i'
+              v-if = "mood == 10 || mood == 9"
+              icon = "fa-solid fa-face-laugh-beam"
+            />
+            <font-awesome-icon
+              class = 'i'
+              v-else-if = "mood == 8 || mood == 7"
+              icon = "fa-solid fa-face-smile"
+            />
+            <font-awesome-icon
+              class = 'i'
+              v-else-if = "mood == 6"
+              icon = "fa-solid fa-face-meh"
+            />
+            <font-awesome-icon 
+              class = 'i'
+              v-else-if = "mood == 5"
+              icon = "fa-solid fa-flag fa-10x" 
+            />
+            <font-awesome-icon
+              class = 'i'
+              v-else-if = "mood == 4 || mood == 3"
+              icon = "fa-solid fa-face-frown-slight" 
+            />
+            <font-awesome-icon
+              class = 'i' 
+              v-else-if = "mood == 2 || mood == 1"
+              icon = "fa-solid fa-face-sad-tear" 
+            />
+          </div>
           <div class = "all">
             <input 
               type = "range" 
@@ -157,6 +189,10 @@ export default {
       document.getElementById("notes").disabled = true;
     }
 
+    if (this.dateStarted == ""){
+      this.dateStarted = new Date();
+    }
+
   },
   methods: {
     displayDate(date) {
@@ -200,7 +236,7 @@ export default {
       const params = {
         body: JSON.stringify({
             owner: this.owner,
-            dateStarted: this.dateStarted,
+            dateStarted: this.dateStarted == ""? new Date() : this.dateStarted,
             dateEnded: this.dateEnded,
             symptoms: this.symptoms,
             medications: this.medications,
@@ -321,6 +357,7 @@ export default {
           setTimeout(() => this.$delete(this.alerts, e), 3000);
         }
       }
+      this.$store.commit('refreshFlagged');
     },
     async findFlagStatus(){
       const options = {
@@ -465,5 +502,8 @@ header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+.i{
+  font-size: 40px;
 }
 </style>

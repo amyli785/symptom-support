@@ -15,6 +15,12 @@
       </router-link>
       <router-link 
         v-if="$store.state.username"
+        to="/flagged"
+      >
+        Flagged
+      </router-link>
+      <router-link 
+        v-if="$store.state.username"
         to="/supporter"
       >
         Supporters

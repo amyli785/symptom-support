@@ -110,12 +110,12 @@ export default {
     },
     editEntry() {
       event.stopPropagation();
-      this.$router.push({name: 'Entry'});
       this.$store.commit('goToEntry', {entry: this.entry, owner: this.$store.state.username, status: 'editing', viewOnly: false});
+      this.$router.push({name: 'Entry'});
     },
     viewEntry() {
-      this.$router.push({name: 'Entry'}); // params: {entry: this.entry}});
       this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: false});
+      this.$router.push({name: 'Entry'});
     },
     async toggleFlag() {
       event.stopPropagation();
@@ -150,6 +150,7 @@ export default {
           setTimeout(() => this.$delete(this.alerts, e), 3000);
         }
       }
+      this.$store.commit('refreshFlagged');
     },
     async findFlagStatus(){
       const options = {

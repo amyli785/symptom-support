@@ -3,7 +3,7 @@
 <template>
     <main>
         <header>
-            <h2>Welcome {{ $store.state.displayName }}</h2>
+            <h2>Flagged Entries</h2>
         </header>
         <section
           v-if="$store.state.flagged.length"
@@ -19,59 +19,51 @@
           <h3>No flagged entries</h3>
         </section>
     </main>
-  </template>
-  
-  <script>
-  import EntryComponent from '@/components/Entry/EntryComponent.vue'
-  
-  export default {
+</template>
+
+<script>
+import EntryComponent from '@/components/Entry/EntryComponent.vue'
+
+export default {
     name: 'EntryPage',
     components: {
-      EntryComponent,
+        EntryComponent,
     },
     data() {
-      return {
+        return {
         alerts: {},
-      };
+        };
     },
     mounted() {
-      this.$store.commit('refreshFlagged');
+        this.$store.commit('refreshFlagged');
     },
     methods: {
     },
-  };
-  </script>
-  
-  <style scoped>
-  section {
+};
+</script>
+
+<style scoped>
+section {
     display: flex;
     flex-direction: column;
-  }
-  
-  header, header > * {
+}
+header, header > * {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  button {
-    margin-right: 10px;
-  }
-  section .scrollbox {
+}
+section .scrollbox {
     flex: 1 0 50vh;
     padding: 3%;
     overflow-y: scroll;
-  }
-  
-  .entries {
-    display:flex;
+}
+.entries {
+    display: flex;
+
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
-  }
-  .createEntry{
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 25px;
-  }
-  </style>
+
+    gap: 40px;
+}
+</style>
