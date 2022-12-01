@@ -323,16 +323,12 @@ export default {
       }
     },
     async findFlagStatus(){
-      console.log('hi');
       const options = {
         method: 'GET', headers: {'Content-Type': 'application/json'}
       };
       try {
-        console.log('--');
         const r = await fetch(`/api/flags?entryId=${this.entry._id}`, options);
-        console.log('++');
         const res = await r.json();
-        console.log('hello');
         if (!r.ok) {
           throw new Error(res.error);
         }
