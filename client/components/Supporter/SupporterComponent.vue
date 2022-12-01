@@ -51,7 +51,6 @@
                 v-if="!editing"
                 @click="startEditing"
             />
-            </button>
             <DeleteButton @click="removeSupporter" />
         </div>
 
