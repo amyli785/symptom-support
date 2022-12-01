@@ -47,15 +47,11 @@
             >
                 🚫 Discard changes
             </button>
-            <button
+            <EditButton
                 v-if="!editing"
                 @click="startEditing"
-            >
-                ✏️ Edit
-            </button>
-            <button @click="removeSupporter">
-                ❌ Remove supporter
-            </button>
+            />
+            <DeleteButton @click="removeSupporter" />
         </div>
 
       </header>
@@ -72,9 +68,17 @@
   </template>
   
   <script>
+
+import FlagButton from '../common/FlagButton';
+import EditButton from '../common/EditButton';
+import DeleteButton from '../common/DeleteButton';
   
-  export default {
+export default {
     name: 'SupporterComponent',
+    components: {
+        EditButton,
+        DeleteButton,
+    },
     props: {
       // Data from the stored supporter
       supporter: {
@@ -171,8 +175,8 @@
             }
         }
     }
-  };
-  </script>
+};
+</script>
 
 <style scoped>
 .supporter {

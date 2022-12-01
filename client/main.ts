@@ -13,6 +13,7 @@ library.add(iconRegular.faFlag, iconSolid.faFlag);
 library.add(iconSolid.faPen);
 library.add(iconSolid.faTrash);
 library.add(iconSolid.faCheck);
+library.add(iconSolid.faBan);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

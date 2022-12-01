@@ -110,7 +110,7 @@ import EditButton from '../common/EditButton';
 import DeleteButton from '../common/DeleteButton';
 
 export default {
-  name: 'OneEntryPage',
+  name: 'EntryPage',
   components: {
     FlagButton,
     EditButton,

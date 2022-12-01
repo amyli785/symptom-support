@@ -37,6 +37,7 @@ export default {
 :root {
   --light-blue: #75cae6;
   --dark-blue: #2c5784;
+  --dark-blue-drop-shadow: rgba(44, 87, 132, 0.4);
   --salmon: #ef798a;
 }
 
