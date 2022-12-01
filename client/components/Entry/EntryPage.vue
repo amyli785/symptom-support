@@ -122,7 +122,7 @@
 import moment from 'moment';
 
 export default {
-  name: 'OneEntryPage',
+  name: 'EntryPage',
   components: {},
   props: {},
   data() {
