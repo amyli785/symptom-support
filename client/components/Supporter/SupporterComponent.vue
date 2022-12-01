@@ -35,18 +35,14 @@
         <div
             class="actions"
         >
-            <button
+            <AcceptButton
                 v-if="editing"
                 @click="submitEdit"
-            >
-                ✅ Save changes
-            </button>
-            <button
+            />
+            <CancelButton
                 v-if="editing"
                 @click="stopEditing"
-            >
-                🚫 Discard changes
-            </button>
+            />
             <EditButton
                 v-if="!editing"
                 @click="startEditing"
@@ -69,13 +65,16 @@
   
   <script>
 
-import FlagButton from '../common/FlagButton';
+import AcceptButton from '../common/AcceptButton';
+import CancelButton from '../common/CancelButton';
 import EditButton from '../common/EditButton';
 import DeleteButton from '../common/DeleteButton';
   
 export default {
     name: 'SupporterComponent',
     components: {
+        AcceptButton,
+        CancelButton,
         EditButton,
         DeleteButton,
     },

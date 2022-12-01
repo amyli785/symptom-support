@@ -17,21 +17,17 @@
         <p>
             {{supported.inviteStatus}}
         </p>
-        <div
+      </header>
+      <div
           v-if="$store.state.username"
           class="actions"
         >
-          <button @click="removeSupported">
-            ❌ Stop supporting
-          </button>
+          <AcceptButton
+            v-if="supported.inviteStatus === 'invited'"
+            @click="acceptInvite"
+          />
+          <DeleteButton @click="removeSupported"/>
         </div>
-        <button
-          v-if="supported.inviteStatus === 'invited'"
-          @click="acceptInvite"
-        >
-          Accept Invite
-        </button>
-      </header>
       <section class="alerts">
         <article
           v-for="(status, alert, index) in alerts"
@@ -45,9 +41,16 @@
   </template>
   
   <script>
+
+import AcceptButton from '../common/AcceptButton';
+import DeleteButton from '../common/DeleteButton';
   
   export default {
     name: 'SupportedComponent',
+    components: {
+      AcceptButton,
+      DeleteButton
+    },
     props: {
       // Data from the stored supported
       supported: {
