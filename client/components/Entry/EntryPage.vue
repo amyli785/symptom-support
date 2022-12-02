@@ -472,6 +472,7 @@ p {
   border-radius: 25px;
   background-color: var(--light-blue-transparent);
   padding: 25px;
+  cursor:context-menu;
 }
 .dates{
   display: flex;
@@ -575,5 +576,11 @@ header {
 }
 input{
   cursor: pointer;
+}
+input:disabled{
+  cursor:context-menu;
+}
+#notes:disabled{
+  cursor:context-menu;
 }
 </style>
