@@ -23,7 +23,9 @@
     <article class = "form">
       <div class = "dates">
         <div class = "started time box">
-          <p>Started:</p>
+          <div class = "label-time">
+            <p>Started:</p>  
+          </div>
           <input
             type = "datetime-local"
             id = "dateStarted"
@@ -34,7 +36,9 @@
           />
         </div>
         <div class = "ended time box">
-          <p>Ended:</p>
+          <div class = "label-time">
+            <p>Ended:</p>  
+          </div>
           <input
             type="datetime-local"
             id="dateEnded"
@@ -48,7 +52,7 @@
       </div>
       <div class = "syms">
         <div class = "full box">
-          <div>
+          <div class = "label">
             <p>Symptoms:</p>
             <font-awesome-icon 
               class = "icon"
@@ -74,14 +78,14 @@
       </div>
       <div class = "meds">
         <div class = "full box">
-          <div>
+          <div class = "label">
             <p>Medications:</p>
             <font-awesome-icon 
                 class = "icon"
                 v-if="this.status != 'viewing'"
                 @click="addMedication"
                 icon="fa-solid fa-plus" 
-            />
+            />  
           </div>
           <div class = "all">
             <MedicationComponent
@@ -98,8 +102,8 @@
       </div>
       <div class = "mood">
         <div class = "full box">
-          <div>
-            <p>Mood:</p> 
+          <div class = "label">
+            <p>Mood:</p>
             <font-awesome-icon
               class = 'i'
               v-if = "mood == 10 || mood == 9"
@@ -141,7 +145,9 @@
       </div>
       <div class = "notes">
         <div class = "full box">
-          <p>Notes:</p>
+          <div class = "label">
+            <p>Notes:</p>
+          </div>
           <input
             type="text"
             :value="notes"
@@ -458,11 +464,12 @@ export default {
 p {
   padding: 0;
   margin: 0; 
+  cursor: context-menu;
 }
 .form {
   height: 100%;
   border-radius: 25px;
-  background-color: var(--dark-blue);
+  background-color: var(--light-blue-transparent);
   padding: 25px;
 }
 .dates{
@@ -477,7 +484,7 @@ p {
   width: 100%;
 }
 .box {
-  background-color: var(--light-blue);
+  background-color: var(--dark-blue);
   padding: 20px;
   border-radius: 15px;
   display: flex;
@@ -495,17 +502,11 @@ p {
   border-radius: 5px;
   border: 0px;
 }
-.strip{
-  border-radius: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin-bottom: 3px;
-}
-.sym{
-  background-color: var(--salmon);
-}
-.med {
-  background-color: var(--dark-blue);
+.label-time{
+  width:27.5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .all {
   display: flex;
@@ -517,13 +518,20 @@ p {
   border-radius: 5px;
   padding: 10px;
 }
+.label {
+  width: 12.5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 #moodRange {
   width: 100%;
 }
 #notes {
   width: 85%;
   border: 0;
-  border-radius: 5px;;
+  border-radius: 5px;
+  cursor: text;
 }
 header {
   display: flex;
@@ -547,6 +555,7 @@ header {
 }
 .b{
   padding: 10px;
+  border-radius: 15px;
 }
 .both{
   display: flex;
@@ -561,5 +570,9 @@ header {
 }
 .icon:hover {
   transform: scale(1.1, 1.1);
+  cursor: pointer;
+}
+input{
+  cursor: pointer;
 }
 </style>

@@ -96,10 +96,6 @@
                 </select>
             </div>
         </div>
-        <DeleteButton 
-          v-if = "!this.viewing"
-          @click="$emit('click')"
-        />
     </article>
 </form>
 </template>
@@ -137,33 +133,23 @@ export default {
 
 <style scoped>
 form {
-  border: 1px solid #111;
+  border: 0px solid #000;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 14px;
-  position: relative;
+  background-color: var(--salmon);
 }
 input {
-  width:100%;
+  width: 100%;
+  border: 0px;
+  border-radius: 5px;
 }
 select {
   width:100%;
-}
-article > div {
-  display: flex;
-  flex-direction: column;
-}
-form > article p {
-  margin: 0;
-}
-form h5,
-form > * {
-  margin: 0.3em 0;
-}
-form h5 {
-  margin-top: 0;
+  border-radius: 5px;
+  padding-top: 0.125em;
+  padding-bottom: 0.125em;
 }
 header {
   display: flex;
@@ -178,7 +164,6 @@ textarea {
     display: flex;
     flex-direction: column;
     justify-content:flex-start;
-    gap: 12px;
 }
 .symptom-component{
     width:30%;

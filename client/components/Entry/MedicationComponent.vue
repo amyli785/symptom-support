@@ -91,35 +91,17 @@ export default {
 
 <style scoped>
 form {
-  border: 1px solid #111;
+  border: 0px solid #000;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 14px;
-  position: relative;
+  background-color: var(--salmon);
 }
-
-article > div {
-  display: flex;
-  flex-direction: column;
-}
-
-form > article p {
-  margin: 0;
-}
-
-form h5,
-form > * {
-  margin: 0.3em 0;
-}
-
 input {
-  width:100%;
-}
-
-form h5 {
-  margin-top: 0;
+  width: 100%;
+  border: 0px;
+  border-radius: 5px;
 }
 
 header {
@@ -136,5 +118,13 @@ textarea {
 .medication-component{
     width:30%;
     border-radius:15px;
+}
+.add-button{
+  flex: 1 0 0%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
