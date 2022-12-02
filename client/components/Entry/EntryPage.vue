@@ -30,6 +30,7 @@
             class = "date"
             :value="displayDate(dateStarted)" 
             @input="dateStarted = $event.target.value"
+            :max = "displayDate(currentDate)"
           />
         </div>
         <div class = "ended time box">
@@ -40,6 +41,8 @@
             class="date"
             :value="displayDate(dateEnded)" 
             @input="dateEnded = $event.target.value"
+            :min = "displayDate(dateStarted)"
+            :max = "displayDate(currentDate)"
           />
         </div>
       </div>
@@ -158,6 +161,7 @@ export default {
       mood: 5,
       notes: "",
       alerts: {},
+      currentDate: new Date(),
     };
   },
   async mounted(){
