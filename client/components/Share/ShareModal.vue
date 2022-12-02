@@ -14,7 +14,7 @@
                 <a :href="shareLink">{{this.shareLink}}</a>
             </section>
             <section v-if="!shareCreated">
-                <p>Entries Selected: </p>
+                <p>Sharing Entries: </p>
                 <div class="entries">
                     <EntryComponent
                         v-for="entry in entries"
