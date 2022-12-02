@@ -15,15 +15,18 @@ export default {
       fields: [],
       content: 'Taking a break? See you later.',
       callback: () => {
-        this.$router.push({name: 'Home'}); // Goes to Home page after signing out
         this.$store.commit('updateSupported',[]);
         this.$store.commit('updateSupporter',[]);
         this.$store.commit('updateSupportedRequest',[]);
         this.$store.commit('updateSupporterRequest',[]);
         this.$store.commit('setUsername',null);
+        this.$store.commit('cleanEntry');
+        this.$store.commit('cleanEntryStatus');
+        this.$store.commit('cleanFlagged');
         this.$store.commit('alert', {
           message: 'You are now signed out!', status: 'success'
         });
+        this.$router.push({name: 'Login'}); // Goes to Home page after signing out
       }
     };
   }

@@ -49,7 +49,24 @@
       <div class = "syms">
         <div class = "full box">
           <p>Symptoms:</p>
+          <button 
+            v-if="this.status != 'viewing'"
+            @click="addSymptom"
+          >
+            Add
+          </button>
           <div class = "all">
+            <SymptomComponent
+              v-for="j in symptoms.length"
+              :key="j"
+              :viewing="status == 'viewing'"
+              :symptom="symptoms[j-1]"
+              @update-symptom-name="(n) => updateSymptomName(j,n)"
+              @update-symptom-location="(n) => updateSymptomLocation(j,n)"
+              @update-symptom-measurement="(n) => updateSymptomMeasurement(j,n)"
+              @update-symptom-unit="(n) => updateSymptomUnit(j,n)"
+              @click="deleteSymptom(j)"
+            />
           </div>
         </div>
       </div>
@@ -58,17 +75,20 @@
           <p>Medications:</p>
           <button 
             v-if="this.status != 'viewing'"
-            @click="addMedication">Add</button>
+            @click="addMedication"
+          >
+            Add
+          </button>
           <div class = "all">
             <MedicationComponent
-                v-for="i in medications.length"
-                :key="i"
-                :viewing="status == 'viewing'"
-                :medication="medications[i-1]"
-                @update-medication-name="(n) => updateMedicationName(i,n)"
-                @update-medication-dosage="(n) => updateMedicationDosage(i,n)"
-                @click="deleteMedication(i)"
-              />
+              v-for="i in medications.length"
+              :key="i"
+              :viewing="status == 'viewing'"
+              :medication="medications[i-1]"
+              @update-medication-name="(n) => updateMedicationName(i,n)"
+              @update-medication-dosage="(n) => updateMedicationDosage(i,n)"
+              @click="deleteMedication(i)"
+            />
           </div>
         </div>
       </div>
@@ -211,6 +231,13 @@ export default {
 
   },
   methods: {
+    displayDate(date) {
+      let formattedDate = moment(new Date(date)).format('yyyy-MM-DDThh:mm');
+      return formattedDate == "Invalid date"? "" : formattedDate;
+    },
+    addMedication(){
+      this.medications.push({name: '',dosage: ''});
+    },
     deleteMedication(i){
       this.medications.splice(i-1,1);
     },
@@ -220,17 +247,28 @@ export default {
     updateMedicationDosage(i,n){
       this.medications[i-1].dosage = n;
     },
-    addMedication(){
-      this.medications.push({name:'',dosage:''});
+    addSymptom(){
+      this.symptoms.push({name: '', location: '', measurement: '', unit: ''});
     },
-    displayDate(date) {
-      let formattedDate = moment(new Date(date)).format('yyyy-MM-DDThh:mm');
-      return formattedDate == "Invalid date"? "" : formattedDate;
+    deleteSymptom(i){
+      this.symptoms.splice(i-1,1);
+    },
+    updateSymptomName(i,n){
+      this.symptoms[i-1].name = n;
+    },
+    updateSymptomLocation(i,n){
+      this.symptoms[i-1].location = n;
+    },
+    updateSymptomMeasurement(i,n){
+      this.symptoms[i-1].measurement = n;
+    },
+    updateSymptomUnit(i,n){
+      this.symptoms[i-1].unit = n;
     },
     async deleteEntry() {
       if (this.status == 'creating'){
         this.$router.push({name: 'Home'});
-        this.$store.commit('cleanEntry');
+        this.$store.commit('cleanEntryStatus');
       } else {
         const options = {
           method: 'DELETE', headers: {'Content-Type': 'application/json'}
@@ -245,7 +283,7 @@ export default {
 
           await this.$store.commit('refreshEntries');
           this.$router.push({name: 'Home'});
-          this.$store.commit('cleanEntry');
+          this.$store.commit('cleanEntryStatus');
 
         } catch (e) {
           this.$set(this.alerts, e, 'error');
@@ -261,6 +299,7 @@ export default {
       this.status = 'editing';
     },
     submit(){
+      console.log(this.symptoms);
       const params = {
         body: JSON.stringify({
             owner: this.owner,
@@ -327,7 +366,7 @@ export default {
 
         await this.$store.commit('refreshEntries');
         this.$router.push({name: 'Home'});
-        this.$store.commit('cleanEntry');
+        this.$store.commit('cleanEntryStatus');
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
@@ -347,7 +386,7 @@ export default {
         }
         await this.$store.commit('refreshEntries');
         this.$router.push({name: 'Home'});
-        this.$store.commit('cleanEntry');
+        this.$store.commit('cleanEntryStatus');
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);

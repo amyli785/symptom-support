@@ -52,10 +52,13 @@ const store = new Vuex.Store({
       const res = await fetch(url).then(async r => r.json());
       state.entries = res;
     },
+    cleanEntry(state){
+      state.entries = [];
+    },
     goToEntry(state, entryStatus){
       state.entryStatus = entryStatus;
     },
-    cleanEntry(state){
+    cleanEntryStatus(state){
       state.entryStatus = null;
     },
     async refreshFlagged(state){
@@ -65,6 +68,9 @@ const store = new Vuex.Store({
       const url = `/api/flags?username=${state.username}`;
       const res = await fetch(url).then(async r => r.json());
       state.flagged = res;
+    },
+    cleanFlagged(state){
+      state.flagged = [];
     },
     updateSupported(state, supported) {
       /**
