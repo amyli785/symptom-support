@@ -67,6 +67,7 @@
                 :medication="medications[i-1]"
                 @update-medication-name="(n) => updateMedicationName(i,n)"
                 @update-medication-dosage="(n) => updateMedicationDosage(i,n)"
+                @click="deleteMedication(i)"
               />
           </div>
         </div>
@@ -210,8 +211,8 @@ export default {
 
   },
   methods: {
-    showList(){
-      console.log(this.medications);
+    deleteMedication(i){
+      this.medications.splice(i-1,1);
     },
     updateMedicationName(i,n){
       this.medications[i-1].name = n;

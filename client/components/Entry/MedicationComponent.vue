@@ -48,14 +48,27 @@
                 >
             </div>
         </div>
+        <DeleteButton 
+          v-if="this.viewing"
+          disabled
+        />
+        <DeleteButton 
+          v-else
+          @click="$emit('click')"
+        />
       </article>
     </form>
   </template>
   
   <script>
+
+  import DeleteButton from '../common/DeleteButton'
   
   export default {
     name: 'MedicationComponent',
+    components: {
+      DeleteButton,
+    },
     props:{
         medication: {
             type: Object,
