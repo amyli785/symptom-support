@@ -1,6 +1,6 @@
 <template>
     <main>
-        <b-modal hide-footer="true" size="xl" id="share-modal" title="Share Entries" @shown="handleShown" @hide="handleHidden">
+        <b-modal :hide-footer=true size="xl" id="share-modal" title="Share Entries" @shown="handleShown" @hide="handleHidden">
             <section v-if="!shareCreated" class="nameInput">
                 <p>Enter a name for this share: </p>
                 <input 

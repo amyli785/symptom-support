@@ -49,7 +49,6 @@ class EntryCollection {
    */
   static async findOneByEntryId(entryId: Types.ObjectId | string): Promise<HydratedDocument<Entry>> {
     const entry = await EntryModel.findOne({_id: entryId});
-    console.log(entry);
     return entry.populate(['owner', 'author', 'symptoms', 'medications']);
   }
 

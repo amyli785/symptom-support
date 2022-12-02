@@ -92,7 +92,7 @@ export default {
       this.shareSize = Object.keys(this.shareEntries).length;
     },
     unselectEntry(entry){
-      this.shareEntries.delete(entry._id);
+      delete this.shareEntries[entry._id]
       this.shareSize = Object.keys(this.shareEntries).length;
     },
     startShare(){
