@@ -148,6 +148,7 @@ input {
 select {
   width:100%;
   border-radius: 5px;
+  border: 0px;
   padding-top: 0.125em;
   padding-bottom: 0.125em;
 }
