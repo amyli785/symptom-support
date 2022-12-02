@@ -171,7 +171,9 @@ export default {
     this.owner = entryStatus.owner;
     this.status = entryStatus.status;
     this.viewOnly = entryStatus.viewOnly;
-    await this.findFlagStatus();
+    if (this.$store.username){
+      await this.findFlagStatus();
+    }
 
     if (this.status !== 'creating'){//prepopulate
       this.dateStarted = this.entry.dateStarted;

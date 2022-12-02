@@ -9,6 +9,7 @@ import SupportedRequestPage from './components/Supported/SupportedRequestPage.vu
 import SupporterRequestPage from './components/Supporter/SupporterRequestPage.vue';
 import EntryPage from './components/Entry/EntryPage.vue';
 import FlaggedPage from './components/Flag/FlaggedPage.vue';
+import SharePage from './components/Share/SharePage.vue';
 import NotFound from './NotFound.vue';
 
 Vue.use(VueRouter);
@@ -23,6 +24,7 @@ const routes = [
   {path: '/login', name: 'Login', component: LoginPage},
   {path: '/flagged', name: 'Flagged Entries', component: FlaggedPage},
   {path: '/Entry', name: 'Entry', component: EntryPage},
+  {path: '/share/:shareId', name: 'Share', component: SharePage},
   {path: '*', name: 'Not Found', component: NotFound}
 ];
 
@@ -38,7 +40,7 @@ router.beforeEach((to, from, next) => {
       return;
     }
 
-    if (to.name !== 'Login' && !router.app.$store.state.username){
+    if ((to.name !== 'Login' && from.name !== 'Share' && to.name !== 'Share') && !router.app.$store.state.username){
       next({name: 'Login'});
       return;
     }
