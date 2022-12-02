@@ -5,7 +5,7 @@ import store from './store';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { BootstrapVue} from 'bootstrap-vue'
+import { BootstrapVue} from 'bootstrap-vue';
 import * as iconRegular from '@fortawesome/free-regular-svg-icons';
 import * as iconSolid from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.css'
@@ -21,6 +21,8 @@ library.add(iconSolid.faFaceSmile);
 library.add(iconSolid.faFaceMeh);
 library.add(iconSolid.faFaceFrown);
 library.add(iconSolid.faFaceSadTear);
+library.add(iconSolid.faPlus);
+library.add(iconSolid.faX);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(BootstrapVue)

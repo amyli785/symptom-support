@@ -2,41 +2,95 @@
 <!-- This is just an example; feel free to define any reusable components you want! -->
 
 <template>
-    <form class="symptom-component"
-          @submit.prevent="submit">
-      <h3>Symptom Component</h3>
+    <form class="symptom-component">
+      <header>
+        <h5>Symptom Component</h5>
+        <font-awesome-icon 
+          icon="fa-solid fa-x"
+          v-if = "!this.viewing"
+          @click="$emit('click')"
+        />
+      </header>
       <article>
-        <div
-            v-for="field in fields"
-            :key="field.id"
-        >
-            <label :for="field.id">{{ field.label }}:</label>
+        <div>
+            <label>{{ this.name.label }}:</label>
             <input
-            :type="'text'"
-            :name="field.id"
-            :value="field.value"
-            @input="field.value = $event.target.value"
+              v-if="this.viewing"
+              disabled
+              :type="'text'"
+              :name="this.name.id"
+              :value="this.symptom.name"
+              @input="$emit('update-symptom-name', $event.target.value)"
+            >
+            <input
+              v-else
+              :type="'text'"
+              :name="this.name.id"
+              :value="this.symptom.name"
+              @input="$emit('update-symptom-name', $event.target.value)"
+            >
+        </div>
+        <div>
+            <label>{{ this.location.label }}:</label>
+            <input
+              v-if="this.viewing"
+              disabled
+              :type="'text'"
+              :name="this.location.id"
+              :value="this.symptom.location"
+              @input="$emit('update-symptom-location', $event.target.value)"
+            >
+            <input
+              v-else
+              :type="'text'"
+              :name="this.location.id"
+              :value="this.symptom.location"
+              @input="$emit('update-symptom-location', $event.target.value)"
             >
         </div>
         <div class="measurement-container">
             <div class = 'measurement-value'>
                 <label :for="measurement.id">{{ measurement.label }}: </label>
                 <input
+                    v-if="this.viewing"
+                    disabled
                     :type="'text'"
-                    :name="measurement.id"
-                    :value="measurement.value"
-                    @input="measurement.value = $event.target.value"
+                    :name="this.measurement.id"
+                    :value="this.symptom.measurement"
+                    @input="$emit('update-symptom-measurement', $event.target.value)"
+                >
+                <input
+                    v-else
+                    :type="'text'"
+                    :name="this.measurement.id"
+                    :value="this.symptom.measurement"
+                    @input="$emit('update-symptom-measurement', $event.target.value)"
                 >
             </div>
             <div class = 'measurement-unit'>
                 <label :for="unit.id">{{ unit.label }}: </label>
                 <select
-                    :name="unit.id"
+                    v-if="this.viewing"
+                    disabled
+                    :name="this.unit.id"
                     :id="unit.id"
-                    @input="unit.value = $event.target.value"
+                    :value="this.symptom.unit"
+                    @input="$emit('update-symptom-unit', $event.target.value)"
                 >
                     <option
-                        v-for="unit in ['','pain level (1-10)','ml', 'kg', 'deg F', 'deg C']"
+                        v-for="unit in ['','pain level','mL', 'kg', 'deg F', 'deg C']"
+                        :name="unit.id"
+                    >{{unit}}</option>
+                </select>
+                <select
+                    v-else
+                    :name="this.unit.id"
+                    :id="unit.id"
+                    :value="this.symptom.unit"
+                    @input="$emit('update-symptom-unit', $event.target.value)"
+                >
+                    <option
+                        v-for="unit in ['','pain level','mL', 'kg', 'deg F', 'deg C']"
                         :name="unit.id"
                     >{{unit}}</option>
                 </select>
@@ -46,111 +100,74 @@
 </form>
 </template>
   
-  <script>
-  
-  export default {
-    name: 'SymptomComponent',
-    data() {
-      /**
-       * Options for submitting this form.
-       */
-      return {
-        url: '', // Url to submit form to
-        method: 'GET', // Form request method
-        hasBody: false, // Whether or not form request has a body
-        alerts: {}, // Displays success/error messages encountered during form submission
-        callback: null, // Function to run after successful form submission
-        validationFunction: null, // Function to validate form input
-        fields: [
-            {id: 'name', label: 'Name', value: ''},
-            {id: 'location', label: 'Location', value: ''},
-        ],
-        measurement: {id: 'measurement', label: 'Measurement', value: ''},
-        unit: {id: 'unit', label: 'Unit', value: ''},
-      };
-    },
-    methods: {
-      async submit() {
-        /**
-          * Submits a form with the specified options from data().
-          */
-        const options = {
-          method: this.method,
-          headers: {'Content-Type': 'application/json'},
-          credentials: 'same-origin' // Sends express-session credentials with request
-        };
-        if (this.hasBody) {
-          options.body = JSON.stringify(Object.fromEntries(
-            this.fields.map(field => {
-              const {id, value} = field;
-              field.value = '';
-              return [id, value];
-            })
-          ));
-        }
-  
-        try {
-          const r = await fetch(this.url, options);
-          if (!r.ok) {
-            // If response is not okay, we throw an error and enter the catch block
-            const res = await r.json();
-            throw new Error(res.error);
-          }
-  
-          if (this.callback) {
-            this.callback();
-          }
-        } catch (e) {
-          this.$set(this.alerts, e, 'error');
-          setTimeout(() => this.$delete(this.alerts, e), 3000);
-        }
+<script>
+import DeleteButton from '../common/DeleteButton'
+export default {
+  name: 'SymptomComponent',
+  components: {
+    DeleteButton,
+  },
+  props:{
+      symptom: {
+          type: Object,
+          required: true
+      },
+      viewing: {
+        type: Boolean,
+        required: true
       }
-    }
-  };
+  },
+  data() {
+    /**
+     * Options for submitting this form.
+     */
+    return {
+      name: {id: 'name', label: 'Name', value: ''},
+      location: {id: 'location', label: 'Location', value: ''},
+      measurement: {id: 'measurement', label: 'Measurement', value: ''},
+      unit: {id: 'unit', label: 'Unit', value: ''},
+    };
+  }
+};
 </script>  
 
 <style scoped>
 form {
-  border: 1px solid #111;
+  border: 0px solid #000;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 14px;
-  position: relative;
+  background-color: var(--salmon);
 }
-
-article > div {
+input {
+  width: 100%;
+  border: 0px;
+  border-radius: 5px;
+}
+select {
+  width:100%;
+  border-radius: 5px;
+  border: 0px;
+  padding-top: 0.125em;
+  padding-bottom: 0.125em;
+}
+header {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
 }
-
-form > article p {
-  margin: 0;
-}
-
-form h3,
-form > * {
-  margin: 0.3em 0;
-}
-
-form h3 {
-  margin-top: 0;
-}
-
 textarea {
    font-family: inherit;
    font-size: inherit;
 }
-
 .measurement-container{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content:flex-start;
-    gap: 12px;
 }
-
 .symptom-component{
     width:30%;
+    border-radius: 15px;
 }
 </style>

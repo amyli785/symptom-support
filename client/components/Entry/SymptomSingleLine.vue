@@ -17,11 +17,15 @@ export default {
       Type: String,
       required: true,
     },
-    intensity: {
+    location: {
+      Type: String,
+      required: true,
+    },
+    measurement: {
       Type: Number,
       required: true,
     },
-    location: {
+    unit: {
       Type: String,
       required: true,
     },
@@ -32,7 +36,16 @@ export default {
         return "none";
       }
 
-      const contentStart = `${this.name} (${this.intensity})`;
+      let contentStart = `${this.name}`;
+      if (this.measurement){
+        contentStart = contentStart + ` (${this.measurement}`;
+        if (this.unit !== 'pain level'){
+          contentStart = contentStart + ` ${this.unit})`;
+        }
+        else {
+          contentStart = contentStart + `)`;
+        }
+      }
 
       if (!this.location) {
         return contentStart;

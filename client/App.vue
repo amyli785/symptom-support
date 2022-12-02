@@ -35,10 +35,13 @@ export default {
 }
 
 :root {
-  --light-blue: #75cae6;
-  --dark-blue: #2c5784;
-  --dark-blue-drop-shadow: rgba(44, 87, 132, 0.4);
-  --salmon: #ef798a;
+  --light-blue: rgba(115,200,230,1);
+  --light-blue-transparent: rgba(115,200,230,0.5);
+  --dark-blue: rgba(45,90,130,1);
+  --dark-blue-transparent: rgba(45,90,130,0.9);
+  --dark-blue-drop-shadow: rgba(45, 90, 130, 0.4);
+  --salmon: rgba(250,125,125,1);
+  --salmon-transparent: rgba(250,125,125,1);
 }
 
 .app {

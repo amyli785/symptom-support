@@ -23,7 +23,9 @@
     <article class = "form">
       <div class = "dates">
         <div class = "started time box">
-          <p>Started:</p>
+          <div class = "label-time">
+            <p>Started:</p>  
+          </div>
           <input
             type = "datetime-local"
             id = "dateStarted"
@@ -34,7 +36,9 @@
           />
         </div>
         <div class = "ended time box">
-          <p>Ended:</p>
+          <div class = "label-time">
+            <p>Ended:</p>  
+          </div>
           <input
             type="datetime-local"
             id="dateEnded"
@@ -48,34 +52,58 @@
       </div>
       <div class = "syms">
         <div class = "full box">
-          <p>Symptoms:</p>
+          <div class = "label">
+            <p>Symptoms:</p>
+            <font-awesome-icon 
+              class = "icon"
+              v-if="this.status != 'viewing'"
+              @click="addSymptom"
+              icon="fa-solid fa-plus" 
+            />
+          </div>
           <div class = "all">
+            <SymptomComponent
+              v-for="j in symptoms.length"
+              :key="j"
+              :viewing="status == 'viewing'"
+              :symptom="symptoms[j-1]"
+              @update-symptom-name="(n) => updateSymptomName(j,n)"
+              @update-symptom-location="(n) => updateSymptomLocation(j,n)"
+              @update-symptom-measurement="(n) => updateSymptomMeasurement(j,n)"
+              @update-symptom-unit="(n) => updateSymptomUnit(j,n)"
+              @click="deleteSymptom(j)"
+            />
           </div>
         </div>
       </div>
       <div class = "meds">
         <div class = "full box">
-          <p>Medications:</p>
-          <button 
-            v-if="this.status != 'viewing'"
-            @click="addMedication">Add</button>
+          <div class = "label">
+            <p>Medications:</p>
+            <font-awesome-icon 
+                class = "icon"
+                v-if="this.status != 'viewing'"
+                @click="addMedication"
+                icon="fa-solid fa-plus" 
+            />  
+          </div>
           <div class = "all">
             <MedicationComponent
-                v-for="i in medications.length"
-                :key="i"
-                :viewing="status == 'viewing'"
-                :medication="medications[i-1]"
-                @update-medication-name="(n) => updateMedicationName(i,n)"
-                @update-medication-dosage="(n) => updateMedicationDosage(i,n)"
-                @click="deleteMedication(i)"
-              />
+              v-for="i in medications.length"
+              :key="i"
+              :viewing="status == 'viewing'"
+              :medication="medications[i-1]"
+              @update-medication-name="(n) => updateMedicationName(i,n)"
+              @update-medication-dosage="(n) => updateMedicationDosage(i,n)"
+              @click="deleteMedication(i)"
+            />
           </div>
         </div>
       </div>
       <div class = "mood">
         <div class = "full box">
-          <div>
-            <p>Mood:</p> 
+          <div class = "label">
+            <p>Mood:</p>
             <font-awesome-icon
               class = 'i'
               v-if = "mood == 10 || mood == 9"
@@ -117,7 +145,9 @@
       </div>
       <div class = "notes">
         <div class = "full box">
-          <p>Notes:</p>
+          <div class = "label">
+            <p>Notes:</p>
+          </div>
           <input
             type="text"
             :value="notes"
@@ -214,6 +244,13 @@ export default {
 
   },
   methods: {
+    displayDate(date) {
+      let formattedDate = moment(new Date(date)).format('yyyy-MM-DDThh:mm');
+      return formattedDate == "Invalid date"? "" : formattedDate;
+    },
+    addMedication(){
+      this.medications.push({name: '',dosage: ''});
+    },
     deleteMedication(i){
       this.medications.splice(i-1,1);
     },
@@ -223,17 +260,28 @@ export default {
     updateMedicationDosage(i,n){
       this.medications[i-1].dosage = n;
     },
-    addMedication(){
-      this.medications.push({name:'',dosage:''});
+    addSymptom(){
+      this.symptoms.push({name: '', location: '', measurement: '', unit: ''});
     },
-    displayDate(date) {
-      let formattedDate = moment(new Date(date)).format('yyyy-MM-DDThh:mm');
-      return formattedDate == "Invalid date"? "" : formattedDate;
+    deleteSymptom(i){
+      this.symptoms.splice(i-1,1);
+    },
+    updateSymptomName(i,n){
+      this.symptoms[i-1].name = n;
+    },
+    updateSymptomLocation(i,n){
+      this.symptoms[i-1].location = n;
+    },
+    updateSymptomMeasurement(i,n){
+      this.symptoms[i-1].measurement = n;
+    },
+    updateSymptomUnit(i,n){
+      this.symptoms[i-1].unit = n;
     },
     async deleteEntry() {
       if (this.status == 'creating'){
         this.$router.push({name: 'Home'});
-        this.$store.commit('cleanEntry');
+        this.$store.commit('cleanEntryStatus');
       } else {
         const options = {
           method: 'DELETE', headers: {'Content-Type': 'application/json'}
@@ -248,7 +296,7 @@ export default {
 
           await this.$store.commit('refreshEntries');
           this.$router.push({name: 'Home'});
-          this.$store.commit('cleanEntry');
+          this.$store.commit('cleanEntryStatus');
 
         } catch (e) {
           this.$set(this.alerts, e, 'error');
@@ -264,6 +312,7 @@ export default {
       this.status = 'editing';
     },
     submit(){
+      console.log(this.symptoms);
       const params = {
         body: JSON.stringify({
             owner: this.owner,
@@ -330,7 +379,7 @@ export default {
 
         await this.$store.commit('refreshEntries');
         this.$router.push({name: 'Home'});
-        this.$store.commit('cleanEntry');
+        this.$store.commit('cleanEntryStatus');
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
@@ -350,7 +399,7 @@ export default {
         }
         await this.$store.commit('refreshEntries');
         this.$router.push({name: 'Home'});
-        this.$store.commit('cleanEntry');
+        this.$store.commit('cleanEntryStatus');
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
@@ -416,11 +465,12 @@ export default {
 p {
   padding: 0;
   margin: 0; 
+  cursor: context-menu;
 }
 .form {
   height: 100%;
   border-radius: 25px;
-  background-color: var(--dark-blue);
+  background-color: var(--light-blue-transparent);
   padding: 25px;
 }
 .dates{
@@ -435,7 +485,7 @@ p {
   width: 100%;
 }
 .box {
-  background-color: var(--light-blue);
+  background-color: var(--dark-blue);
   padding: 20px;
   border-radius: 15px;
   display: flex;
@@ -453,17 +503,11 @@ p {
   border-radius: 5px;
   border: 0px;
 }
-.strip{
-  border-radius: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin-bottom: 3px;
-}
-.sym{
-  background-color: var(--salmon);
-}
-.med {
-  background-color: var(--dark-blue);
+.label-time{
+  width:27.5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .all {
   display: flex;
@@ -475,13 +519,20 @@ p {
   border-radius: 5px;
   padding: 10px;
 }
+.label {
+  width: 12.5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 #moodRange {
   width: 100%;
 }
 #notes {
   width: 85%;
   border: 0;
-  border-radius: 5px;;
+  border-radius: 5px;
+  cursor: text;
 }
 header {
   display: flex;
@@ -494,33 +545,6 @@ header {
   align-items: center;
   gap: 10px;
 }
-.icon{
-  height: 30px;
-  width: 30px;
-  padding: 0px;
-  margin: 0px;
-  list-style-type: none;
-  cursor: pointer;
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center
-}
-.edit{
-  background-image: url("../../public/pencil.png");
-}
-.delete{
-  background-image:url("../../public/trash.png");
-}
-.white-flag{
-  background-image: url("../../public/flag.png");
-}
-.black-flag{
-  background-image: url("../../public/flag-filled.png");
-}
-.icon:hover {
-  transform: scale(1.1, 1.1);
-}
 .end {
   width: 100%;
 }
@@ -532,6 +556,7 @@ header {
 }
 .b{
   padding: 10px;
+  border-radius: 15px;
 }
 .both{
   display: flex;
@@ -541,5 +566,14 @@ header {
 .i{
   font-size: 40px;
 }
-
+.icon{
+  font-size: 40px;
+}
+.icon:hover {
+  transform: scale(1.1, 1.1);
+  cursor: pointer;
+}
+input{
+  cursor: pointer;
+}
 </style>

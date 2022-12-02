@@ -13,14 +13,16 @@
         v-for="symptom in entry.symptoms.slice(0,3)"
         :key="(entry.dateStarted.toString()+' '+symptom.name+symptom.intensity)"
         :name="symptom.name"
-        :intensity="symptom.intensity"
+        :measurement="symptom.measurement"
+        :unit="symptom.unit"
         :location="symptom.location"
       />
       <SymptomSingleLine
         v-for="i in Math.max(0, 3 - entry.symptoms.length)"
         :key="(entry.dateStarted.toString()+' symptom '+i)"
         :name="''"
-        :intensity="''"
+        :measurement="''"
+        :unit="''"
         :location="''"
       />
       
