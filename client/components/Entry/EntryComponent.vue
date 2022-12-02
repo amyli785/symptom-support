@@ -102,7 +102,7 @@ export default {
     };
   },
   mounted() {
-    if (this.$store.username) {
+    if (this.$store.state.username) {
       this.findFlagStatus();
     }
   },
@@ -143,7 +143,7 @@ export default {
       }
     },
     viewEntry() {
-      if (!this.$store.username) {
+      if (!this.$store.state.username) {
         this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: true});
       } else {
         this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: false});

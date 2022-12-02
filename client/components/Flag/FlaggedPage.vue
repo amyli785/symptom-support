@@ -13,6 +13,7 @@
             v-for="entry in $store.state.flagged"
             :key="entry.id"
             :entry="entry"
+            :clickable="true"
           />
         </section>
         <section v-else>

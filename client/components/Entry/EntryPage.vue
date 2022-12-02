@@ -186,7 +186,8 @@ export default {
     this.owner = entryStatus.owner;
     this.status = entryStatus.status;
     this.viewOnly = entryStatus.viewOnly;
-    if (this.$store.username){
+    console.log(entryStatus.viewOnly);
+    if (this.$store.state.username){
       await this.findFlagStatus();
     }
 

@@ -30,6 +30,7 @@
           :key="entry._id"
           :entry="entry"
           :sharingMode="sharingMode"
+          :clickable="true"
         />
       </section>
       <section v-else>
