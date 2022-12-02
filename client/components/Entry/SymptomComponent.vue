@@ -3,7 +3,14 @@
 
 <template>
     <form class="symptom-component">
-      <h3>Symptom Component</h3>
+      <header>
+        <h5>Symptom Component</h5>
+        <font-awesome-icon 
+          icon="fa-solid fa-x"
+          v-if = "!this.viewing"
+          @click="$emit('click')"
+        />
+      </header>
       <article>
         <div>
             <label>{{ this.name.label }}:</label>
@@ -151,12 +158,17 @@ article > div {
 form > article p {
   margin: 0;
 }
-form h3,
+form h5,
 form > * {
   margin: 0.3em 0;
 }
-form h3 {
+form h5 {
   margin-top: 0;
+}
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 textarea {
    font-family: inherit;

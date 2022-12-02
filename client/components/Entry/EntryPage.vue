@@ -48,13 +48,15 @@
       </div>
       <div class = "syms">
         <div class = "full box">
-          <p>Symptoms:</p>
-          <button 
-            v-if="this.status != 'viewing'"
-            @click="addSymptom"
-          >
-            Add
-          </button>
+          <div>
+            <p>Symptoms:</p>
+            <font-awesome-icon 
+              class = "icon"
+              v-if="this.status != 'viewing'"
+              @click="addSymptom"
+              icon="fa-solid fa-plus" 
+            />
+          </div>
           <div class = "all">
             <SymptomComponent
               v-for="j in symptoms.length"
@@ -72,13 +74,15 @@
       </div>
       <div class = "meds">
         <div class = "full box">
-          <p>Medications:</p>
-          <button 
-            v-if="this.status != 'viewing'"
-            @click="addMedication"
-          >
-            Add
-          </button>
+          <div>
+            <p>Medications:</p>
+            <font-awesome-icon 
+                class = "icon"
+                v-if="this.status != 'viewing'"
+                @click="addMedication"
+                icon="fa-solid fa-plus" 
+            />
+          </div>
           <div class = "all">
             <MedicationComponent
               v-for="i in medications.length"
@@ -532,33 +536,6 @@ header {
   align-items: center;
   gap: 10px;
 }
-.icon{
-  height: 30px;
-  width: 30px;
-  padding: 0px;
-  margin: 0px;
-  list-style-type: none;
-  cursor: pointer;
-  display: inline-block;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center
-}
-.edit{
-  background-image: url("../../public/pencil.png");
-}
-.delete{
-  background-image:url("../../public/trash.png");
-}
-.white-flag{
-  background-image: url("../../public/flag.png");
-}
-.black-flag{
-  background-image: url("../../public/flag-filled.png");
-}
-.icon:hover {
-  transform: scale(1.1, 1.1);
-}
 .end {
   width: 100%;
 }
@@ -579,5 +556,10 @@ header {
 .i{
   font-size: 40px;
 }
-
+.icon{
+  font-size: 40px;
+}
+.icon:hover {
+  transform: scale(1.1, 1.1);
+}
 </style>
