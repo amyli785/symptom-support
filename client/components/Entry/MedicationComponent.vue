@@ -83,7 +83,7 @@ export default {
      */
     return {
       name: {id: 'name', label: 'Name', value: ''},
-      dosage: {id: 'dosage', label: 'Dosage', value: ''},
+      dosage: {id: 'dosage', label: 'Dosage (mg)', value: ''},
     };
   }
 };
