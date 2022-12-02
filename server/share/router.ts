@@ -13,14 +13,12 @@ const router = express.Router();
  * @name GET /api/shares/:shareId
  *
  * @return {ShareResponse} - The share with shareId, if any
- * @throws {403} - If user not logged in
  * @throws {400} - If `shareId` is empty or not in the correct format
  * @throws {404} - If no share with `shareId` exists
  */
  router.get(
   '/:shareId?',
   [
-    userValidator.isUserLoggedIn,
     shareValidator.isShareIdExists,
   ],
   async (req:Request, res:Response, next: NextFunction) => {
@@ -57,7 +55,7 @@ router.post(
 
     res.status(201).json({
       message: `You added a new share named ${req.body.name as string} successfully.`,
-      entry: await util.constructShareResponse(share),
+      share: await util.constructShareResponse(share),
     });
   }
 );

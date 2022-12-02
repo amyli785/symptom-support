@@ -3,25 +3,45 @@
 <template>
   <main>
     <section v-if="$store.state.displayName">
+      <ShareModal 
+        :shareEntries="shareEntries"
+        v-on:cancel-share="cancelShare"
+      />
       <header>
         <h2>Welcome {{ $store.state.displayName }}</h2>
       </header>
       <button class = "createEntry" @click = 'createEntry'>
         Create Entry
       </button>
+      <button v-if="($store.state.entries.length && !sharingMode)" class = "share" @click="startShare">
+        Share
+      </button>
+      <p v-if="sharingMode">
+        Click to select the entries you want to share. 
+      </p>
       <section
         v-if="$store.state.entries.length"
         class = "entries"
       >
         <EntryComponent
+          v-on:select="selectEntry(entry)"
+          v-on:unselect="unselectEntry(entry)"
           v-for="entry in $store.state.entries"
-          :key="entry.id"
+          :key="entry._id"
           :entry="entry"
+          :sharingMode="sharingMode"
         />
       </section>
       <section v-else>
         <h3>No entries found</h3>
       </section>
+      <ShareBar v-if="($store.state.entries.length && sharingMode)"  
+        :sharingMode="sharingMode"
+        :shareEntries="shareEntries"
+        :shareSize="shareSize"
+        v-on:cancel-share="cancelShare"
+        v-on:show-share-modal="showShareModal"
+      />
     </section>
     <section v-else>
       <header>
@@ -41,25 +61,52 @@
 
 <script>
 import EntryComponent from '@/components/Entry/EntryComponent.vue'
+import ShareModal from '@/components/Share/ShareModal.vue'
+import ShareBar from '@/components/Share/ShareBar.vue'
 
 export default {
   name: 'EntryFeed',
   components: {
-    EntryComponent,
+    EntryComponent, ShareModal, ShareBar
   },
   data() {
     return {
       alerts: {},
+      sharingMode: false,
+      shareEntries: {},
+      shareSize: 0
     };
   },
   async mounted() {
+    this.shareSize = 0;
+    this.shareEntries = {};
     await this.$store.commit('refreshEntries');
   },
   methods: {
+    showShareModal(){
+      this.sharingMode = false;
+      this.$bvModal.show('share-modal');
+    },
+    selectEntry(entry){
+      this.shareEntries[entry._id] = entry;
+      this.shareSize = Object.keys(this.shareEntries).length;
+    },
+    unselectEntry(entry){
+      delete this.shareEntries[entry._id]
+      this.shareSize = Object.keys(this.shareEntries).length;
+    },
+    startShare(){
+      this.sharingMode = !this.sharingMode;
+    },
+    cancelShare(){
+      this.shareSize = 0;
+      this.shareEntries = {};
+      this.sharingMode = false;
+    },
     createEntry(){
       this.$store.commit('goToEntry', {entry: null, owner: this.$store.state.username, status: 'creating', viewOnly: false});
       this.$router.push({name: 'Entry'});
-    },
+    }
   },
 };
 </script>

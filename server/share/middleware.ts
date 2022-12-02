@@ -38,7 +38,6 @@ const isShareIdExists = async (req: Request, res: Response, next: NextFunction) 
  */
  const isEntryIdsValid = async (req: Request, res: Response, next: NextFunction) => {
   const entryIds = req.body.entryIds;
-
   if (!Array.isArray(entryIds)) {
     res.status(400).json({
       error: 'Provided entryIds must be an array.',

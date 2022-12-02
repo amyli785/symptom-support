@@ -1,5 +1,5 @@
 <template>
-  <article class = "entry-container" @click = "viewEntry">
+  <article :class = "`entry-container ${shareSelected ? 'selected' : 'unselected'}`" @click = "entryClick">
     <div class = "left-content">
       <div class="entry-dates-container">
         <div>
@@ -38,12 +38,12 @@
       />
     </div>
 
-    <div class = "right-icons">
+    <div v-if="(!sharingMode && !displayMode)" class = "right-icons">
       <div class = "icons-top">
         <FlagButton :flagged="flagged" @click="toggleFlag" />
       </div>
       
-      <div class = "icons-bottom">
+      <div v-if="(!sharingMode && !displayMode)" class = "icons-bottom">
         <EditButton @click="editEntry" />
         <DeleteButton @click="deleteEntry" />
       </div>
@@ -73,16 +73,38 @@ export default {
     entry: {
       type: Object,
       required: true
+    },
+    sharingMode: {
+      type: Boolean,
+      required: false
+    },
+    displayMode: {
+      type: Boolean,
+      required: false
+    },
+    clickable: {
+      type: Boolean,
+      required: false
+    }
+  },
+  watch: {
+    sharingMode: function(newVal, oldVal) { 
+      if (newVal == false) {
+        this.shareSelected = false;
+      }
     }
   },
   data() {
     return {
       flagged: false,
+      shareSelected: false,
       alerts: {},
     };
   },
   mounted() {
-    this.findFlagStatus();
+    if (this.$store.username) {
+      this.findFlagStatus();
+    }
   },
   methods: {
     displayDate(date) {
@@ -113,9 +135,29 @@ export default {
       this.$store.commit('goToEntry', {entry: this.entry, owner: this.$store.state.username, status: 'editing', viewOnly: false});
       this.$router.push({name: 'Entry'});
     },
+    entryClick() {
+      if (this.sharingMode) {
+        this.shareEntry()
+      } else if (this.clickable){
+        this.viewEntry()
+      }
+    },
     viewEntry() {
-      this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: false});
+      if (!this.$store.username) {
+        this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: true});
+      } else {
+        this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: false});
+      }
+
       this.$router.push({name: 'Entry'});
+    },
+    shareEntry() {
+      if (this.shareSelected) {
+        this.$emit("unselect");
+      } else {
+        this.$emit("select");
+      }
+      this.shareSelected = !this.shareSelected;
     },
     async toggleFlag() {
       event.stopPropagation();
@@ -196,6 +238,9 @@ export default {
   filter: drop-shadow(0 0 4px var(--dark-blue-drop-shadow));
 }
 
+.selected {
+  background-color: var(--salmon);
+}
 .left-content {
   flex: 0 1 100%;
   display: flex;
