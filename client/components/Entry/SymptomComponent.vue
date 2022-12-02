@@ -2,7 +2,8 @@
 <!-- This is just an example; feel free to define any reusable components you want! -->
 
 <template>
-    <form @submit.prevent="submit">
+    <form class="symptom-component"
+          @submit.prevent="submit">
       <h3>Symptom Component</h3>
       <article>
         <div
@@ -147,5 +148,9 @@ textarea {
     flex-direction: row;
     justify-content:flex-start;
     gap: 12px;
+}
+
+.symptom-component{
+    width:30%;
 }
 </style>

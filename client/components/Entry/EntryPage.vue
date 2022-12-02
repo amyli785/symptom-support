@@ -56,7 +56,18 @@
       <div class = "meds">
         <div class = "full box">
           <p>Medications:</p>
+          <button 
+            v-if="this.status != 'viewing'"
+            @click="addMedication">Add</button>
           <div class = "all">
+            <MedicationComponent
+                v-for="i in medications.length"
+                :key="i"
+                :viewing="status == 'viewing'"
+                :medication="medications[i-1]"
+                @update-medication-name="(n) => updateMedicationName(i,n)"
+                @update-medication-dosage="(n) => updateMedicationDosage(i,n)"
+              />
           </div>
         </div>
       </div>
@@ -138,6 +149,8 @@ import moment from 'moment';
 import FlagButton from '../common/FlagButton';
 import EditButton from '../common/EditButton';
 import DeleteButton from '../common/DeleteButton';
+import SymptomComponent from './SymptomComponent';
+import MedicationComponent from './MedicationComponent';
 
 export default {
   name: 'EntryPage',
@@ -145,6 +158,8 @@ export default {
     FlagButton,
     EditButton,
     DeleteButton,
+    SymptomComponent,
+    MedicationComponent
   },
   props: {},
   data() {
@@ -179,6 +194,7 @@ export default {
       this.notes = this.entry.notes;
       this.symptoms = this.entry.symptoms;
       this.medications = this.entry.medications;
+      this.numMedications = this.medications.length;
     }
 
     if (this.status == 'viewing'){//lock
@@ -194,6 +210,18 @@ export default {
 
   },
   methods: {
+    showList(){
+      console.log(this.medications);
+    },
+    updateMedicationName(i,n){
+      this.medications[i-1].name = n;
+    },
+    updateMedicationDosage(i,n){
+      this.medications[i-1].dosage = n;
+    },
+    addMedication(){
+      this.medications.push({name:'',dosage:''});
+    },
     displayDate(date) {
       let formattedDate = moment(new Date(date)).format('yyyy-MM-DDThh:mm');
       return formattedDate == "Invalid date"? "" : formattedDate;
@@ -434,6 +462,10 @@ p {
   background-color: var(--dark-blue);
 }
 .all {
+  display: flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  gap: 5%;
   width: 85%;
   background-color: white;
   border-radius: 5px;
@@ -505,4 +537,5 @@ header {
 .i{
   font-size: 40px;
 }
+
 </style>

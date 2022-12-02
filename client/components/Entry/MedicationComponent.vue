@@ -2,21 +2,52 @@
 <!-- This is just an example; feel free to define any reusable components you want! -->
 
 <template>
-    <form @submit.prevent="submit">
+    <form class="medication-component"
+        @submit.prevent="submit">
       <h3>Medication Component</h3>
       <article>
-        <div
-        v-for="field in fields"
-        :key="field.id"
-      >
-        <label :for="field.id">{{ field.label }}:</label>
-        <input
-          :type="'text'"
-          :name="field.id"
-          :value="field.value"
-          @input="field.value = $event.target.value"
-        >
-      </div>
+        <div>
+            <div>
+                <label>{{ this.name.label }}:</label>
+                <input
+                  v-if="this.viewing"
+                  disabled
+                  class = 'medication-name'
+                  :type="'text'"
+                  :name="this.name.id"
+                  :value="this.medication.name"
+                  @input="$emit('update-medication-name', $event.target.value)"
+                >
+                <input
+                  v-else
+                  class = 'medication-name'
+                  :type="'text'"
+                  :name="this.name.id"
+                  :value="this.medication.name"
+                  @input="$emit('update-medication-name', $event.target.value)"
+                >
+            </div>
+            <div>
+                <label>{{ this.dosage.label }}:</label>
+                <input
+                  v-if="this.viewing"
+                  disabled
+                  class = 'medication-dosage'
+                  :type="'text'"
+                  :name="this.dosage.id"
+                  :value="this.medication.dosage"
+                  @input="$emit('update-medication-dosage', $event.target.value)"
+                >
+                <input
+                  v-else
+                  class = 'medication-dosage'
+                  :type="'text'"
+                  :name="this.dosage.id"
+                  :value="this.medication.dosage"
+                  @input="$emit('update-medication-dosage', $event.target.value)"
+                >
+            </div>
+        </div>
       </article>
     </form>
   </template>
@@ -25,6 +56,16 @@
   
   export default {
     name: 'MedicationComponent',
+    props:{
+        medication: {
+            type: Object,
+            required: true
+        },
+        viewing: {
+          type: Boolean,
+          required: true
+        }
+    },
     data() {
       /**
        * Options for submitting this form.
@@ -36,10 +77,8 @@
         alerts: {}, // Displays success/error messages encountered during form submission
         callback: null, // Function to run after successful form submission
         validationFunction: null, // Function to validate form input
-        fields: [
-            {id: 'name', label: 'Name', value: ''},
-            {id: 'dosage', label: 'Dosage', value: ''},
-        ],
+        name: {id: 'name', label: 'Name', value: ''},
+        dosage: {id: 'dosage', label: 'Dosage', value: ''},
       };
     },
     methods: {
@@ -114,5 +153,10 @@ form h3 {
 textarea {
    font-family: inherit;
    font-size: inherit;
+}
+
+.medication-component{
+    width:30%;
+    border-radius:15px;
 }
 </style>
