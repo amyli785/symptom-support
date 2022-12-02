@@ -145,7 +145,7 @@ export default {
       }
     },
     viewEntry() {
-      if (!this.$store.state.username) {
+      if (this.displayMode) {
         this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: true});
       } else {
         this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: false});

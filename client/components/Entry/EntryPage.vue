@@ -216,7 +216,6 @@ export default {
     this.owner = entryStatus.owner;
     this.status = entryStatus.status;
     this.viewOnly = entryStatus.viewOnly;
-    console.log(entryStatus.viewOnly);
     if (this.$store.state.username){
       await this.findFlagStatus();
     }
@@ -312,7 +311,6 @@ export default {
       this.status = 'editing';
     },
     submit(){
-      console.log(this.symptoms);
       const params = {
         body: JSON.stringify({
             owner: this.owner,

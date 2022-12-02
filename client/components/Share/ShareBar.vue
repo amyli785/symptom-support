@@ -38,7 +38,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .shareBar{
   display: flex;
   flex-direction: row;

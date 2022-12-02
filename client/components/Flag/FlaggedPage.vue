@@ -4,7 +4,11 @@
     <main>
         <header>
             <h2>Flagged Entries</h2>
+            <button @click="startShare">Share</button>
         </header>
+        <ShareModal 
+            :shareEntries="flaggedEntries"
+        />
         <section
           v-if="$store.state.flagged.length"
           class = "entries"
@@ -24,21 +28,28 @@
 
 <script>
 import EntryComponent from '@/components/Entry/EntryComponent.vue'
-
+import ShareModal from '@/components/Share/ShareModal.vue'
 export default {
     name: 'EntryPage',
     components: {
-        EntryComponent,
+        EntryComponent, ShareModal
     },
     data() {
         return {
         alerts: {},
+        flaggedEntries: {}
         };
     },
-    mounted() {
-        this.$store.commit('refreshFlagged');
+    async mounted() {
+        await this.$store.commit('refreshFlagged')
+        for (const entry of this.$store.state.flagged){
+            this.flaggedEntries[entry._id] = entry;
+        }
     },
     methods: {
+        startShare(){
+            this.$bvModal.show('share-modal');
+        }
     },
 };
 </script>
@@ -57,6 +68,11 @@ section .scrollbox {
     flex: 1 0 50vh;
     padding: 3%;
     overflow-y: scroll;
+}
+
+header{
+    display: flex;
+    flex-direction: row;
 }
 .entries {
     display: flex;
