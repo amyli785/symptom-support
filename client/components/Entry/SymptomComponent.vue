@@ -2,83 +2,54 @@
 <!-- This is just an example; feel free to define any reusable components you want! -->
 
 <template>
-    <form class="medication-component"
-        @submit.prevent="submit">
-      <h3>Medication Component</h3>
+    <form class="symptom-component"
+          @submit.prevent="submit">
+      <h3>Symptom Component</h3>
       <article>
-        <div>
-            <div>
-                <label>{{ this.name.label }}:</label>
+        <div
+            v-for="field in fields"
+            :key="field.id"
+        >
+            <label :for="field.id">{{ field.label }}:</label>
+            <input
+            :type="'text'"
+            :name="field.id"
+            :value="field.value"
+            @input="field.value = $event.target.value"
+            >
+        </div>
+        <div class="measurement-container">
+            <div class = 'measurement-value'>
+                <label :for="measurement.id">{{ measurement.label }}: </label>
                 <input
-                  v-if="this.viewing"
-                  disabled
-                  class = 'medication-name'
-                  :type="'text'"
-                  :name="this.name.id"
-                  :value="this.medication.name"
-                  @input="$emit('update-medication-name', $event.target.value)"
-                >
-                <input
-                  v-else
-                  class = 'medication-name'
-                  :type="'text'"
-                  :name="this.name.id"
-                  :value="this.medication.name"
-                  @input="$emit('update-medication-name', $event.target.value)"
+                    :type="'text'"
+                    :name="measurement.id"
+                    :value="measurement.value"
+                    @input="measurement.value = $event.target.value"
                 >
             </div>
-            <div>
-                <label>{{ this.dosage.label }}:</label>
-                <input
-                  v-if="this.viewing"
-                  disabled
-                  class = 'medication-dosage'
-                  :type="'text'"
-                  :name="this.dosage.id"
-                  :value="this.medication.dosage"
-                  @input="$emit('update-medication-dosage', $event.target.value)"
+            <div class = 'measurement-unit'>
+                <label :for="unit.id">{{ unit.label }}: </label>
+                <select
+                    :name="unit.id"
+                    :id="unit.id"
+                    @input="unit.value = $event.target.value"
                 >
-                <input
-                  v-else
-                  class = 'medication-dosage'
-                  :type="'text'"
-                  :name="this.dosage.id"
-                  :value="this.medication.dosage"
-                  @input="$emit('update-medication-dosage', $event.target.value)"
-                >
+                    <option
+                        v-for="unit in ['','pain level (1-10)','ml', 'kg', 'deg F', 'deg C']"
+                        :name="unit.id"
+                    >{{unit}}</option>
+                </select>
             </div>
         </div>
-        <DeleteButton 
-          v-if="this.viewing"
-          disabled
-        />
-        <DeleteButton 
-          v-else
-          @click="$emit('click')"
-        />
-      </article>
-    </form>
-  </template>
+    </article>
+</form>
+</template>
   
   <script>
-
-  import DeleteButton from '../common/DeleteButton'
   
   export default {
-    name: 'MedicationComponent',
-    components: {
-      DeleteButton,
-    },
-    props:{
-        medication: {
-            type: Object,
-            required: true
-        },
-        viewing: {
-          type: Boolean,
-          required: true
-        }
-    },
+    name: 'SymptomComponent',
     data() {
       /**
        * Options for submitting this form.
@@ -90,8 +61,12 @@
         alerts: {}, // Displays success/error messages encountered during form submission
         callback: null, // Function to run after successful form submission
         validationFunction: null, // Function to validate form input
-        name: {id: 'name', label: 'Name', value: ''},
-        dosage: {id: 'dosage', label: 'Dosage', value: ''},
+        fields: [
+            {id: 'name', label: 'Name', value: ''},
+            {id: 'location', label: 'Location', value: ''},
+        ],
+        measurement: {id: 'measurement', label: 'Measurement', value: ''},
+        unit: {id: 'unit', label: 'Unit', value: ''},
       };
     },
     methods: {
@@ -168,8 +143,14 @@ textarea {
    font-size: inherit;
 }
 
-.medication-component{
+.measurement-container{
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-start;
+    gap: 12px;
+}
+
+.symptom-component{
     width:30%;
-    border-radius:15px;
 }
 </style>

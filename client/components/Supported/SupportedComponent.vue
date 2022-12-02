@@ -20,7 +20,7 @@
       </header>
       <div
           v-if="$store.state.username"
-          class="actions"
+          class="actions-container"
         >
           <AcceptButton
             v-if="supported.inviteStatus === 'invited'"
@@ -128,5 +128,10 @@ import DeleteButton from '../common/DeleteButton';
     border: 1px solid #111;
     padding: 20px;
     position: relative;
+}
+.actions-container {
+    display:flex;
+    justify-content:flex-start;
+    gap: 12px;
 }
 </style>

@@ -30,6 +30,7 @@
             class = "date"
             :value="displayDate(dateStarted)" 
             @input="dateStarted = $event.target.value"
+            :max = "displayDate(currentDate)"
           />
         </div>
         <div class = "ended time box">
@@ -40,6 +41,8 @@
             class="date"
             :value="displayDate(dateEnded)" 
             @input="dateEnded = $event.target.value"
+            :min = "displayDate(dateStarted)"
+            :max = "displayDate(currentDate)"
           />
         </div>
       </div>
@@ -53,7 +56,19 @@
       <div class = "meds">
         <div class = "full box">
           <p>Medications:</p>
+          <button 
+            v-if="this.status != 'viewing'"
+            @click="addMedication">Add</button>
           <div class = "all">
+            <MedicationComponent
+                v-for="i in medications.length"
+                :key="i"
+                :viewing="status == 'viewing'"
+                :medication="medications[i-1]"
+                @update-medication-name="(n) => updateMedicationName(i,n)"
+                @update-medication-dosage="(n) => updateMedicationDosage(i,n)"
+                @click="deleteMedication(i)"
+              />
           </div>
         </div>
       </div>
@@ -73,18 +88,13 @@
             />
             <font-awesome-icon
               class = 'i'
-              v-else-if = "mood == 6"
+              v-else-if = "mood == 6 || mood == 5"
               icon = "fa-solid fa-face-meh"
-            />
-            <font-awesome-icon 
-              class = 'i'
-              v-else-if = "mood == 5"
-              icon = "fa-solid fa-flag fa-10x" 
             />
             <font-awesome-icon
               class = 'i'
               v-else-if = "mood == 4 || mood == 3"
-              icon = "fa-solid fa-face-frown-slight" 
+              icon = "fa-solid fa-face-frown" 
             />
             <font-awesome-icon
               class = 'i' 
@@ -140,6 +150,8 @@ import moment from 'moment';
 import FlagButton from '../common/FlagButton';
 import EditButton from '../common/EditButton';
 import DeleteButton from '../common/DeleteButton';
+import SymptomComponent from './SymptomComponent';
+import MedicationComponent from './MedicationComponent';
 
 export default {
   name: 'EntryPage',
@@ -147,6 +159,8 @@ export default {
     FlagButton,
     EditButton,
     DeleteButton,
+    SymptomComponent,
+    MedicationComponent
   },
   props: {},
   data() {
@@ -163,6 +177,7 @@ export default {
       mood: 5,
       notes: "",
       alerts: {},
+      currentDate: new Date(),
     };
   },
   async mounted(){
@@ -182,6 +197,7 @@ export default {
       this.notes = this.entry.notes;
       this.symptoms = this.entry.symptoms;
       this.medications = this.entry.medications;
+      this.numMedications = this.medications.length;
     }
 
     if (this.status == 'viewing'){//lock
@@ -197,6 +213,18 @@ export default {
 
   },
   methods: {
+    deleteMedication(i){
+      this.medications.splice(i-1,1);
+    },
+    updateMedicationName(i,n){
+      this.medications[i-1].name = n;
+    },
+    updateMedicationDosage(i,n){
+      this.medications[i-1].dosage = n;
+    },
+    addMedication(){
+      this.medications.push({name:'',dosage:''});
+    },
     displayDate(date) {
       let formattedDate = moment(new Date(date)).format('yyyy-MM-DDThh:mm');
       return formattedDate == "Invalid date"? "" : formattedDate;
@@ -437,6 +465,10 @@ p {
   background-color: var(--dark-blue);
 }
 .all {
+  display: flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  gap: 5%;
   width: 85%;
   background-color: white;
   border-radius: 5px;
@@ -508,4 +540,5 @@ header {
 .i{
   font-size: 40px;
 }
+
 </style>

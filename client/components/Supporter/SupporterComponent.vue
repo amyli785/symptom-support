@@ -33,7 +33,7 @@
             {{supporter.inviteStatus}}
         </p>
         <div
-            class="actions"
+            class="actions-container"
         >
             <AcceptButton
                 v-if="editing"
@@ -183,4 +183,10 @@ export default {
     padding: 20px;
     position: relative;
 }
+.actions-container {
+    display:flex;
+    justify-content:flex-start;
+    gap: 12px;
+}
+
 </style>
