@@ -5,12 +5,11 @@
 <template>
   <nav>
     <div class="left">
-      <font-awesome-icon icon="fa-solid fa-heart-pulse" />
+      <router-link to="/">
+        <font-awesome-icon icon="fa-solid fa-heart-pulse" /> Symptom Support
+      </router-link>
     </div>
     <div class="right">
-      <router-link to="/">
-        Home
-      </router-link>
       <router-link 
         v-if="$store.state.username"
         to="/flagged"
@@ -86,6 +85,7 @@ img {
 }
 
 .left {
+  font-size: 20px;
 	display: flex;
 	align-items: center;
 }

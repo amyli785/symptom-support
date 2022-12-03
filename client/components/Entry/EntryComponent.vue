@@ -133,6 +133,11 @@ export default {
       this.findFlagStatus();
     }
   },
+  mounted() {
+    if (this.$store.state.username) {
+      this.findFlagStatus();
+    }
+  },
   methods: {
     displayDate(date) {
       return moment(new Date(date)).format('MMM D, YYYY, h:mm a');
