@@ -103,7 +103,7 @@ export default {
       alerts: {},
     };
   },
-  mounted() {
+  updated() {
     if (this.$store.state.username) {
       this.findFlagStatus();
     }
