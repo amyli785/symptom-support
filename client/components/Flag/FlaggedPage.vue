@@ -4,11 +4,13 @@
     <main>
         <header>
             <h2>Flagged Entries</h2>
-            <button @click="startShare">Share</button>
+            <button 
+                @click = "startShare"
+                class = "share"
+            >
+                Share
+            </button>
         </header>
-        <ShareModal 
-            :shareEntries="flaggedEntries"
-        />
         <section
           v-if="$store.state.flagged.length"
           class = "entries"
@@ -23,6 +25,9 @@
         <section v-else>
           <h3>No flagged entries</h3>
         </section>
+        <ShareModal 
+            :shareEntries="flaggedEntries"
+        />
     </main>
 </template>
 
@@ -82,5 +87,10 @@ header{
     justify-content: space-between;
 
     gap: 40px;
+}
+.share{
+  border-radius: 10px;
+  width:100px;
+  justify-content: center;
 }
 </style>
