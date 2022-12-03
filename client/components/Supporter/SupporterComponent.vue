@@ -3,7 +3,7 @@
 
 <template>
     <article
-      class="supporter"
+      class="support-container"
     >
       <header>
         <h2>
@@ -27,10 +27,10 @@
             v-else
             class="permission"
         >
-          {{ supporter.permission }}
+          This supporter is a <strong>{{ supporter.permission }}</strong>.
         </p>
         <p>
-            {{supporter.inviteStatus}}
+            Invite status: <strong>{{supporter.inviteStatus}}</strong>.
         </p>
         <div
             class="actions-container"
@@ -187,6 +187,22 @@ export default {
     display:flex;
     justify-content:flex-start;
     gap: 12px;
+}
+
+.support-container {
+  background-color: #ffffff;
+  filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
+  color: black;
+  border-radius: 20px;
+  padding: 20px;
+
+  flex-basis: calc(50% - 20px);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  gap: 12px;
 }
 
 </style>

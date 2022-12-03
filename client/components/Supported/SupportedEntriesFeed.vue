@@ -5,6 +5,8 @@
             v-if="(permission == 'creator' || permission == 'manager')"
             @click = 'createEntry'>
             Create Entry
+            &nbsp;
+            <font-awesome-icon icon="fa-solid fa-plus" />
         </button>
         <div class="entries">
             <EntryComponent
@@ -119,6 +121,16 @@ export default {
 </script>
 
 <style scoped>
+
+.entries {
+  display: flex;
+
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  gap: 40px;
+}
 .createEntry{
   width: 100%;
   padding: 10px;

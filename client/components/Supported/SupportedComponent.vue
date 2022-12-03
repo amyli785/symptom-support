@@ -1,8 +1,7 @@
 <!-- Reusable component representing a single supported and its actions -->
 
 <template>
-    <article @click="goToSupportedEntryFeed"
-      class="supported"
+    <article class="support-container" @click="goToSupportedEntryFeed"
     >
       <header>
         <h2>
@@ -12,10 +11,10 @@
           @{{ supported.supported }}
         </h3>
         <p>
-            {{supported.permission}}
+            You are a <strong>{{supported.permission}}</strong>.
         </p>
         <p>
-            {{supported.inviteStatus}}
+            Invite status: <strong>{{supported.inviteStatus}}</strong>.
         </p>
       </header>
       <div
@@ -139,4 +138,78 @@ import DeleteButton from '../common/DeleteButton';
     justify-content:flex-start;
     gap: 12px;
 }
+
+.support-container {
+  background-color: #ffffff;
+  filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
+  color: black;
+  border-radius: 20px;
+  padding: 20px;
+
+  flex-basis: calc(50% - 20px);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+.support-container:hover {
+  cursor: pointer;
+  filter: drop-shadow(0 0 4px var(--dark-blue-drop-shadow));
+}
+
+/* .selected {
+  background-color: var(--salmon);
+}
+.left-content {
+  flex: 0 1 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+
+  gap: 4px;
+}
+
+.right-icons {
+  flex: 1 0 0%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icons-top {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  gap: 12px;
+}
+
+.icons-bottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  gap: 12px;
+}
+
+.entry-dates-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  padding: 0 8px;
+
+  font-weight: bold;
+  font-size: medium;
+} */
+
 </style>
