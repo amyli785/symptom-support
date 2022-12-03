@@ -3,9 +3,9 @@
 <template>
   <main>
     <header>
-      <h2 v-if = "this.status == 'viewing'"> Viewing Entry </h2>
-      <h2 v-else-if = "this.status == 'editing'"> Editing Entry </h2>
-      <h2 v-else-if = "this.status == 'creating'"> New Entry </h2>
+      <h2 v-if = "this.status == 'viewing'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> Viewing Entry </h2>
+      <h2 v-else-if = "this.status == 'editing'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> Editing Entry </h2>
+      <h2 v-else-if = "this.status == 'creating'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> New Entry </h2>
       <div v-if = "!this.viewOnly" class = "icons">
         <FlagButton 
           :flagged="flagged" 
@@ -255,6 +255,9 @@ export default {
 
   },
   methods: {
+    back(){
+      this.$router.back();
+    },
     displayDate(date) {
       let formattedDate = moment(new Date(date)).format('yyyy-MM-DDThh:mm');
       return formattedDate == "Invalid date"? "" : formattedDate;
@@ -612,4 +615,5 @@ input:disabled{
   margin: 0 20px 0 20px;
   accent-color: var(--salmon);
 }
+
 </style>

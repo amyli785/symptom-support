@@ -67,7 +67,7 @@
     <ShareModal 
         :shareEntries="shareEntries"
         v-on:cancel-share="cancelShare"
-      />
+    />
   </main>
 </template>
 

@@ -37,7 +37,7 @@
 import EntryComponent from '@/components/Entry/EntryComponent.vue'
 import ShareModal from '@/components/Share/ShareModal.vue'
 export default {
-    name: 'EntryPage',
+    name: 'FlaggedPage',
     components: {
         EntryComponent, ShareModal
     },
