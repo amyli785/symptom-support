@@ -273,7 +273,7 @@ export default {
 }
 
 .selected {
-  background-color: var(--salmon);
+  filter: drop-shadow(0 0 10px var(--dark-blue));
 }
 .left-content {
   flex: 0 1 100%;
