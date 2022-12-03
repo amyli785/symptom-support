@@ -54,14 +54,16 @@
         <div class = "full box">
           <div class = "label">
             <p>Symptoms:</p>
-            <font-awesome-icon 
-              class = "icon"
-              v-if="this.status != 'viewing'"
-              @click="addSymptom"
-              icon="fa-solid fa-plus" 
-            />
+            <div class = "label-icon">
+              <font-awesome-icon 
+                class = "icon"
+                v-if="this.status != 'viewing'"
+                @click="addSymptom"
+                icon="fa-solid fa-plus" 
+              />
+            </div>
           </div>
-          <div class = "all">
+          <div class = "all sm">
             <SymptomComponent
               v-for="j in symptoms.length"
               :key="j"
@@ -72,6 +74,7 @@
               @update-symptom-measurement="(n) => updateSymptomMeasurement(j,n)"
               @update-symptom-unit="(n) => updateSymptomUnit(j,n)"
               @click="deleteSymptom(j)"
+              class = "s"
             />
           </div>
         </div>
@@ -80,14 +83,16 @@
         <div class = "full box">
           <div class = "label">
             <p>Medications:</p>
-            <font-awesome-icon 
-                class = "icon"
-                v-if="this.status != 'viewing'"
-                @click="addMedication"
-                icon="fa-solid fa-plus" 
-            />  
+            <div class = "label-icon">
+              <font-awesome-icon 
+                  class = "icon"
+                  v-if="this.status != 'viewing'"
+                  @click="addMedication"
+                  icon="fa-solid fa-plus" 
+              /> 
+            </div> 
           </div>
-          <div class = "all">
+          <div class = "all sm">
             <MedicationComponent
               v-for="i in medications.length"
               :key="i"
@@ -96,6 +101,7 @@
               @update-medication-name="(n) => updateMedicationName(i,n)"
               @update-medication-dosage="(n) => updateMedicationDosage(i,n)"
               @click="deleteMedication(i)"
+              class = "m"
             />
           </div>
         </div>
@@ -512,11 +518,9 @@ p {
   display: flex;
   flex-direction:row;
   flex-wrap:wrap;
-  gap: 5%;
   width: 85%;
   background-color: white;
   border-radius: 5px;
-  padding: 10px;
 }
 .label {
   width: 12.5%;
@@ -580,5 +584,21 @@ input:disabled{
 }
 #notes:disabled{
   cursor:context-menu;
+}
+.s{
+  margin:1.65%;
+}
+.m{
+  margin:1.65%;
+}
+.label-icon{
+  height:100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.slider{
+  margin: 0 20px 0 20px;
+  accent-color: var(--salmon);
 }
 </style>

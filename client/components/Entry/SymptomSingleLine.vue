@@ -1,10 +1,16 @@
 <template>
 	<article class="symptom-container">
-    <div class="symptom-background">&nbsp;</div>
-    <div class="symptom-content">
-      <div class="symptom-content-item">
+    <div v-if = "!description" class="symptom-background normal">&nbsp;</div>
+    <div v-else class="symptom-background description">&nbsp;</div>
+    <div v-if = "!description" class="symptom-content normal">
+      <p class="symptom-content-item">
         {{ getContent() }}
-      </div>
+      </p>
+    </div>
+    <div v-else class="symptom-content description">
+      <p class="symptom-content-item">
+        name (measurement unit) - location
+      </p>
     </div>
   </article>
 </template>
@@ -29,13 +35,16 @@ export default {
       Type: String,
       required: true,
     },
+    description: {
+      Type: Boolean,
+      require: false,
+    }
   },
   methods: {
     getContent() {
       if (!this.name) {
-        return "none";
+        return " - ";
       }
-
       let contentStart = `${this.name}`;
       if (this.measurement){
         contentStart = contentStart + ` (${this.measurement}`;
@@ -74,7 +83,6 @@ export default {
   opacity: 0.6;
 
   border-radius: 8px;
-  padding: 8px;
 }
 
 .symptom-content {
@@ -88,7 +96,6 @@ export default {
   opacity: 1;
 
   border-radius: 8px;
-  padding: 8px;
 
   display: flex;
   flex-direction: row;
@@ -103,5 +110,10 @@ export default {
   overflow: hidden;
   white-space: nowrap;
 }
-
+.normal{
+  padding: 8px;
+}
+.description{
+  padding: 0 8px 0 8px;
+}
 </style>
