@@ -8,12 +8,6 @@
             <h2>
               Supported
             </h2>
-            <!-- <button
-              v-if="$store.state.username"
-              @click="toSupportedPage"
-            >
-              View supported requests
-            </button> -->
           </div>
         </header>
         <section
@@ -37,7 +31,7 @@
         <article
           v-else
         >
-          <h3>No supported found.</h3>
+          <h3>No accepted supported found.</h3>
         </article>
       </section>
       <section v-else>
@@ -63,9 +57,6 @@
     name: 'SupportedPage',
     components: {SupportedComponent},
     methods:{
-      toSupportedPage() {
-        this.$router.push({name: 'Supported Request'})
-      }
     },
     async mounted() {
       let url = `/api/supports/supported?inviteStatus=accepted`;

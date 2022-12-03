@@ -42,12 +42,18 @@
 
     <div v-if="(!sharingMode && !displayMode)" class = "right-icons">
       <div class = "icons-top">
-        <FlagButton :flagged="flagged" @click="toggleFlag" />
+        <FlagButton 
+          v-if="(permission == 'creator' || permission == 'manager' || entry.owner == this.$store.state.username)"
+          :flagged="flagged" @click="toggleFlag" />
       </div>
       
-      <div v-if="(!sharingMode && !displayMode)" class = "icons-bottom">
-        <EditButton @click="editEntry" />
-        <DeleteButton @click="deleteEntry" />
+      <div v-if="((!sharingMode && !displayMode))" class = "icons-bottom">
+        <EditButton 
+          v-if="(permission == 'manager' || entry.owner == this.$store.state.username)"
+          @click="editEntry" />
+        <DeleteButton 
+          v-if="(permission == 'manager' || entry.owner == this.$store.state.username)" 
+          @click="deleteEntry" />
       </div>
     </div>
   </article>
@@ -87,6 +93,14 @@ export default {
     clickable: {
       type: Boolean,
       required: false
+    },
+    permission: {
+      type: String,
+      required: false,
+    },
+    owner: {
+      type: String,
+      required: false,
     }
   },
   watch: {
@@ -145,7 +159,7 @@ export default {
       }
     },
     viewEntry() {
-      if (!this.$store.state.username) {
+      if (!this.$store.state.username || this.permission === 'viewer' || this.permission == 'creator') {
         this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: true});
       } else {
         this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: false});
@@ -164,19 +178,21 @@ export default {
     async toggleFlag() {
       event.stopPropagation();
       if (this.flagged){
-        this.flagged = false;
-        const options = {
-          method: 'DELETE', headers: {'Content-Type': 'application/json'}
-        };
-        try {
-          const r = await fetch(`/api/flags/${this.entry._id}`, options);
-          if (!r.ok) {
-            const res = await r.json();
-            throw new Error(res.error);
+        if (this.$store.state.username === this.entry.owner || this.permission === 'manager'){
+          this.flagged = false;
+          const options = {
+            method: 'DELETE', headers: {'Content-Type': 'application/json'}
+          };
+          try {
+            const r = await fetch(`/api/flags/${this.entry._id}`, options);
+            if (!r.ok) {
+              const res = await r.json();
+              throw new Error(res.error);
+            }
+          } catch (e) {
+            this.$set(this.alerts, e, 'error');
+            setTimeout(() => this.$delete(this.alerts, e), 3000);
           }
-        } catch (e) {
-          this.$set(this.alerts, e, 'error');
-          setTimeout(() => this.$delete(this.alerts, e), 3000);
         }
       } else {
         this.flagged = true;

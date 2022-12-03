@@ -1,7 +1,7 @@
 <!-- Reusable component representing a single supported and its actions -->
 
 <template>
-    <article
+    <article @click="goToSupportedEntryFeed"
       class="supported"
     >
       <header>
@@ -64,6 +64,11 @@ import DeleteButton from '../common/DeleteButton';
       };
     },
     methods: {
+      goToSupportedEntryFeed(){
+        if (this.supported.inviteStatus == 'accepted'){
+          this.$router.push({ path: '/entries', query: { username: this.supported.supported } })
+        }
+      },
       removeSupported() {
         /**
          * Deletes this supported.

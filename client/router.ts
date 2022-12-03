@@ -5,8 +5,9 @@ import AccountPage from './components/Account/AccountPage.vue';
 import LoginPage from './components/Login/LoginPage.vue';
 import SupporterPage from './components/Supporter/SupporterPage.vue';
 import SupportedPage from './components/Supported/SupportedPage.vue';
-import SupportedRequestPage from './components/Supported/SupportedRequestPage.vue';
-import SupporterRequestPage from './components/Supporter/SupporterRequestPage.vue';
+// import SupportedRequestPage from './components/Supported/SupportedRequestPage.vue';
+// import SupporterRequestPage from './components/Supporter/SupporterRequestPage.vue';
+import SupportedEntriesFeed from './components/Supported/SupportedEntriesFeed.vue';
 import EntryPage from './components/Entry/EntryPage.vue';
 import FlaggedPage from './components/Flag/FlaggedPage.vue';
 import SharePage from './components/Share/SharePage.vue';
@@ -18,13 +19,14 @@ const routes = [
   {path: '/', name: 'Home', component: EntryFeed},
   {path: '/supporter', name: 'Supporter', component: SupporterPage},
   {path: '/supported', name: 'Supported', component: SupportedPage},
-  {path: '/supportedRequest', name: 'Supported Request', component: SupportedRequestPage},
-  {path: '/supporterRequest', name: 'Supporter Request', component: SupporterRequestPage},
+  // {path: '/supportedRequest', name: 'Supported Request', component: SupportedRequestPage},
+  // {path: '/supporterRequest', name: 'Supporter Request', component: SupporterRequestPage},
   {path: '/account', name: 'Account', component: AccountPage},
   {path: '/login', name: 'Login', component: LoginPage},
   {path: '/flagged', name: 'Flagged Entries', component: FlaggedPage},
   {path: '/Entry', name: 'Entry', component: EntryPage},
   {path: '/share/:shareId', name: 'Share', component: SharePage},
+  {path: '/entries', name: 'SupportedEntriesFeed', component: SupportedEntriesFeed},
   {path: '*', name: 'Not Found', component: NotFound}
 ];
 
