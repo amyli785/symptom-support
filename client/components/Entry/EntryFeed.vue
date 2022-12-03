@@ -2,10 +2,6 @@
 
 <template>
   <main>
-    <ShareModal 
-        :shareEntries="shareEntries"
-        v-on:cancel-share="cancelShare"
-      />
     <section v-if="$store.state.displayName">
       <header>
         <h2>Welcome {{ $store.state.displayName }}</h2>
@@ -23,7 +19,7 @@
       >
         Create Entry
       </button>
-      <p v-if="sharingMode">
+      <p class="shareInstructions" v-if="sharingMode">
         Click to select the entries you want to share. 
       </p>
       <section
@@ -64,6 +60,10 @@
         </h3>
       </article>
     </section>
+    <ShareModal 
+        :shareEntries="shareEntries"
+        v-on:cancel-share="cancelShare"
+      />
   </main>
 </template>
 
@@ -154,5 +154,9 @@ section .scrollbox {
   border-radius: 10px;
   width:100px;
   justify-content: center;
+}
+
+.shareInstructions{
+  font-weight: bold;
 }
 </style>
