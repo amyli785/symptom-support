@@ -7,13 +7,13 @@
     >
       <header>
         <h2>
-            {{supporter.supporterDisplay}}
+            <div class="support-display-name"><strong>{{supporter.supporterDisplay}}</strong></div> <div class="support-username"> @{{ supporter.supporter }}</div>
         </h2>
-        <h3 class="author">
-            <!-- {{ supporter.supporter.displayName }} -->
+        <!-- <h3 class="author">
+            {{ supporter.supporter.displayName }}
           @{{ supporter.supporter }}
-        </h3>
-        <select
+        </h3> -->
+        <!-- <select
             v-if="editing"
             class="permission"
             :value="draft"
@@ -28,7 +28,28 @@
             class="permission"
         >
           This supporter is a <strong>{{ supporter.permission }}</strong>.
-        </p>
+        </p> -->
+        <div
+            class="permission-container"
+        >
+            <p>This supporter is a </p>
+            <select
+                v-if="editing"
+                class="permission"
+                :value="draft"
+                @input="draft = $event.target.value"
+            >
+                <option
+                    v-for="level in ['','viewer','creator','manager']"
+                >{{level}}</option>
+            </select>
+            <p
+                v-else
+                class="permission"
+            >
+                <strong>{{ supporter.permission }}</strong>.
+            </p>
+        </div>
         <p>
             Invite status: <strong>{{supporter.inviteStatus}}</strong>.
         </p>
@@ -178,6 +199,17 @@ export default {
 </script>
 
 <style scoped>
+
+h2 {
+    display: flex;
+    flex-direction:row;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.support-username{
+    font-size:75%;
+}
 .supporter {
     border: 1px solid #111;
     padding: 20px;
@@ -196,13 +228,20 @@ export default {
   border-radius: 20px;
   padding: 20px;
 
-  flex-basis: calc(50% - 20px);
+  flex-basis: calc(31%);
 
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 
   gap: 12px;
+}
+
+.permission-container {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: flex-start;
 }
 
 </style>

@@ -12,6 +12,7 @@
         </header>
         <section
           v-if="$store.state.supportedRequests.length"
+          class="support-invited"
         >
           <SupportedComponent
             v-for="supported in $store.state.supportedRequests"
@@ -21,6 +22,7 @@
         </section>
         <section
           v-if="$store.state.supported.length"
+          class="support-accepted"
         >
           <SupportedComponent
             v-for="supported in $store.state.supported"
@@ -89,3 +91,30 @@
     }
   };
   </script>
+
+<style scoped>
+section {
+  display: flex;
+  flex-direction: column;
+}
+.support-invited {
+  display: flex;
+
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* justify-content: space-around; */
+  /* justify-content:space-evenly; */
+
+  gap: 40px;
+}
+
+.support-accepted {
+  display: flex;
+
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
+
+  gap: 40px;
+}
+</style>

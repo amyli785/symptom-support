@@ -5,11 +5,8 @@
     >
       <header>
         <h2>
-          {{ supported.supportedDisplay }}
+            <div class="support-display-name"><strong>{{supported.supportedDisplay}}</strong></div> <div class="support-username"> @{{ supported.supported }}</div>
         </h2>
-        <h3 class="author">
-          @{{ supported.supported }}
-        </h3>
         <p>
             You are a <strong>{{supported.permission}}</strong>.
         </p>
@@ -161,6 +158,31 @@ export default {
   filter: drop-shadow(0 0 4px var(--dark-blue-drop-shadow));
 }
 
+h2 {
+    display: flex;
+    flex-direction:row;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.support-username{
+    font-size:75%;
+}
+.support-container {
+  background-color: #ffffff;
+  filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
+  color: black;
+  border-radius: 20px;
+  padding: 20px;
+
+  flex-basis: calc(31%);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  gap: 12px;
+}
 /* .selected {
   background-color: var(--salmon);
 }

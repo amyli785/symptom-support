@@ -34,6 +34,7 @@
         </header>
         <section
           v-if="$store.state.supporterRequests.length"
+          class="support-invited"
         >
           <SupporterComponent
             v-for="supporter in $store.state.supporterRequests"
@@ -43,6 +44,7 @@
         </section>
         <section
           v-if="$store.state.supporter.length"
+          class="support-accepted"
         >
           <SupporterComponent
             v-for="supporter in $store.state.supporter"
@@ -103,3 +105,30 @@
     }
   };
   </script>
+
+<style scoped>
+section {
+  display: flex;
+  flex-direction: column;
+}
+.support-invited {
+  display: flex;
+
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* justify-content: space-around; */
+  /* justify-content:space-evenly; */
+
+  gap: 40px;
+}
+
+.support-accepted {
+  display: flex;
+
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
+
+  gap: 40px;
+}
+</style>
