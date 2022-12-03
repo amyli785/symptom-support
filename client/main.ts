@@ -23,6 +23,7 @@ library.add(iconSolid.faFaceFrown);
 library.add(iconSolid.faFaceSadTear);
 library.add(iconSolid.faPlus);
 library.add(iconSolid.faX);
+library.add(iconSolid.faShareNodes);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(BootstrapVue)

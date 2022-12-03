@@ -9,6 +9,8 @@
                 class = "share"
             >
                 Share
+                &nbsp;
+                <font-awesome-icon icon="fa-solid fa-share-nodes" />
             </button>
         </header>
         <section

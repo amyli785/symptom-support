@@ -29,7 +29,7 @@ export default {
     },
     description: {
       Type: Boolean,
-      required: true,
+      required: false,
     }
   },
   methods: {

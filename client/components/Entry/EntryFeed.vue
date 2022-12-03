@@ -11,6 +11,8 @@
           @click = "startShare"
         >
           Share
+          &nbsp;
+          <font-awesome-icon icon="fa-solid fa-share-nodes" />
         </button>
       </header>
       <button 
@@ -18,6 +20,8 @@
         @click = 'createEntry'
       >
         Create Entry
+        &nbsp;
+        <font-awesome-icon icon="fa-solid fa-plus" />
       </button>
       <p v-if="sharingMode">
         Click to select the entries you want to share. 

@@ -166,14 +166,20 @@
         <div v-if = "this.status == 'creating'">
           <button @click = "submit" class ="b creating">
             Create Entry
+            &nbsp;
+            <font-awesome-icon icon="fa-solid fa-plus" />
           </button>
         </div>
         <div v-else-if = "this.status == 'editing'" class = "both">
           <button @click = "save" class = "b editing">
             Save Changes
+            &nbsp;
+            <font-awesome-icon icon="fa-solid fa-check" />
           </button>
           <button @click = "discard" class = "b editing">
             Discard Changes
+            &nbsp;
+            <font-awesome-icon icon="fa-solid fa-x" />
           </button>
         </div>
       </div>
