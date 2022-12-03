@@ -5,7 +5,7 @@
 <template>
   <nav>
     <div class="left">
-      <img class = "logo" src = "../../public/logo1.png">
+      <font-awesome-icon icon="fa-solid fa-heart-pulse" />
     </div>
     <div class="right">
       <router-link to="/">
