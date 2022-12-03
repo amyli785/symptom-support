@@ -272,6 +272,9 @@ export default {
   filter: drop-shadow(0 0 4px var(--dark-blue-drop-shadow));
 }
 
+.selected:hover{
+  filter: drop-shadow(0 0 10px var(--dark-blue));
+}
 .selected {
   filter: drop-shadow(0 0 10px var(--dark-blue));
 }
