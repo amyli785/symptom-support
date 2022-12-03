@@ -7,8 +7,14 @@
       <header>
         <h2>Account settings for {{ $store.state.displayName}}</h2>
       </header>
-      <ChangeUsernameForm />
-      <ChangeDisplayNameForm />
+      <ChangeUsernameForm 
+        :currentLabel="'Current username'"
+        :currentValue="$store.state.username"
+      />
+      <ChangeDisplayNameForm 
+        :currentLabel="'Current Display Name'"
+        :currentValue="$store.state.displayName"
+      />
       <ChangePasswordForm />
     </section>
     <section>

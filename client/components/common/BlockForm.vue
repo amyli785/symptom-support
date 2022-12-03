@@ -11,6 +11,11 @@
         v-for="field in fields"
         :key="field.id"
       >
+        <p 
+          v-if="(currentLabel)"
+        >
+          {{currentLabel}}: {{currentValue}}
+        </p>
         <label :for="field.id">{{ field.label }}:</label>
         <textarea
           v-if="field.id === 'content'"
@@ -57,6 +62,16 @@
 
 export default {
   name: 'BlockForm',
+  props: {
+    currentLabel: {
+      Type: String,
+      required: false
+    },
+    currentValue: {
+      Type: String,
+      required: false
+    },
+  },
   data() {
     /**
      * Options for submitting this form.
