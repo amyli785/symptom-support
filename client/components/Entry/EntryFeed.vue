@@ -2,6 +2,10 @@
 
 <template>
   <main>
+    <ShareModal 
+        :shareEntries="shareEntries"
+        v-on:cancel-share="cancelShare"
+      />
     <section v-if="$store.state.displayName">
       <header>
         <h2>Welcome {{ $store.state.displayName }}</h2>
@@ -59,10 +63,6 @@
           to create, edit, and delete entries.
         </h3>
       </article>
-      <ShareModal 
-        :shareEntries="shareEntries"
-        v-on:cancel-share="cancelShare"
-      />
     </section>
   </main>
 </template>
