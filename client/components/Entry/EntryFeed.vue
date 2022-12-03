@@ -23,7 +23,7 @@
         &nbsp;
         <font-awesome-icon icon="fa-solid fa-plus" />
       </button>
-      <p v-if="sharingMode">
+      <p class="shareInstructions" v-if="sharingMode">
         Click to select the entries you want to share. 
       </p>
       <section
@@ -63,11 +63,11 @@
           to create, edit, and delete entries.
         </h3>
       </article>
-      <ShareModal 
+    </section>
+    <ShareModal 
         :shareEntries="shareEntries"
         v-on:cancel-share="cancelShare"
       />
-    </section>
   </main>
 </template>
 
@@ -158,5 +158,9 @@ section .scrollbox {
   border-radius: 10px;
   width:100px;
   justify-content: center;
+}
+
+.shareInstructions{
+  font-weight: bold;
 }
 </style>

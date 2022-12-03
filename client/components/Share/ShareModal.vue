@@ -13,10 +13,12 @@
                 <p>Use this link to share the entries you selected. Note that the link will expire in 72 hours. </p>
                 <a :href="shareLink">{{this.shareLink}}</a>
             </section>
+
+            <hr/>
             <section v-if="!shareCreated">
                 <p>Sharing Entries:</p>
                 <div class="entries">
-                    <EntryComponent
+                    <EntryComponent class="entry"
                         v-for="entry in entries"
                         :key="entry._id"
                         :entry="entry"
@@ -26,10 +28,12 @@
                 </div>
 
             </section>
-
-            <button v-if="!shareCreated" @click="createShare">
+            <section class="footer">
+                <button :disabled="(name.length == 0)" v-if="!shareCreated" @click="createShare">
                 Create Share
-            </button>
+                </button>
+            </section>
+
 
         </b-modal>
     </main>
@@ -100,5 +104,30 @@ export default {
   justify-content: space-between;
 
   gap: 40px;
+}
+
+p{
+    margin: 5px;
+}
+
+button {
+    width: 95%;
+    margin: 20px;
+}
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.nameInput{
+    display: flex;
+    flex-direction: row;
+}
+
+.entry:hover {
+  cursor: auto;
+  filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
 }
 </style>
