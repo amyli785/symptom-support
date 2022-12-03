@@ -1,9 +1,11 @@
 <template>
     <main>
         <section class="shareBar">
-            <section class="shareBar-left">
             <button @click="doneSelecting" :disabled="(shareSize==0)">Done</button>
-            <p class="shareCount">{{shareSize}} Selected</p>
+
+            <section class="shareBar-text">
+                <p>Click to select the entries you want to share: </p>
+                <p class="shareCount">{{shareSize}} selected</p>
             </section>
             <button @click="cancelShare" class="shareBar-right">Cancel</button>
       </section>
@@ -48,20 +50,31 @@ export default {
   left: 0;
   bottom: 0;
   width: 100%;
-  padding: 5px 20px;
-  background-color: var(--light-blue);
+  padding: 8px 2%;
+  background-color: var(--dark-blue);
   text-align: center;
 }
-.shareBar-left{
-  display: flex;
-  flex-direction: row;
-  align-self: center;
-  justify-content: space-between;
+
+button {
+    background-color: white;
+    color: var(--dark-blue);
+    padding: 0px 20px;
+}
+
+button:disabled{
+    background-color:rgba(200,200,200,1);
 }
 
 p{
     margin: 0;
     padding: 10px;
+}
+
+.shareBar-text{
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    color: white;
 }
 
 </style>

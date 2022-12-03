@@ -79,7 +79,7 @@ export default {
 .symptom-background {
   flex: 1 0 100%;
 
-  background-color: var(--light-blue);
+  background-color: var(--salmon);
   opacity: 0.6;
 
   border-radius: 8px;
