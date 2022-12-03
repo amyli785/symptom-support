@@ -1,7 +1,7 @@
 <!-- Reusable component representing a single supported and its actions -->
 
 <template>
-    <article class="support-container" @click="goToSupportedEntryFeed"
+    <article :class="`support-container ${supported.inviteStatus}`" @click="goToSupportedEntryFeed"
     >
       <header>
         <h2>
@@ -136,6 +136,7 @@ import DeleteButton from '../common/DeleteButton';
 .actions-container {
     display:flex;
     justify-content:flex-start;
+    align-items:center;
     gap: 12px;
 }
 
@@ -151,11 +152,11 @@ import DeleteButton from '../common/DeleteButton';
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items:flex-start;
 
   gap: 12px;
 }
-
-.support-container:hover {
+.accepted:hover {
   cursor: pointer;
   filter: drop-shadow(0 0 4px var(--dark-blue-drop-shadow));
 }

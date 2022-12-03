@@ -33,7 +33,7 @@
         v-if="$store.state.username"
         to="/supported"
       >
-        Supported
+        Supporting
       </router-link>
       <!-- <router-link 
         v-if="$store.state.username"

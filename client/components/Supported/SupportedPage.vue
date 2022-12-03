@@ -6,7 +6,7 @@
         <header>
           <div class="left">
             <h2>
-              Supported
+              Supporting
             </h2>
           </div>
         </header>

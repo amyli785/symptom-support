@@ -24,7 +24,7 @@ const routes = [
   {path: '/account', name: 'Account', component: AccountPage},
   {path: '/login', name: 'Login', component: LoginPage},
   {path: '/flagged', name: 'Flagged Entries', component: FlaggedPage},
-  {path: '/Entry', name: 'Entry', component: EntryPage},
+  {path: '/entry', name: 'Entry', component: EntryPage},
   {path: '/share/:shareId', name: 'Share', component: SharePage},
   {path: '/entries', name: 'SupportedEntriesFeed', component: SupportedEntriesFeed},
   {path: '*', name: 'Not Found', component: NotFound}
