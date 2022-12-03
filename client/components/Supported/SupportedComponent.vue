@@ -44,88 +44,88 @@
 import AcceptButton from '../common/AcceptButton';
 import DeleteButton from '../common/DeleteButton';
   
-  export default {
-    name: 'SupportedComponent',
-    components: {
-      AcceptButton,
-      DeleteButton
-    },
-    props: {
-      // Data from the stored supported
-      supported: {
-        type: Object,
-        required: true
+export default {
+  name: 'SupportedComponent',
+  components: {
+    AcceptButton,
+    DeleteButton
+  },
+  props: {
+    // Data from the stored supported
+    supported: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      alerts: {} // Displays success/error messages encountered during freet modification
+    };
+  },
+  methods: {
+    goToSupportedEntryFeed(){
+      if (this.supported.inviteStatus == 'accepted'){
+        this.$router.push({ path: '/entries', query: { username: this.supported.supported } })
       }
     },
-    data() {
-      return {
-        alerts: {} // Displays success/error messages encountered during freet modification
+    removeSupported() {
+      /**
+       * Deletes this supported.
+       */
+      const params = {
+        method: 'DELETE',
+        callback: () => {
+          this.$store.commit('alert', {
+            message: 'Successfully removed supported!', status: 'success'
+          });
+        }
       };
+      this.request(params);
     },
-    methods: {
-      goToSupportedEntryFeed(){
-        if (this.supported.inviteStatus == 'accepted'){
-          this.$router.push({ path: '/entries', query: { username: this.supported.supported } })
-        }
-      },
-      removeSupported() {
-        /**
-         * Deletes this supported.
-         */
-        const params = {
-          method: 'DELETE',
+    acceptInvite(){
+      const params = {
+          method: 'PATCH',
+          message: 'Successfully accepted invite!',
+          body: JSON.stringify({inviteStatus: 'accepted'}),
           callback: () => {
-            this.$store.commit('alert', {
-              message: 'Successfully removed supported!', status: 'success'
-            });
+          this.$set(this.alerts, params.message, 'success');
+          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
           }
-        };
-        this.request(params);
-      },
-      acceptInvite(){
-        const params = {
-            method: 'PATCH',
-            message: 'Successfully accepted invite!',
-            body: JSON.stringify({inviteStatus: 'accepted'}),
-            callback: () => {
-            this.$set(this.alerts, params.message, 'success');
-            setTimeout(() => this.$delete(this.alerts, params.message), 3000);
-            }
-        };
-        this.request(params);
-      },
-      async request(params) {
-        /**
-         * Submits a request to the support endpoint
-         * @param params - Options for the request
-         * @param params.body - Body for the request, if it exists
-         * @param params.callback - Function to run if the the request succeeds
-         */
-        const options = {
-          method: params.method, headers: {'Content-Type': 'application/json'}
-        };
-        if (params.body) {
-          options.body = params.body;
+      };
+      this.request(params);
+    },
+    async request(params) {
+      /**
+       * Submits a request to the support endpoint
+       * @param params - Options for the request
+       * @param params.body - Body for the request, if it exists
+       * @param params.callback - Function to run if the the request succeeds
+       */
+      const options = {
+        method: params.method, headers: {'Content-Type': 'application/json'}
+      };
+      if (params.body) {
+        options.body = params.body;
+      }
+
+      try {
+        const r = await fetch(`/api/supports/supported/${this.supported.supported}`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
         }
-  
-        try {
-          const r = await fetch(`/api/supports/supported/${this.supported.supported}`, options);
-          if (!r.ok) {
-            const res = await r.json();
-            throw new Error(res.error);
-          }
-  
-          this.$store.commit('refreshSupported');
-          this.$store.commit('refreshSupportedRequest');
-          params.callback();
-        } catch (e) {
-          this.$set(this.alerts, e, 'error');
-          setTimeout(() => this.$delete(this.alerts, e), 3000);
-        }
+
+        this.$store.commit('refreshSupported');
+        this.$store.commit('refreshSupportedRequest');
+        params.callback();
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
     }
-  };
-  </script>
+  }
+};
+</script>
 
 <style scoped>
 .supported {

@@ -1,6 +1,6 @@
 <template>
     <main>
-        <h2>{{ownerDisplay}}'s Entries </h2>
+        <h2><font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" />{{ownerDisplay}}'s Entries </h2>
         <button class = "createEntry" 
             v-if="(permission == 'creator' || permission == 'manager')"
             @click = 'createEntry'>
@@ -108,6 +108,9 @@ export default {
         }
     },
     methods: {
+        back(){
+            this.$router.back();
+        },
         createEntry(){
             this.$store.commit('goToEntry', {entry: null, owner: this.owner, status: 'creating', viewOnly: false});
             this.$router.push({name: 'Entry'});
@@ -135,5 +138,9 @@ export default {
   width: 100%;
   padding: 10px;
   margin-bottom: 25px;
+}
+.icon:hover {
+  transform: scale(1.1, 1.1);
+  cursor: pointer;
 }
 </style>
