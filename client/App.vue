@@ -64,7 +64,7 @@ main {
 button {
   background-color: var(--light-blue);
   border: 0;
-  border-radius: 10px;
+  border-radius: 10px  !important;
   padding: 5px;
   color: white;
 }

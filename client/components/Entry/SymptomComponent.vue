@@ -152,6 +152,9 @@ select {
   padding-top: 0.125em;
   padding-bottom: 0.125em;
 }
+select:disabled{
+  background-color: rgba(255,255,255,0.3);
+}
 header {
   display: flex;
   flex-direction: row;

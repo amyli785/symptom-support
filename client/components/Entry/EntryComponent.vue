@@ -10,7 +10,14 @@
         </div>
       </div>
       <SymptomSingleLine
-        v-for="symptom in entry.symptoms.slice(0,3)"
+        :name="''"
+        :measurement="''"
+        :unit="''"
+        :location="''"
+        :description = "true"
+      />
+      <SymptomSingleLine
+        v-for="symptom in entry.symptoms.slice(0,2)"
         :key="(entry.dateStarted.toString()+' '+symptom.name+symptom.intensity)"
         :name="symptom.name"
         :measurement="symptom.measurement"
@@ -18,22 +25,26 @@
         :location="symptom.location"
       />
       <SymptomSingleLine
-        v-for="i in Math.max(0, 3 - entry.symptoms.length)"
+        v-for="i in Math.max(0, 2 - entry.symptoms.length)"
         :key="(entry.dateStarted.toString()+' symptom '+i)"
         :name="''"
         :measurement="''"
         :unit="''"
         :location="''"
       />
-      
       <MedicationSingleLine
-        v-for="medication in entry.medications.slice(0,3)"
+        :name="''"
+        :dosage="''"
+        :description="true"
+      />
+      <MedicationSingleLine
+        v-for="medication in entry.medications.slice(0,2)"
         :key="(entry.dateStarted.toString()+' '+medication.name+medication.dosage)"
         :name="medication.name"
         :dosage="medication.dosage"
       />
       <MedicationSingleLine
-        v-for="i in Math.max(0, 3 - entry.medications.length)"
+        v-for="i in Math.max(0, 2 - entry.medications.length)"
         :key="(entry.dateStarted.toString()+' medication '+i)"
         :name="''"
         :dosage="''"
@@ -117,7 +128,7 @@ export default {
       alerts: {},
     };
   },
-  mounted() {
+  updated() {
     if (this.$store.state.username) {
       this.findFlagStatus();
     }
@@ -159,7 +170,7 @@ export default {
       }
     },
     viewEntry() {
-      if (!this.$store.state.username || this.permission === 'viewer' || this.permission == 'creator') {
+      if (this.displayMode || !this.$store.state.username || this.permission === 'viewer' || this.permission == 'creator') {
         this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: true});
       } else {
         this.$store.commit('goToEntry', {entry: this.entry, owner: null, status: 'viewing', viewOnly: false});

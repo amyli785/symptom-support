@@ -3,7 +3,6 @@
         <h2>
             {{name}}
         </h2>
-        <p>Shared Entries: </p>
         <div class="entries">
             <EntryComponent
                 v-for="entry in entries"
@@ -46,3 +45,20 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+
+h2 {
+    margin: 20px 10px;
+}
+.entries {
+  display: flex;
+
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  gap: 40px;
+}
+
+</style>

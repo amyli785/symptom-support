@@ -3,20 +3,27 @@
 <template>
   <main>
     <section v-if="$store.state.displayName">
-      <ShareModal 
-        :shareEntries="shareEntries"
-        v-on:cancel-share="cancelShare"
-      />
       <header>
         <h2>Welcome {{ $store.state.displayName }}</h2>
+        <button 
+          v-if = "($store.state.entries.length && !sharingMode)" 
+          class = "share" 
+          @click = "startShare"
+        >
+          Share
+          &nbsp;
+          <font-awesome-icon icon="fa-solid fa-share-nodes" />
+        </button>
       </header>
-      <button class = "createEntry" @click = 'createEntry'>
+      <button 
+        class = "createEntry" 
+        @click = 'createEntry'
+      >
         Create Entry
+        &nbsp;
+        <font-awesome-icon icon="fa-solid fa-plus" />
       </button>
-      <button v-if="($store.state.entries.length && !sharingMode)" class = "share" @click="startShare">
-        Share
-      </button>
-      <p v-if="sharingMode">
+      <p class="shareInstructions" v-if="sharingMode">
         Click to select the entries you want to share. 
       </p>
       <section
@@ -57,6 +64,10 @@
         </h3>
       </article>
     </section>
+    <ShareModal 
+        :shareEntries="shareEntries"
+        v-on:cancel-share="cancelShare"
+      />
   </main>
 </template>
 
@@ -123,16 +134,11 @@ header, header > * {
   justify-content: space-between;
   align-items: center;
 }
-
-button {
-  margin-right: 10px;
-}
 section .scrollbox {
   flex: 1 0 50vh;
   padding: 3%;
   overflow-y: scroll;
 }
-
 .entries {
   display: flex;
 
@@ -144,7 +150,17 @@ section .scrollbox {
 }
 .createEntry{
   width: 100%;
-  padding: 10px;
+  padding: 5px;
   margin-bottom: 25px;
+  border-radius: 10px;
+}
+.share{
+  border-radius: 10px;
+  width:100px;
+  justify-content: center;
+}
+
+.shareInstructions{
+  font-weight: bold;
 }
 </style>

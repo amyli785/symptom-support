@@ -5,9 +5,7 @@
 <template>
   <nav>
     <div class="left">
-      <h1 class="title">
-        Symptom Support
-      </h1>
+      <img class = "logo" src = "../../public/logo1.png">
     </div>
     <div class="right">
       <router-link to="/">
@@ -103,8 +101,25 @@ img {
 .right a {
     margin-left: 5px;
 }
-
 .alerts {
     width: 25%;
 }
+a:link { 
+  text-decoration: none; 
+}
+a:visited { 
+  text-decoration: none; 
+}
+a:hover { 
+  text-decoration: none; 
+  color:white;
+}
+a:active { 
+  text-decoration: none; 
+}
+a{
+  color:black;
+  font-weight: bold;
+}
+
 </style>

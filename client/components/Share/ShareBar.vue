@@ -2,8 +2,8 @@
     <main>
         <section class="shareBar">
             <section class="shareBar-left">
-            <button @click="doneSelecting">Done</button>
-            <p>{{shareSize}} Selected</p>
+            <button @click="doneSelecting" :disabled="(shareSize==0)">Done</button>
+            <p class="shareCount">{{shareSize}} Selected</p>
             </section>
             <button @click="cancelShare" class="shareBar-right">Cancel</button>
       </section>
@@ -38,7 +38,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
 .shareBar{
   display: flex;
   flex-direction: row;
@@ -47,13 +48,20 @@ export default {
   left: 0;
   bottom: 0;
   width: 100%;
-  padding: 5px;
+  padding: 5px 20px;
   background-color: var(--light-blue);
   text-align: center;
 }
 .shareBar-left{
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  align-self: center;
+  justify-content: space-between;
 }
+
+p{
+    margin: 0;
+    padding: 10px;
+}
+
 </style>

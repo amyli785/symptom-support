@@ -144,24 +144,28 @@ export default {
 
 <style scoped>
 form {
-  border: 1px solid #111;
-  padding: 0.5rem;
+  background-color: #ffffff;
+  filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
+  color: black;
+  border-radius: 20px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 14px;
+  margin-bottom: 20px;
   position: relative;
 }
-
+button{
+  padding: 5px;
+  border-radius: 10px;
+}
 article > div {
   display: flex;
   flex-direction: column;
 }
-
 form > article p {
   margin: 0;
 }
-
 form h3,
 form > * {
   margin: 0.3em 0;

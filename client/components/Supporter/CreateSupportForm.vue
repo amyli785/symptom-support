@@ -134,15 +134,21 @@
 
 <style scoped>
 form {
-  border: 1px solid #111;
-  padding: 0.5rem;
+  background-color: #ffffff;
+  filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
+  color: black;
+  border-radius: 20px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 14px;
+  margin-bottom: 20px;
   position: relative;
 }
-
+button{
+  padding: 5px;
+  border-radius: 10px;
+}
 article > div {
   display: flex;
   flex-direction: column;
@@ -162,7 +168,14 @@ form h3 {
 }
 
 textarea {
-   font-family: inherit;
-   font-size: inherit;
+  font-family: inherit;
+  font-size: inherit;
+}
+input{
+  border-radius: 10px;
+}
+select{
+  border-radius:10px;
+  padding: 5px 0px 5px 0px;
 }
 </style>
