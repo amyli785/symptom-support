@@ -8,7 +8,7 @@
       </div>
     </div>
     <div v-else class="medication-content description">
-      <p class="medication-content-item">
+      <p class="medication-content-item d">
         name (dosage)
       </p>
     </div>
@@ -55,8 +55,7 @@ export default {
 .medication-background {
   flex: 1 0 100%;
 
-  background-color: var(--dark-blue);
-  opacity: 0.6;
+  background-color: var(--dark-blue-transparent);
 
   border-radius: 8px;
 }
@@ -89,5 +88,8 @@ export default {
 }
 .description{
   padding: 0 8px 0 8px;
+}
+.d{
+  font-style: italic;
 }
 </style>

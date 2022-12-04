@@ -7,7 +7,7 @@
         <h2>Welcome {{ $store.state.displayName }}</h2>
         <button 
           v-if = "($store.state.entries.length && !sharingMode)" 
-          class = "share" 
+          class = "b share"
           @click = "startShare"
         >
           Share
@@ -15,14 +15,27 @@
           <font-awesome-icon icon="fa-solid fa-share-nodes" />
         </button>
       </header>
-      <button 
-        class = "createEntry" 
-        @click = 'createEntry'
-      >
-        Create Entry
-        &nbsp;
-        <font-awesome-icon icon="fa-solid fa-plus" />
-      </button>
+      <div class = "create-entry">
+        <div class = "right">
+          <p class = "create-words"> Create an Entry for: &nbsp;</p>
+          <select
+            class = "create-words"
+            id = "entry-selector"
+          >
+            <option
+              v-for="person in this.people"
+              :value = "person.username"
+            >{{person.username == $store.state.username? 'myself': person.display + ' @' + person.username}}</option>
+          </select>
+        </div>
+        <button 
+          class = "b create" 
+          @click = 'createEntry'
+        >
+          Create&nbsp;<font-awesome-icon icon="fa-solid fa-plus" />
+        </button>
+      </div>
+      
       <p class="shareInstructions" v-if="sharingMode">
         Click to select the entries you want to share. 
       </p>
@@ -86,12 +99,34 @@ export default {
       alerts: {},
       sharingMode: false,
       shareEntries: {},
-      shareSize: 0
+      shareSize: 0,
+      people:[{username: this.$store.state.username},],
     };
   },
   async mounted() {
     this.shareSize = 0;
     this.shareEntries = {};
+
+    let url = `/api/supports/supported?inviteStatus=accepted`;
+    try {
+      const r = await fetch(url);
+      const res = await r.json();
+      if (!r.ok) {
+        throw new Error(res.error);
+      }
+      this.$store.commit('updateSupported', res);
+    } catch (e) {
+
+      this.$set(this.alerts, e, 'error');
+      setTimeout(() => this.$delete(this.alerts, e), 3000);
+    }
+    for(const s of this.$store.state.supported){
+      if (s.permission == 'creator' || s.permission == 'manager'){
+        this.people.push({display:s.supportedDisplay, username:s.supported});
+        //this.people.push(s.supportedDisplay +  " @" + s.supported);
+      }
+    }
+
     await this.$store.commit('refreshEntries');
   },
   methods: {
@@ -116,7 +151,7 @@ export default {
       this.sharingMode = false;
     },
     createEntry(){
-      this.$store.commit('goToEntry', {entry: null, owner: this.$store.state.username, status: 'creating', viewOnly: false});
+      this.$store.commit('goToEntry', {entry: null, owner: document.getElementById("entry-selector").value, status: 'creating', viewOnly: false});
       this.$router.push({name: 'Entry'});
     }
   },
@@ -148,13 +183,7 @@ section .scrollbox {
 
   gap: 40px;
 }
-.createEntry{
-  width: 100%;
-  padding: 5px;
-  margin-bottom: 25px;
-  border-radius: 10px;
-}
-.share{
+.b{
   border-radius: 10px;
   width:100px;
   justify-content: center;
@@ -162,5 +191,31 @@ section .scrollbox {
 
 .shareInstructions{
   font-weight: bold;
+}
+.create-entry{
+  width:100%;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-radius: 15px;
+  background-color: #ffffff;
+  filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
+  padding: 5px;
+  margin-bottom: 25px;
+}
+.create-words{
+  margin:0;
+  padding:0;
+  font-size: 1.5em;
+}
+#entry-selector{
+  width:70%;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.right{
+  width:100%;
+  display:flex;
+  flex-direction: row;
 }
 </style>

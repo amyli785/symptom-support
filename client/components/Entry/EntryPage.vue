@@ -488,8 +488,9 @@ p {
 .form {
   height: 100%;
   border-radius: 25px;
-  background-color: var(--light-blue-transparent);
-  padding: 25px;
+  background-color: #ffffff;
+  filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
+  padding: 20px;
   cursor:context-menu;
 }
 .dates{
@@ -504,7 +505,7 @@ p {
   width: 100%;
 }
 .box {
-  background-color: var(--dark-blue);
+  background-color: var(--light-blue-transparent);
   padding: 20px;
   border-radius: 15px;
   display: flex;

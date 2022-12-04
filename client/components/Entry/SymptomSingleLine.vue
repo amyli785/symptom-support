@@ -8,7 +8,7 @@
       </p>
     </div>
     <div v-else class="symptom-content description">
-      <p class="symptom-content-item">
+      <p class="symptom-content-item d">
         name (measurement unit) - location
       </p>
     </div>
@@ -79,8 +79,7 @@ export default {
 .symptom-background {
   flex: 1 0 100%;
 
-  background-color: var(--salmon);
-  opacity: 0.6;
+  background-color: var(--salmon-transparent);
 
   border-radius: 8px;
 }
@@ -115,5 +114,8 @@ export default {
 }
 .description{
   padding: 0 8px 0 8px;
+}
+.d{
+  font-style: italic;
 }
 </style>

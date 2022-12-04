@@ -96,7 +96,7 @@ form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: var(--salmon);
+  background-color: var(--dark-blue-transparent);
 }
 input {
   width: 100%;
