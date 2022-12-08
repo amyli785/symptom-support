@@ -3,7 +3,7 @@
 <template>
     <main>
         <header>
-            <h2>Flagged Entries</h2>
+            <h2> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> Flagged Entries</h2>
             <button 
                 @click = "startShare"
                 class = "share"
@@ -54,6 +54,9 @@ export default {
         }
     },
     methods: {
+        back() {
+            this.$router.push({name: 'Home'});
+        },
         startShare(){
             this.$bvModal.show('share-modal');
         }
@@ -94,5 +97,12 @@ header{
   border-radius: 10px;
   width:100px;
   justify-content: center;
+}
+.icon{
+  font-size: 40px;
+}
+.icon:hover {
+  transform: scale(1.1, 1.1);
+  cursor: pointer;
 }
 </style>
