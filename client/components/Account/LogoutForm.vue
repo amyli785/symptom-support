@@ -20,6 +20,7 @@ export default {
         this.$store.commit('updateSupportedRequest',[]);
         this.$store.commit('updateSupporterRequest',[]);
         this.$store.commit('setUsername',null);
+        localStorage.removeItem('username');
         this.$store.commit('cleanEntry');
         this.$store.commit('cleanEntryStatus');
         this.$store.commit('cleanFlagged');

@@ -36,7 +36,12 @@ const store = new Vuex.Store({
        * @param username - new username to set
        */
       state.username = username;
-      localStorage.setItem('username', username);
+      if (!username){
+        localStorage.removeItem('username');
+      }
+      else{
+        localStorage.setItem('username',username);
+      }
     },
     setDisplayName(state, displayName){
       /**
