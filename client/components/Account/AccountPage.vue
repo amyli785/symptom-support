@@ -6,6 +6,7 @@
     <section>
       <header>
         <h2>Account settings for {{ $store.state.displayName}}</h2>
+        <h2><font-awesome-icon @click ="goHome" class = "icon" icon="fa-solid fa-house" /></h2>
       </header>
       <ChangeUsernameForm 
         :currentLabel="'Current username'"
@@ -42,6 +43,28 @@ export default {
     ChangeDisplayNameForm,
     DeleteAccountForm,
     LogoutForm
+  },
+  methods: {
+    goHome(){
+      this.$router.push({name: 'Home'});
+    },
   }
 };
 </script>
+
+<style scoped>
+
+header, header > * {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.icon{
+  font-size: 40px;
+}
+.icon:hover {
+  transform: scale(1.1, 1.1);
+  cursor: pointer;
+}
+</style>

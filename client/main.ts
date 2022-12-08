@@ -26,6 +26,7 @@ library.add(iconSolid.faX);
 library.add(iconSolid.faShareNodes);
 library.add(iconSolid.faArrowLeft);
 library.add(iconSolid.faHeartPulse);
+library.add(iconSolid.faHouse);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(BootstrapVue)
