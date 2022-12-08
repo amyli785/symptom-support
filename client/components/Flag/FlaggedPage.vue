@@ -3,7 +3,7 @@
 <template>
     <main>
         <header>
-            <h2> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> Flagged Entries</h2>
+            <h2> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp; Flagged Entries</h2>
             <button 
                 @click = "startShare"
                 class = "share"
@@ -69,10 +69,13 @@ section {
     display: flex;
     flex-direction: column;
 }
+h2 {
+  margin: 0;
+}
 header, header > * {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 section .scrollbox {
     flex: 1 0 50vh;

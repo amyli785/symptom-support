@@ -23,6 +23,6 @@ export default {
   align-items: center;
 }
 .i{
-  font-size: 25px;
+  font-size: 30px;
 }
 </style>

@@ -9,6 +9,7 @@
           icon="fa-solid fa-x"
           v-if = "!this.viewing"
           @click="$emit('click')"
+          class = 'i'
         />
       </header>
       <article>
@@ -126,5 +127,15 @@ textarea {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+}
+.i{
+  cursor: pointer;
+  font-size: 20px;
+}
+.i:hover{
+  transform: scale(1.1, 1.1);
+}
+label{
+  cursor: text;
 }
 </style>

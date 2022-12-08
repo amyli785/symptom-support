@@ -3,9 +3,9 @@
 <template>
   <main>
     <header>
-      <h2 v-if = "this.status == 'viewing'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> Viewing Entry </h2>
-      <h2 v-else-if = "this.status == 'editing'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> Editing Entry </h2>
-      <h2 v-else-if = "this.status == 'creating'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> New Entry </h2>
+      <h2 v-if = "this.status == 'viewing'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp; Viewing Entry </h2>
+      <h2 v-else-if = "this.status == 'editing'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp; Editing Entry </h2>
+      <h2 v-else-if = "this.status == 'creating'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp; New Entry </h2>
       <div v-if = "!this.viewOnly" class = "icons">
         <FlagButton 
           :flagged="flagged" 
@@ -480,10 +480,17 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+  margin:0 ;
+}
+header, header > * {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 p {
   padding: 0;
   margin: 0; 
-  cursor: context-menu;
 }
 .form {
   height: 100%;
@@ -491,7 +498,6 @@ p {
   background-color: #ffffff;
   filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
   padding: 20px;
-  cursor:context-menu;
 }
 .dates{
   display: flex;

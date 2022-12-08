@@ -163,7 +163,9 @@ section {
   display: flex;
   flex-direction: column;
 }
-
+h2 {
+  margin: 0;
+}
 header, header > * {
   display: flex;
   justify-content: space-between;

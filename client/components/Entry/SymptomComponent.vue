@@ -9,6 +9,7 @@
           icon="fa-solid fa-x"
           v-if = "!this.viewing"
           @click="$emit('click')"
+          class = 'i'
         />
       </header>
       <article>
@@ -172,5 +173,16 @@ textarea {
 .symptom-component{
     width:30%;
     border-radius: 15px;
+}
+
+.i{
+  cursor: pointer;
+  font-size: 20px;
+}
+.i:hover{
+  transform: scale(1.1, 1.1);
+}
+label{
+  cursor: text;
 }
 </style>
