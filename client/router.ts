@@ -37,22 +37,25 @@ const router = new VueRouter({routes});
  */
 router.beforeEach((to, from, next) => {
   if (router.app.$store) {
-    if (to.name === 'Login' && router.app.$store.state.username) {
-      next({name: 'Account'}); // Go to Account page if user navigates to Login and are signed in
-      return;
-    }
-
     if ((to.name !== 'Login' && from.name !== 'Share' && to.name !== 'Share') && !router.app.$store.state.username){
       next({name: 'Login'});
       return;
     }
+
+    else if (to.name === 'Login' && router.app.$store.state.username) {
+      next({name: 'Account'}); // Go to Account page if user navigates to Login and are signed in
+      return;
+    }
     
-    if(to.name == 'Entry' && !router.app.$store.state.entryStatus){
+    else if(to.name === 'Entry' && !router.app.$store.state.entryStatus){
       next({name: 'Home'});
       return;
     }
   }
-
+  if (to.name !== 'Login' && from.name !== 'Share' && to.name !== 'Share' && (router.app.$store && !router.app.$store.state.username || router.app.$store == undefined)) {
+    next({name: 'Login'}); // Go to Login page if user navigates to any other page and are not signed in
+    return;
+  }
   next();
 });
 
