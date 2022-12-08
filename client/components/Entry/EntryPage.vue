@@ -113,27 +113,27 @@
             <p>Mood:</p>
             <font-awesome-icon
               class = 'i'
-              v-if = "mood == 10 || mood == 9"
+              v-if = "mood == 5"
               icon = "fa-solid fa-face-laugh-beam"
             />
             <font-awesome-icon
               class = 'i'
-              v-else-if = "mood == 8 || mood == 7"
+              v-else-if = "mood == 4"
               icon = "fa-solid fa-face-smile"
             />
             <font-awesome-icon
               class = 'i'
-              v-else-if = "mood == 6 || mood == 5"
+              v-else-if = "mood == 3"
               icon = "fa-solid fa-face-meh"
             />
             <font-awesome-icon
               class = 'i'
-              v-else-if = "mood == 4 || mood == 3"
+              v-else-if = "mood == 2"
               icon = "fa-solid fa-face-frown" 
             />
             <font-awesome-icon
               class = 'i' 
-              v-else-if = "mood == 2 || mood == 1"
+              v-else-if = "mood == 1"
               icon = "fa-solid fa-face-sad-tear" 
             />
           </div>
@@ -141,12 +141,42 @@
             <input 
               type = "range" 
               min = "1" 
-              max = "10" 
+              max = "5" 
               :value = "mood"
               @input="mood = $event.target.value"
               id = "moodRange"
               class = "slider" 
+              list="steplist"
             />
+            <datalist id="steplist">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </datalist>
+            <div class = "ticks">
+              <font-awesome-icon
+                class = 'i-small'
+                icon = "fa-solid fa-face-laugh-beam"
+              />
+              <font-awesome-icon
+                class = 'i-small'
+                icon = "fa-solid fa-face-smile"
+              />
+              <font-awesome-icon
+                class = 'i-small'
+                icon = "fa-solid fa-face-meh"
+              />
+              <font-awesome-icon
+                class = 'i-small'
+                icon = "fa-solid fa-face-frown" 
+              />
+              <font-awesome-icon
+                class = 'i-small'
+                icon = "fa-solid fa-face-sad-tear" 
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -632,6 +662,16 @@ textarea{
   border: 0px;
   border-radius: 5px;
   height: 1.75em;
+}
+.i-small{
+  font-size:20px;
+}
+.ticks{
+  margin: 0 18px 0 18px;
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
 }
 
 </style>
