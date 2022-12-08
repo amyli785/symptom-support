@@ -3,7 +3,7 @@
 <template>
     <main>
         <header>
-            <h2> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp; Flagged Entries </h2>
+            <h2> Flagged Entries </h2>
             <div class="header-right">
                 <button 
                     @click = "startShare"

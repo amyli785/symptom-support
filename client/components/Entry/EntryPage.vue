@@ -155,12 +155,11 @@
           <div class = "label">
             <p>Notes:</p>
           </div>
-          <input
-            type="text"
+          <textarea
             :value="notes"
             @input="notes = $event.target.value"
             id = "notes"
-          />
+          ></textarea>
         </div>
       </div>
       <div class = "end">
@@ -561,6 +560,8 @@ p {
   border: 0;
   border-radius: 5px;
   cursor: text;
+  overflow: hidden;
+	box-sizing: border-box;
 }
 header {
   display: flex;
@@ -625,6 +626,12 @@ input:disabled{
 .slider{
   margin: 0 20px 0 20px;
   accent-color: var(--salmon);
+}
+
+textarea{
+  border: 0px;
+  border-radius: 5px;
+  height: 1.75em;
 }
 
 </style>

@@ -15,39 +15,39 @@
       <article>
         <div>
             <label>{{ this.name.label }}:</label>
-            <input
+            <textarea
               v-if="this.viewing"
               disabled
               :type="'text'"
               :name="this.name.id"
               :value="this.symptom.name"
               @input="$emit('update-symptom-name', $event.target.value)"
-            >
-            <input
+            ></textarea>
+            <textarea
               v-else
               :type="'text'"
               :name="this.name.id"
               :value="this.symptom.name"
               @input="$emit('update-symptom-name', $event.target.value)"
-            >
+            ></textarea>
         </div>
         <div>
             <label>{{ this.location.label }}:</label>
-            <input
+            <textarea
               v-if="this.viewing"
               disabled
               :type="'text'"
               :name="this.location.id"
               :value="this.symptom.location"
               @input="$emit('update-symptom-location', $event.target.value)"
-            >
-            <input
+            ></textarea>
+            <textarea
               v-else
               :type="'text'"
               :name="this.location.id"
               :value="this.symptom.location"
               @input="$emit('update-symptom-location', $event.target.value)"
-            >
+            ></textarea>
         </div>
         <div class="measurement-container">
             <div class = 'measurement-value'>
@@ -138,13 +138,19 @@ form {
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   background-color: var(--salmon-transparent);
 }
 input {
   width: 100%;
   border: 0px;
   border-radius: 5px;
+  height: 1.75em;
+}
+textarea{
+  width: 100%;
+  border: 0px;
+  border-radius: 5px;
+  height: 1.75em;
 }
 select {
   width:100%;
@@ -152,6 +158,7 @@ select {
   border: 0px;
   padding-top: 0.125em;
   padding-bottom: 0.125em;
+  height:1.75em;
 }
 select:disabled{
   background-color: rgba(255,255,255,0.3);
@@ -160,6 +167,8 @@ header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding:0;
+  margin:0;
 }
 textarea {
    font-family: inherit;
@@ -174,7 +183,6 @@ textarea {
     width:30%;
     border-radius: 15px;
 }
-
 .i{
   cursor: pointer;
   font-size: 20px;
