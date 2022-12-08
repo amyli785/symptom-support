@@ -11,6 +11,7 @@ import SupportedEntriesFeed from './components/Supported/SupportedEntriesFeed.vu
 import EntryPage from './components/Entry/EntryPage.vue';
 import FlaggedPage from './components/Flag/FlaggedPage.vue';
 import SharePage from './components/Share/SharePage.vue';
+import TrendPage from './components/Trend/TrendPage.vue';
 import NotFound from './NotFound.vue';
 
 Vue.use(VueRouter);
@@ -27,6 +28,7 @@ const routes = [
   {path: '/entry', name: 'Entry', component: EntryPage},
   {path: '/share/:shareId', name: 'Share', component: SharePage},
   {path: '/entries', name: 'SupportedEntriesFeed', component: SupportedEntriesFeed},
+  {path: '/trends', name: 'TrendPage', component: TrendPage},
   {path: '*', name: 'Not Found', component: NotFound}
 ];
 
