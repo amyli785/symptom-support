@@ -54,7 +54,7 @@
         />
       </section>
       <section v-else>
-        <h3>No entries found</h3>
+        <h3>You have no entries.</h3>
       </section>
       <ShareBar v-if="($store.state.entries.length && sharingMode)"  
         :sharingMode="sharingMode"

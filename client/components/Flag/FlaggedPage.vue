@@ -3,15 +3,18 @@
 <template>
     <main>
         <header>
-            <h2> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp; Flagged Entries</h2>
-            <button 
-                @click = "startShare"
-                class = "share"
-            >
-                Share
-                &nbsp;
-                <font-awesome-icon icon="fa-solid fa-share-nodes" />
-            </button>
+            <h2> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp; Flagged Entries </h2>
+            <div class="header-right">
+                <button 
+                    @click = "startShare"
+                    class = "share"
+                >
+                    Share
+                    &nbsp;
+                    <font-awesome-icon icon="fa-solid fa-share-nodes" />
+                </button>
+                <h2><font-awesome-icon @click ="goHome" class = "icon" icon="fa-solid fa-house" /></h2>
+            </div>
         </header>
         <section
           v-if="$store.state.flagged.length"
@@ -54,6 +57,9 @@ export default {
         }
     },
     methods: {
+        goHome(){
+            this.$router.push({name: 'Home'});
+        },
         back() {
             this.$router.push({name: 'Home'});
         },
@@ -86,6 +92,11 @@ section .scrollbox {
 header{
     display: flex;
     flex-direction: row;
+}
+
+.header-right{
+    display: flex;
+    gap: 10px;
 }
 .entries {
     display: flex;

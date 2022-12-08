@@ -18,6 +18,12 @@
       </router-link>
       <router-link 
         v-if="$store.state.username"
+        to="/trends"
+      >
+        Trends
+      </router-link>
+      <router-link 
+        v-if="$store.state.username"
         to="/supporter"
       >
         Supporters

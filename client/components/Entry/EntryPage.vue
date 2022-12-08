@@ -18,6 +18,7 @@
         <DeleteButton 
           @click="deleteEntry"
         />
+        <h2><font-awesome-icon @click ="goHome" class = "icon" icon="fa-solid fa-house" /></h2>
       </div>
     </header>
     <article class = "form">
@@ -255,6 +256,9 @@ export default {
 
   },
   methods: {
+    goHome(){
+      this.$router.push({name: 'Home'});
+    },
     back(){
       this.$router.back();
     },

@@ -1,6 +1,9 @@
 <template>
     <main>
-        <h2><font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp; {{ownerDisplay}}'s Entries </h2>
+        <header>
+            <h2><font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp;{{ownerDisplay}}'s Entries </h2>
+            <h2><font-awesome-icon @click ="goHome" class = "icon" icon="fa-solid fa-house" /></h2>
+        </header>
         <button class = "createEntry" 
             v-if="(permission == 'creator' || permission == 'manager')"
             @click = 'createEntry'>
@@ -8,7 +11,10 @@
             &nbsp;
             <font-awesome-icon icon="fa-solid fa-plus" />
         </button>
-        <div class="entries">
+
+        <div class="entries"
+            v-if="entries.length"
+        >
             <EntryComponent
                 v-for="entry in entries"
                 :key="entry._id"
@@ -16,6 +22,9 @@
                 :permission="permission"
                 :clickable="true"
             />
+        </div>
+        <div v-else>
+            <h3>{{ownerDisplay}} has no entries.</h3>
         </div>
     </main>
 </template>
@@ -108,6 +117,9 @@ export default {
         }
     },
     methods: {
+        goHome(){
+            this.$router.push({name: 'Home'});
+        },
         back(){
             this.$router.back();
         },
@@ -138,6 +150,20 @@ export default {
   width: 100%;
   padding: 10px;
   margin-bottom: 25px;
+}
+.icon:hover {
+  transform: scale(1.1, 1.1);
+  cursor: pointer;
+}
+
+header, header > * {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.icon{
+  font-size: 40px;
 }
 .icon:hover {
   transform: scale(1.1, 1.1);

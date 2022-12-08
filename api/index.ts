@@ -13,6 +13,7 @@ import {supportRouter} from '../server/support/router';
 import {entryRouter} from '../server/entry/router';
 import {shareRouter} from '../server/share/router';
 import {flagRouter} from '../server/flag/router';
+import {trendRouter} from '../server/trend/router';
 
 // Load environmental variables
 dotenv.config({});
@@ -76,6 +77,7 @@ app.use('/api/supports', supportRouter);
 app.use('/api/entries', entryRouter);
 app.use('/api/shares', shareRouter);
 app.use('/api/flags', flagRouter);
+app.use('/api/trends', trendRouter);
 
 // Catch all the other routes and display error message
 app.all('*', (req: Request, res: Response) => {
