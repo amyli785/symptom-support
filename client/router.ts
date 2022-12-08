@@ -36,21 +36,27 @@ const router = new VueRouter({routes});
  * Navigation guards to prevent user from accessing wrong pages.
  */
 router.beforeResolve((to, from, next) => {
-  if (router.app.$store) {
-    if (to.name === 'Login' && router.app.$store.state.username) {
+  const username = localStorage.getItem('username');
+  if (router.app.$store || username !== null) {
+    if (to.name === 'Login' && (username !== null || router.app.$store && router.app.$store.state.username)) {
       next({name: 'Account'}); // Go to Account page if user navigates to Login and are signed in
       return;
     }
 
-    if ((to.name !== 'Login' && from.name !== 'Share' && to.name !== 'Share') && !router.app.$store.state.username){
+    if ((to.name !== 'Login' && from.name !== 'Share' && to.name !== 'Share') && (router.app.$store && !router.app.$store.state.username)){
       next({name: 'Login'});
       return;
     }
     
-    if(to.name == 'Entry' && !router.app.$store.state.entryStatus){
+    if(to.name == 'Entry' && (router.app.$store && !router.app.$store.state.entryStatus)){
       next({name: 'Home'});
       return;
     }
+  }
+  else if (username !== null && to.name !== 'Login'){
+    console.log('here');
+    next({name: 'Login'});
+    return;
   }
 
   next();
