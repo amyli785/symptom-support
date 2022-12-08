@@ -185,13 +185,15 @@ form h3,
 form > * {
   margin: 0.3em 0;
 }
-
 form h3 {
   margin-top: 0;
 }
-
 textarea {
-   font-family: inherit;
-   font-size: inherit;
+  font-family: inherit;
+  font-size: inherit;
+}
+input{
+  border-radius: 10px;
+  border: 1px solid rgb(120, 120, 120);
 }
 </style>

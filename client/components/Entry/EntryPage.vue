@@ -201,12 +201,12 @@
           </button>
         </div>
         <div v-else-if = "this.status == 'editing'" class = "both">
-          <button @click = "save" class = "b editing">
+          <button @click = "save" class = "b editing save">
             Save Changes
             &nbsp;
             <font-awesome-icon icon="fa-solid fa-check" />
           </button>
-          <button @click = "discard" class = "b editing">
+          <button @click = "discard" class = "b editing discard">
             Discard Changes
             &nbsp;
             <font-awesome-icon icon="fa-solid fa-x" />
@@ -673,5 +673,10 @@ textarea{
   flex-direction: row-reverse;
   justify-content: space-between;
 }
-
+.save{
+  color: rgba(0,155,0, 1);
+}
+.discard{
+  color: rgba(200,0, 0, 1);
+}
 </style>
