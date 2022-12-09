@@ -9,46 +9,55 @@
           &nbsp;-&nbsp;{{ displayDate(entry.dateEnded) }}
         </div>
       </div>
-      <SymptomSingleLine
-        :name="''"
-        :measurement="''"
-        :unit="''"
-        :location="''"
-        :description = "true"
-      />
-      <SymptomSingleLine
-        v-for="symptom in entry.symptoms.slice(0,2)"
-        :key="(entry.dateStarted.toString()+' '+symptom.name+symptom.intensity)"
-        :name="symptom.name"
-        :measurement="symptom.measurement"
-        :unit="symptom.unit"
-        :location="symptom.location"
-      />
-      <SymptomSingleLine
-        v-for="i in Math.max(0, 2 - entry.symptoms.length)"
-        :key="(entry.dateStarted.toString()+' symptom '+i)"
-        :name="''"
-        :measurement="''"
-        :unit="''"
-        :location="''"
-      />
-      <MedicationSingleLine
-        :name="''"
-        :dosage="''"
-        :description="true"
-      />
-      <MedicationSingleLine
-        v-for="medication in entry.medications.slice(0,2)"
-        :key="(entry.dateStarted.toString()+' '+medication.name+medication.dosage)"
-        :name="medication.name"
-        :dosage="medication.dosage"
-      />
-      <MedicationSingleLine
-        v-for="i in Math.max(0, 2 - entry.medications.length)"
-        :key="(entry.dateStarted.toString()+' medication '+i)"
-        :name="''"
-        :dosage="''"
-      />
+      <div class = "syms">
+        <SymptomSingleLine
+          :name = "''"
+          :measurement = "''"
+          :unit = "''"
+          :location = "''"
+          :description = "true"
+        />
+        <SymptomSingleLine
+          v-for = "symptom in entry.symptoms.slice(0,2)"
+          :key = "(entry.dateStarted.toString()+' '+symptom.name+symptom.intensity)"
+          :name = "symptom.name"
+          :measurement = "symptom.measurement"
+          :unit = "symptom.unit"
+          :location = "symptom.location"
+        />
+        <SymptomSingleLine
+          v-if = "(entry.symptoms.length > 2)"
+          :name = "''"
+          :measurement = "''"
+          :unit = "''"
+          :location = "''"
+          :description = "true"
+          :extra = "true"
+        />
+      </div>
+      <div class = "meds">
+        <MedicationSingleLine
+          :name = "''"
+          :dosage = "''"
+          :description = "true"
+        />
+        <MedicationSingleLine
+          v-for = "medication in entry.medications.slice(0,2)"
+          :key = "(entry.dateStarted.toString()+' '+medication.name+medication.dosage)"
+          :name = "medication.name"
+          :dosage = "medication.dosage"
+        />
+        <MedicationSingleLine
+          v-if = "(entry.medications.length > 2)"
+          :name = "''"
+          :dosage = "''"
+          :description = "true"
+          :extra = "true"
+        />
+      </div>
+      <div class = "notes">
+        <p>Notes: {{this.entry.notes}}</p>
+      </div>
     </div>
 
     <div v-if="(!sharingMode && !displayMode)" class = "right-icons">
@@ -250,7 +259,10 @@ export default {
 </script>
 
 <style scoped>
-
+p{
+  margin: 0;
+  padding: 0;
+}
 .entry-container {
   background-color: #ffffff;
   filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
@@ -264,7 +276,8 @@ export default {
   flex-direction: row;
   justify-content: space-between;
 
-  gap: 12px;
+  gap: 10px;
+  height: 425px;
 }
 
 .entry-container:hover {
@@ -282,10 +295,28 @@ export default {
   flex: 0 1 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: stretch;
-
-  gap: 4px;
+  gap: 5px;
+}
+.meds{
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 5px;
+  border: 2px solid var(--dark-blue-transparent);
+  border-radius: 15px;
+  padding: 5px;
+  height: 50%;
+}
+.syms{
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 5px;
+  border: 2px solid var(--salmon-transparent);
+  border-radius: 15px;
+  padding: 5px;
+  height: 50%;
 }
 
 .right-icons {
@@ -325,5 +356,11 @@ export default {
 
   font-weight: bold;
   font-size: medium;
+}
+.notes{
+  width:100%;
+  border-radius: 10px;
+  border: 2px solid black;
+  padding: 0.125em 0.25em 0.125em 0.25em;
 }
 </style>

@@ -1,15 +1,20 @@
 <template>
 	<article class="medication-container">
     <div v-if = "!description" class="medication-background normal">&nbsp;</div>
-    <div v-else class="medication-background description">&nbsp;</div>
-    <div v-if = "!description" class="medication-content normal">
+    <div v-else class="no-background description">&nbsp;</div>
+    <div v-if = "(!description)" class="medication-content normal">
       <div class="medication-content-item">
         {{ getContent() }}
       </div>
     </div>
-    <div v-else class="medication-content description">
+    <div v-else-if = "extra" class="medication-content description">
       <p class="medication-content-item d">
-        name (dosage)
+        ...
+      </p>
+    </div>
+    <div v-else-if = "description" class="medication-content description">
+      <p class="medication-content-item d">
+        Medications: name (dosage)
       </p>
     </div>
   </article>
@@ -29,6 +34,10 @@ export default {
     },
     description: {
       Type: Boolean,
+      required: false,
+    },
+    extra: {
+      Type: Boolean, 
       required: false,
     }
   },
@@ -56,6 +65,13 @@ export default {
   flex: 1 0 100%;
 
   background-color: var(--dark-blue-transparent);
+
+  border-radius: 8px;
+}
+.no-background {
+  flex: 1 0 100%;
+
+  background-color: white;
 
   border-radius: 8px;
 }

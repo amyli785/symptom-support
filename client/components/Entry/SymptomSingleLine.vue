@@ -1,15 +1,20 @@
 <template>
 	<article class="symptom-container">
     <div v-if = "!description" class="symptom-background normal">&nbsp;</div>
-    <div v-else class="symptom-background description">&nbsp;</div>
+    <div v-else class="no-background description">&nbsp;</div>
     <div v-if = "!description" class="symptom-content normal">
       <p class="symptom-content-item">
         {{ getContent() }}
       </p>
     </div>
-    <div v-else class="symptom-content description">
+    <div v-else-if = "extra" class="symptom-content description">
       <p class="symptom-content-item d">
-        name (measurement unit) - location
+        ...
+      </p>
+    </div>
+    <div v-else = "description" class="symptom-content description">
+      <p class="symptom-content-item d">
+        Symptom: name (measurement unit) - location
       </p>
     </div>
   </article>
@@ -38,6 +43,10 @@ export default {
     description: {
       Type: Boolean,
       require: false,
+    },
+    extra: {
+      Type: Boolean, 
+      required: false,
     }
   },
   methods: {
@@ -80,6 +89,13 @@ export default {
   flex: 1 0 100%;
 
   background-color: var(--salmon-transparent);
+
+  border-radius: 8px;
+}
+.no-background {
+  flex: 1 0 100%;
+
+  background-color: white;
 
   border-radius: 8px;
 }
