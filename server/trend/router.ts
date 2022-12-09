@@ -27,7 +27,7 @@ const router = express.Router();
     ],
     async (req: Request, res: Response) => {
         const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
-        const trendItems = await TrendCollection.findAllByOwner(userId);
+        const trendItems = await TrendCollection.findAllTrends(userId);
         const response = trendItems;
         res.status(200).json(response);
     }

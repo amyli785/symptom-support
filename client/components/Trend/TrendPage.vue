@@ -21,28 +21,42 @@
           </h3>
         </article>
       </section>
-      <section v-if="$store.state.username">
-        <section
-          v-if="trendItems.length"
-        >
-            <p class="trend-item" v-for="trend in trendItems"> {{trend.display}}: {{trend.value}}</p>
-        </section>
+      <section class = 'all-trends' v-if="$store.state.username">
+        <TrendComponent 
+            :title="'All Time Entry Trends'"
+            :trendItems="allTimeTrends"
+        />
+        <TrendComponent 
+            :title="'Weekly Entry Trends'"
+            :trendItems="weeklyTrends"
+        />
+        <TrendComponent 
+            :title="'Monthly Entry Trends'"
+            :trendItems="monthlyTrends"
+        />
+    </section>
         <article
           v-else
         >
           <h3>No trends found.</h3>
         </article>
-      </section>
     </main>
   </template>
   
   <script>
+  import TrendComponent from './TrendComponent.vue';
   
   export default {
     name: 'TrendPage',
+    components: {
+        TrendComponent
+    },
     data(){
         return {
-            trendItems: [],
+            allTimeTrends: [],
+            weeklyTrends: [],
+            monthlyTrends: [],
+            trendItems: {}
         }
     },
     methods:{
@@ -59,6 +73,10 @@
           throw new Error(res.error);
         }
   
+        // this.trendItems = res;
+        this.allTimeTrends = res['allTimeTrends'];
+        this.weeklyTrends = res['weeklyTrends'];
+        this.monthlyTrends = res['monthlyTrends'];
         this.trendItems = res;
       } catch (e) {
   
@@ -87,5 +105,11 @@ header, header > * {
 .icon:hover {
   transform: scale(1.1, 1.1);
   cursor: pointer;
+}
+
+.all-trends{
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
 }
 </style>
