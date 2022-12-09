@@ -120,6 +120,10 @@ section {
   gap: 40px;
 }
 
+h2 {
+  margin: 0;
+}
+
 header, header > * {
     display: flex;
     justify-content: space-between;

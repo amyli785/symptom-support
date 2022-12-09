@@ -148,6 +148,7 @@ form {
 button{
   padding: 5px;
   border-radius: 10px;
+
 }
 article > div {
   display: flex;
@@ -173,6 +174,7 @@ textarea {
 }
 input{
   border-radius: 10px;
+  border: 1px solid rgb(120, 120, 120);
 }
 select{
   border-radius:10px;

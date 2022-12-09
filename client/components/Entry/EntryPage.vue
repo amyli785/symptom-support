@@ -3,9 +3,9 @@
 <template>
   <main>
     <header>
-      <h2 v-if = "this.status == 'viewing'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> Viewing Entry </h2>
-      <h2 v-else-if = "this.status == 'editing'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> Editing Entry </h2>
-      <h2 v-else-if = "this.status == 'creating'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> New Entry </h2>
+      <h2 v-if = "this.status == 'viewing'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp; Viewing Entry </h2>
+      <h2 v-else-if = "this.status == 'editing'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp; Editing Entry </h2>
+      <h2 v-else-if = "this.status == 'creating'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp; New Entry </h2>
       <div v-if = "!this.viewOnly" class = "icons">
         <FlagButton 
           :flagged="flagged" 
@@ -113,27 +113,27 @@
             <p>Mood:</p>
             <font-awesome-icon
               class = 'i'
-              v-if = "mood == 10 || mood == 9"
+              v-if = "mood == 5"
               icon = "fa-solid fa-face-laugh-beam"
             />
             <font-awesome-icon
               class = 'i'
-              v-else-if = "mood == 8 || mood == 7"
+              v-else-if = "mood == 4"
               icon = "fa-solid fa-face-smile"
             />
             <font-awesome-icon
               class = 'i'
-              v-else-if = "mood == 6 || mood == 5"
+              v-else-if = "mood == 3"
               icon = "fa-solid fa-face-meh"
             />
             <font-awesome-icon
               class = 'i'
-              v-else-if = "mood == 4 || mood == 3"
+              v-else-if = "mood == 2"
               icon = "fa-solid fa-face-frown" 
             />
             <font-awesome-icon
               class = 'i' 
-              v-else-if = "mood == 2 || mood == 1"
+              v-else-if = "mood == 1"
               icon = "fa-solid fa-face-sad-tear" 
             />
           </div>
@@ -141,12 +141,42 @@
             <input 
               type = "range" 
               min = "1" 
-              max = "10" 
+              max = "5" 
               :value = "mood"
               @input="mood = $event.target.value"
               id = "moodRange"
               class = "slider" 
+              list="steplist"
             />
+            <datalist id="steplist">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </datalist>
+            <div class = "ticks">
+              <font-awesome-icon
+                class = 'i-small'
+                icon = "fa-solid fa-face-laugh-beam"
+              />
+              <font-awesome-icon
+                class = 'i-small'
+                icon = "fa-solid fa-face-smile"
+              />
+              <font-awesome-icon
+                class = 'i-small'
+                icon = "fa-solid fa-face-meh"
+              />
+              <font-awesome-icon
+                class = 'i-small'
+                icon = "fa-solid fa-face-frown" 
+              />
+              <font-awesome-icon
+                class = 'i-small'
+                icon = "fa-solid fa-face-sad-tear" 
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -155,12 +185,11 @@
           <div class = "label">
             <p>Notes:</p>
           </div>
-          <input
-            type="text"
+          <textarea
             :value="notes"
             @input="notes = $event.target.value"
             id = "notes"
-          />
+          ></textarea>
         </div>
       </div>
       <div class = "end">
@@ -172,12 +201,12 @@
           </button>
         </div>
         <div v-else-if = "this.status == 'editing'" class = "both">
-          <button @click = "save" class = "b editing">
+          <button @click = "save" class = "b editing save">
             Save Changes
             &nbsp;
             <font-awesome-icon icon="fa-solid fa-check" />
           </button>
-          <button @click = "discard" class = "b editing">
+          <button @click = "discard" class = "b editing discard">
             Discard Changes
             &nbsp;
             <font-awesome-icon icon="fa-solid fa-x" />
@@ -484,10 +513,17 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+  margin:0 ;
+}
+header, header > * {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 p {
   padding: 0;
   margin: 0; 
-  cursor: context-menu;
 }
 .form {
   height: 100%;
@@ -495,7 +531,6 @@ p {
   background-color: #ffffff;
   filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
   padding: 20px;
-  cursor:context-menu;
 }
 .dates{
   display: flex;
@@ -555,6 +590,8 @@ p {
   border: 0;
   border-radius: 5px;
   cursor: text;
+  overflow: hidden;
+	box-sizing: border-box;
 }
 header {
   display: flex;
@@ -621,4 +658,25 @@ input:disabled{
   accent-color: var(--salmon);
 }
 
+textarea{
+  border: 0px;
+  border-radius: 5px;
+  height: 1.75em;
+}
+.i-small{
+  font-size:20px;
+}
+.ticks{
+  margin: 0 18px 0 18px;
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+.save{
+  color: rgba(0,155,0, 1);
+}
+.discard{
+  color: rgba(200,0, 0, 1);
+}
 </style>

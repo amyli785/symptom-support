@@ -1,8 +1,6 @@
 <template>
   <div id="app" class="app">
-    <header>
-      <NavBar />
-    </header>
+    <NavBar />
     <router-view />
   </div>
 </template>
@@ -55,6 +53,10 @@ body {
   padding: 0;
   margin: 0;
   font-size: 1.2em;
+}
+
+header{
+  margin: 1.5em 0 1.5em 0;
 }
 
 main {

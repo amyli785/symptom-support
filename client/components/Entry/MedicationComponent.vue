@@ -9,13 +9,14 @@
           icon="fa-solid fa-x"
           v-if = "!this.viewing"
           @click="$emit('click')"
+          class = 'i'
         />
       </header>
       <article>
         <div>
             <div>
                 <label>{{ this.name.label }}:</label>
-                <input
+                <textarea
                   v-if="this.viewing"
                   disabled
                   class = 'medication-name'
@@ -23,15 +24,15 @@
                   :name="this.name.id"
                   :value="this.medication.name"
                   @input="$emit('update-medication-name', $event.target.value)"
-                >
-                <input
+                ></textarea>
+                <textarea
                   v-else
                   class = 'medication-name'
                   :type="'text'"
                   :name="this.name.id"
                   :value="this.medication.name"
                   @input="$emit('update-medication-name', $event.target.value)"
-                >
+                ></textarea>
             </div>
             <div>
                 <label>{{ this.dosage.label }}:</label>
@@ -95,7 +96,6 @@ form {
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   background-color: var(--dark-blue-transparent);
 }
 input {
@@ -103,18 +103,23 @@ input {
   border: 0px;
   border-radius: 5px;
 }
-
+textarea{
+  width: 100%;
+  border: 0px;
+  border-radius: 5px;
+  height: 1.75em;
+}
 header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin:0;
+  padding: 0;
 }
-
 textarea {
    font-family: inherit;
    font-size: inherit;
 }
-
 .medication-component{
     width:30%;
     border-radius:15px;
@@ -126,5 +131,15 @@ textarea {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+}
+.i{
+  cursor: pointer;
+  font-size: 20px;
+}
+.i:hover{
+  transform: scale(1.1, 1.1);
+}
+label{
+  cursor: text;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <main>
         <header>
-            <h2><font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" />{{ownerDisplay}}'s Entries </h2>
+            <h2><font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp;{{ownerDisplay}}'s Entries </h2>
             <h2><font-awesome-icon @click ="goHome" class = "icon" icon="fa-solid fa-house" /></h2>
         </header>
         <button class = "createEntry" 

@@ -5,15 +5,15 @@
   <main>
     <section>
       <header>
-        <h2>New to Symptom Support?</h2>
-      </header>
-      <RegisterForm />
-    </section>
-    <section>
-      <header>
         <h2>Have an account?</h2>
       </header>
       <LoginForm />
+    </section>
+    <section>
+      <header>
+        <h2>New to Symptom Support?</h2>
+      </header>
+      <RegisterForm />
     </section>
   </main>
 </template>
@@ -30,3 +30,13 @@ export default {
   }
 };
 </script>
+<style scoped>
+h2 {
+  margin: 0;
+}
+header, header > * {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+</style>
