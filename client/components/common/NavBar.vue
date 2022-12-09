@@ -36,7 +36,7 @@
       </router-link> -->
       <router-link 
         v-if="$store.state.username"
-        to="/supported"
+        to="/supporting"
       >
         Supporting
       </router-link>

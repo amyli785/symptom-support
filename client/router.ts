@@ -19,7 +19,7 @@ Vue.use(VueRouter);
 const routes = [
   {path: '/', name: 'Home', component: EntryFeed},
   {path: '/supporter', name: 'Supporter', component: SupporterPage},
-  {path: '/supported', name: 'Supported', component: SupportedPage},
+  {path: '/supporting', name: 'Supported', component: SupportedPage},
   // {path: '/supportedRequest', name: 'Supported Request', component: SupportedRequestPage},
   // {path: '/supporterRequest', name: 'Supporter Request', component: SupporterRequestPage},
   {path: '/account', name: 'Account', component: AccountPage},
