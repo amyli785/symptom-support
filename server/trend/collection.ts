@@ -64,15 +64,15 @@ class TrendCollection{
 
         const trendItems = []
         trendItems.push({field: 'totalEntries', display:'Total Entries', value: trendEntries.length});
-        let totalSymptoms = 0;
-        let totalMedications = 0;
-        let totalMood = 0;
+        let avgMood = 0;
+        let avgSymptoms = 0;
+        let avgMedications = 0;
         let maxSymptoms = 0;
         let maxMedications = 0;
         for (const entry of trendEntries){
-            totalSymptoms += entry.symptoms.length;
-            totalMedications += entry.medications.length;
-            totalMood += entry.mood as number;
+            avgSymptoms += entry.symptoms.length;
+            avgMedications += entry.medications.length;
+            avgMood += entry.mood as number;
             if (entry.symptoms.length > maxSymptoms){
                 maxSymptoms = entry.symptoms.length;
             }
@@ -80,9 +80,12 @@ class TrendCollection{
                 maxMedications = entry.medications.length;
             }
         }
-        trendItems.push({field: 'avgMood', display:'Average Mood ', value: Number((totalMood/trendEntries.length).toFixed(3))});
-        trendItems.push({field: 'avgSymptoms', display: 'Average Symptoms per Entry', value: Number((totalSymptoms/trendEntries.length).toFixed(3))});
-        trendItems.push({field: 'avgMedications', display: 'Average Medications per Entry', value: Number((totalMedications/trendEntries.length).toFixed(3))});
+        avgMood = trendEntries.length > 0 ? Number((avgMood/trendEntries.length).toFixed(3)) : 0;
+        avgSymptoms = trendEntries.length > 0 ? Number((avgSymptoms/trendEntries.length).toFixed(3)) : 0;
+        avgMedications = trendEntries.length > 0 ? Number((avgMedications/trendEntries.length).toFixed(3)) : 0;
+        trendItems.push({field: 'avgMood', display:'Average Mood ', value: avgMood});
+        trendItems.push({field: 'avgSymptoms', display: 'Average Symptoms per Entry', value: avgSymptoms});
+        trendItems.push({field: 'avgMedications', display: 'Average Medications per Entry', value: avgMedications});
         trendItems.push({field: 'maxSymptoms', display: 'Greatest Number of Symptoms per Entry', value: maxSymptoms});
         trendItems.push({field: 'maxMedications', display: 'Greatest Number of Medications per Entry', value: maxMedications});
         return trendItems
