@@ -234,7 +234,12 @@ router.delete(
     entryValidator.isEntryIdManageable,
   ],
   async (req: Request, res: Response) => {
-    const entry = await EntryCollection.deleteOne(req.params.entryId as string);
+    const entry = await EntryCollection.findOneByEntryId(req.params.entryId as string);
+    await Promise.all([
+      Promise.all(entry.symptoms.map(symptomId => SymptomCollection.deleteOne(symptomId))),
+      Promise.all(entry.medications.map(medicationId => MedicationCollection.deleteOne(medicationId))),
+      EntryCollection.deleteOne(req.params.entryId as string),
+    ])
 
     res.status(200).json({
       message: `You removed the entry ${req.params.entryId} successfully.`,
