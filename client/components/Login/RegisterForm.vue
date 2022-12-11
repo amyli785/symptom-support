@@ -14,7 +14,7 @@ export default {
       setUserDetails: true,
       fields: [
         {id: 'username', label: 'Username', description: 'letters and numbers only', value: ''},
-        {id: 'displayName', label: 'Display Name', description: 'letters and spaces only', value: ''},
+        {id: 'displayName', label: 'Display Name', value: ''},
         {id: 'password', label: 'Password', description: 'between 6 and 50 characters', value: ''}
       ],
       validationFunction: (fields) => {
@@ -23,8 +23,7 @@ export default {
         const password = fields[2].value;
         const usernameRegex = /^\w+$/i;
         const passwordRegex = /^\S+$/;
-        const displayNameRegex = /^[a-zA-Z ]+$/;
-        return usernameRegex.test(username) && passwordRegex.test(password) && displayNameRegex.test(displayName) 
+        return usernameRegex.test(username) && passwordRegex.test(password) && displayName.length > 0 
                 && password.length >= 6 && password.length <= 50;
       },
       title: 'Create account',
