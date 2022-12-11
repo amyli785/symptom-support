@@ -5,7 +5,8 @@
         <button @click="showDeleteAccountModal">Delete account</button>
 
         <ConfirmDeleteModal class="modal"
-        itemName = "account"
+        itemName = "your account"
+        itemType = "account"
         :itemId = "$store.state.username"
         :deleteFunction = "this.deleteAccount"
         />

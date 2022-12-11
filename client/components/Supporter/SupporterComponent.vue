@@ -49,7 +49,8 @@
       </article>
     </section>
     <ConfirmDeleteModal class="modal"
-      itemName="supporter"
+      itemName="your supporter"
+      itemType="supporter"
       :itemId = "supporter._id"
       :deleteFunction = "this.removeSupporter"
     />

@@ -77,7 +77,8 @@
       </div>
     </div>
     <ConfirmDeleteModal class="modal"
-    itemName = "entry"
+    itemName = "this entry"
+    itemType = "entry"
     :itemId = "entry._id"
     :deleteFunction = "this.deleteEntry"
     />
