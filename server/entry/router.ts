@@ -20,6 +20,7 @@ export type SymptomDetails = {
 export type MedicationDetails = {
   name: string,
   dosage: number,
+  unit: string
 };
 
 /**
@@ -94,7 +95,7 @@ export type MedicationDetails = {
  * @throws {400} - If `dateStarted` is empty or not a valid date or in the past
  * @throws {400} - If `dateEnded` is non-empty and not a valid date or in the past or before `dateStarted`
  * @throws {400} - If `symptoms` is not an array or contains an element that is not properly formatted (non-empty name, integer intensity between 1 and 10, inclusive)
- * @throws {400} - If `medications` is not an array or contains an element that is not properly formatted (non-empty name, number dosage greater than 0)
+ * @throws {400} - If `medications` is not an array or contains an element that is not properly formatted (non-empty name, number dosage greater than 0, invalid unit)
  * @throws {400} - If `mood` is non-empty and not in the correct format (integer between 1 and 10, inclusive)
  */
 router.post(
@@ -121,7 +122,7 @@ router.post(
       symptomDetails.unit as string, symptomDetails.location as string)
     ));
     const medications = await Promise.all(req.body.medications.map((medicationDetails: MedicationDetails) => 
-      MedicationCollection.addOne(medicationDetails.name as string, Number(medicationDetails.dosage))
+      MedicationCollection.addOne(medicationDetails.name as string, Number(medicationDetails.dosage), medicationDetails.unit as string)
     ));
 
     const mood = req.body.mood ? Number(req.body.mood) : undefined;
@@ -164,7 +165,7 @@ router.post(
  * @throws {400} - If `dateStarted` is empty or not a valid date or in the past
  * @throws {400} - If `dateEnded` is non-empty and not a valid date or in the past or before `dateStarted`
  * @throws {400} - If `symptoms` is not an array or contains an element that is not properly formatted (non-empty name, integer intensity between 1 and 10, inclusive)
- * @throws {400} - If `medications` is not an array or contains an element that is not properly formatted (non-empty name, number dosage greater than 0)
+ * @throws {400} - If `medications` is not an array or contains an element that is not properly formatted (non-empty name, number dosage greater than 0, invalid unit)
  * @throws {400} - If `mood` is non-empty and not in the correct format (integer between 1 and 10, inclusive)
  */
 router.patch(
@@ -192,7 +193,7 @@ router.patch(
       symptomDetails.unit, symptomDetails.location as string)
     ));
     const medications = await Promise.all(req.body.medications.map((medicationDetails: MedicationDetails) => 
-      MedicationCollection.addOne(medicationDetails.name as string, Number(medicationDetails.dosage))
+      MedicationCollection.addOne(medicationDetails.name as string, Number(medicationDetails.dosage), medicationDetails.unit as string)
     ));
 
     const mood = req.body.mood ? Number(req.body.mood) : undefined;

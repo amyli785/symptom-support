@@ -246,6 +246,10 @@ const isMedicationsValid = async (req: Request, res: Response, next: NextFunctio
       return false;
     }
 
+    if (!medicationUtil.isValidUnit(medication.unit)) {
+      return false;
+    }
+
     const dosage = Number(medication.dosage);
     if (dosage === NaN) {
       return false;
@@ -260,7 +264,7 @@ const isMedicationsValid = async (req: Request, res: Response, next: NextFunctio
 
   if (!medicationsValid) {
     res.status(400).json({
-      error: 'Provided medications must each include a name and dosage greater than 0.'
+      error: 'Provided medications must each include a name, dosage greater than 0, and a unit.'
     });
     return;
   }

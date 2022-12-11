@@ -6,7 +6,13 @@ function isValidDosage(dosage: number): Boolean {
     return dosage > 0;
 }
 
+function isValidUnit(unit: string): Boolean {
+    console.log(unit);
+    return unit === "mg" || unit === "ml";
+}
+
 export {
     isValidMedicationName,
     isValidDosage,
+    isValidUnit
 };

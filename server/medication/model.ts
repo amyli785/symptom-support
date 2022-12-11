@@ -9,12 +9,14 @@ import { Schema, model } from 'mongoose';
 export type Medication = {
     _id: Types.ObjectId,
     name: String,
-    dosage: Number
+    dosage: Number,
+    unit: String
 };
 
 export type PopulatedMedication = {
     name: String,
-    dosage: Number
+    dosage: Number,
+    unit: String
 };
 
 const MedicationSchema = new Schema({
@@ -24,9 +26,15 @@ const MedicationSchema = new Schema({
         required: true
     },
     
-    // The dosage of the medication (in mg)
+    // The dosage of the medication (in the corresponding unit)
     dosage: {
         type: Number,
+        required: true
+    },
+
+    // The unit of the dosage
+    unit: {
+        type: String,
         required: true
     }
 });

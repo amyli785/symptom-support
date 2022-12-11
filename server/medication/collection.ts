@@ -1,4 +1,4 @@
-import type {HydratedDocument, Types} from 'mongoose';
+import type {HydratedDocument, StringExpressionOperatorReturningNumber, Types} from 'mongoose';
 import type {Medication} from './model';
 import MedicationModel from './model';
 
@@ -7,11 +7,12 @@ class MedicationCollection {
      * Add a new medication.
      * 
      * @param {string} name - The name of the medication
-     * @param {number} dosage - The dosage of the medication (in mg)
+     * @param {number} dosage - The dosage of the medication 
+     * @param {string} unit - The unit of the dosage
      * @return {Promise<HydratedDocument<Medication>>} - The newly created medication
      */
-    static async addOne(name: string, dosage: number): Promise<HydratedDocument<Medication>> {
-        const medication = new MedicationModel({name, dosage});
+    static async addOne(name: string, dosage: number, unit: string): Promise<HydratedDocument<Medication>> {
+        const medication = new MedicationModel({name, dosage, unit});
         await medication.save();
         return medication;
     }
@@ -45,7 +46,7 @@ class MedicationCollection {
      * @param {Object} medicationDetails - An object with the medication's updated information
      * @return {Promise<HydratedDocument<Medication>>} - The updated medication
      */
-     static async updateOne(medicationId: Types.ObjectId | string, medicationDetails: {name?: string, dosage?: number}): Promise<HydratedDocument<Medication>>{
+     static async updateOne(medicationId: Types.ObjectId | string, medicationDetails: {name?: string, dosage?: number, unit?: string}): Promise<HydratedDocument<Medication>>{
         const medication = await MedicationModel.findOne({_id: medicationId});
         if (medicationDetails.name){
             medication.name = medicationDetails.name;
@@ -53,6 +54,10 @@ class MedicationCollection {
 
         if (medicationDetails.dosage){
             medication.dosage = medicationDetails.dosage;
+        }
+
+        if (medicationDetails.unit){
+            medication.unit = medicationDetails.unit;
         }
 
         await medication.save();

@@ -101,6 +101,7 @@
               :medication="medications[i-1]"
               @update-medication-name="(n) => updateMedicationName(i,n)"
               @update-medication-dosage="(n) => updateMedicationDosage(i,n)"
+              @update-medication-unit="(n) => updateMedicationUnit(i,n)"
               @click="deleteMedication(i)"
               class = "m"
             />
@@ -302,7 +303,7 @@ export default {
       return formattedDate == "Invalid date"? "" : formattedDate;
     },
     addMedication(){
-      this.medications.push({name: '',dosage: ''});
+      this.medications.push({name: '',dosage: '', unit: ''});
     },
     deleteMedication(i){
       this.medications.splice(i-1,1);
@@ -312,6 +313,9 @@ export default {
     },
     updateMedicationDosage(i,n){
       this.medications[i-1].dosage = n;
+    },
+    updateMedicationUnit(i,n){
+      this.medications[i-1].unit = n;
     },
     addSymptom(){
       this.symptoms.push({name: '', location: '', measurement: '', unit: ''});

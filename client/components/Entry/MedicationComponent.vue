@@ -54,6 +54,34 @@
                   @input="$emit('update-medication-dosage', $event.target.value)"
                 >
             </div>
+            <div class = 'dosage-unit'>
+                <label :for="this.unit.id"><span class="required">*</span>{{ this.unit.label }}: </label>
+                <select
+                    v-if="this.viewing"
+                    disabled
+                    :name="this.unit.id"
+                    :id="unit.id"
+                    :value="this.medication.unit"
+                    @input="$emit('update-medication-unit', $event.target.value)"
+                >
+                    <option
+                        v-for="unit in ['','mg', 'ml']"
+                        :name="unit.id"
+                    >{{unit}}</option>
+                </select>
+                <select
+                    v-else
+                    :name="this.unit.id"
+                    :id="unit.id"
+                    :value="this.medication.unit"
+                    @input="$emit('update-medication-unit', $event.target.value)"
+                >
+                    <option
+                        v-for="unit in ['','mg', 'ml']"
+                        :name="unit.id"
+                    >{{unit}}</option>
+                </select>
+            </div>
         </div>
       </article>
     </form>
@@ -84,7 +112,8 @@ export default {
      */
     return {
       name: {id: 'name', label: 'Name', value: ''},
-      dosage: {id: 'dosage', label: 'Dosage (mg)', value: ''},
+      dosage: {id: 'dosage', label: 'Dosage', value: ''},
+      unit: {id: 'unit', label: 'Unit', value: ''}
     };
   }
 };
@@ -119,6 +148,18 @@ header {
 textarea {
    font-family: inherit;
    font-size: inherit;
+}
+
+select {
+  width:100%;
+  border-radius: 5px;
+  border: 0px;
+  padding-top: 0.125em;
+  padding-bottom: 0.125em;
+  height:1.75em;
+}
+select:disabled{
+  background-color: rgba(255,255,255,0.3);
 }
 .medication-component{
     width:30%;
