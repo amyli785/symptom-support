@@ -6,6 +6,7 @@
             <h2> Flagged Entries </h2>
             <div class="header-right">
                 <button 
+                    v-if="Object.keys(this.flaggedEntries).length > 0"
                     @click = "startShare"
                     class = "share"
                 >

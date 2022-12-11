@@ -16,6 +16,9 @@ export default {
         {id: 'username', label: 'Username', value: ''},
         {id: 'password', label: 'Password', value: ''}
       ],
+      validationFunction: (fields) => {
+        return fields[0].value && fields[1].value;
+      },
       title: 'Sign in',
       callback: () => {
         this.$router.push({name: 'Home'});

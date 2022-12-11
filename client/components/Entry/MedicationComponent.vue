@@ -15,7 +15,7 @@
       <article>
         <div>
             <div>
-                <label>{{ this.name.label }}:</label>
+                <label><span class="required">*</span>{{ this.name.label }}:</label>
                 <textarea
                   v-if="this.viewing"
                   disabled
@@ -35,7 +35,7 @@
                 ></textarea>
             </div>
             <div>
-                <label>{{ this.dosage.label }}:</label>
+                <label><span class="required">*</span>{{ this.dosage.label }}:</label>
                 <input
                   v-if="this.viewing"
                   disabled
@@ -141,5 +141,8 @@ textarea {
 }
 label{
   cursor: text;
+}
+.required{
+  color: rgba(255,0, 0, 1);
 }
 </style>

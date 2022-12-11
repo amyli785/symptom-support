@@ -25,7 +25,7 @@
       <div class = "dates">
         <div class = "started time box">
           <div class = "label-time">
-            <p>Started:</p>  
+            <p><span class="required">*</span> Started:</p>  
           </div>
           <input
             type = "datetime-local"
@@ -213,6 +213,15 @@
           </button>
         </div>
       </div>
+      <section class="alerts">
+          <article
+            v-for="(status, alert, index) in alerts"
+            :key="index"
+            :class="status"
+          >
+            <p>{{ alert }}</p>
+          </article>
+        </section>
     </article>
   </main>
 </template>
@@ -698,5 +707,9 @@ textarea {
 
 .discard {
   color: rgba(200,0, 0, 1);
+}
+
+.required {
+  color: rgba(255,0, 0, 1);
 }
 </style>
