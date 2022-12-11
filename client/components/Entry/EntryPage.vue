@@ -8,6 +8,7 @@
       <h2 v-else-if = "this.status == 'creating'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp; New Entry </h2>
       <div v-if = "!this.viewOnly" class = "icons">
         <FlagButton 
+          v-if = "this.status != 'creating'"
           :flagged="entry === null ? false : entry.flag" 
           @click="toggleFlag"
         />
@@ -206,15 +207,6 @@
           </button>
         </div>
       </div>
-      <section class="alerts">
-          <article
-            v-for="(status, alert, index) in alerts"
-            :key="index"
-            :class="status"
-          >
-            <p>{{ alert }}</p>
-          </article>
-        </section>
     </article>
   </main>
 </template>
@@ -698,10 +690,14 @@ textarea {
 }
 
 .save {
-  color: rgba(0,155,0, 1);
+  background-color: var(--dark-blue);
+  border: 2px solid var(--dark-blue);
+  color: white;
 }
 
 .discard {
-  color: rgba(200,0, 0, 1);
+  background-color: white;
+  border: 2px solid var(--salmon);
+  color: var(--salmon);
 }
 </style>

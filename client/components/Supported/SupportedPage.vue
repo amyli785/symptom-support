@@ -33,7 +33,7 @@
           </article>
         </section>
         <article v-else>
-          <h3>No accepted supported found.</h3>
+          <h3> supported found.</h3>
         </article>
       </article>
     </section>
