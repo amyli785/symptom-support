@@ -146,16 +146,8 @@
               :value = "mood"
               @input="mood = $event.target.value"
               id = "moodRange"
-              class = "slider" 
-              list="steplist"
+              class = "slider"
             />
-            <datalist id="steplist">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </datalist>
             <div class = "ticks">
               <font-awesome-icon
                 class = 'i-small'
@@ -256,7 +248,7 @@ export default {
       dateEnded: "",
       symptoms: [],
       medications: [],
-      mood: 5,
+      mood: 3,
       notes: "",
       alerts: {},
       currentDate: (new Date()).toString(),
