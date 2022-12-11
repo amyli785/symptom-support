@@ -11,7 +11,7 @@
           v-if="$store.state.supporterRequests.length"
           class="support-section-container"
         >
-          <h3>Invited</h3>
+          <h3>Requests</h3>
           <article class="support-section-content">
             <SupporterComponent
               v-for="supporter in $store.state.supporterRequests"

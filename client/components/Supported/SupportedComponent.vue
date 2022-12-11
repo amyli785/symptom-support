@@ -7,7 +7,6 @@
         <div class="support-username"> @{{ supported.supported }}</div>
       </h2>
       <div>You are a <strong>{{supported.permission}}</strong>.</div>
-      <div>Invite status: <strong>{{supported.inviteStatus}}</strong>.</div>
       <div class="actions-container">
         <AcceptButton
           v-if="supported.inviteStatus === 'invited'"

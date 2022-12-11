@@ -25,7 +25,7 @@
       <div class = "dates">
         <div class = "started time box">
           <div class = "label-time">
-            <p><span v-if="!(this.status == 'viewing')" class="required">*</span> Started:</p>  
+            <p>Started <span v-if="!(this.status == 'viewing')" class="required-asterisk">*</span></p>  
           </div>
           <input
             type = "datetime-local"
@@ -703,9 +703,5 @@ textarea {
 
 .discard {
   color: rgba(200,0, 0, 1);
-}
-
-.required {
-  color: rgba(255,0, 0, 1);
 }
 </style>

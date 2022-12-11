@@ -47,10 +47,10 @@ class TrendCollection{
              }
          }
          trendItems.push({field: 'avgMood', display:'Average Mood', value: Number((totalMood/allEntries.length).toFixed(3))});
-         trendItems.push({field: 'avgSymptoms', display: 'Average Number of Symptoms', value: Number((totalSymptoms/allEntries.length).toFixed(3))});
-         trendItems.push({field: 'avgMedications', display: 'Average Number of Medications', value: Number((totalMedications/allEntries.length).toFixed(3))});
-         trendItems.push({field: 'maxSymptoms', display: 'Greatest Number of Symptoms', value: maxSymptoms});
-         trendItems.push({field: 'maxMedications', display: 'Greatest Number of Medications', value: maxMedications});
+         trendItems.push({field: 'avgSymptoms', display: 'Average Symptoms per Entry', value: Number((totalSymptoms/allEntries.length).toFixed(3))});
+         trendItems.push({field: 'avgMedications', display: 'Average Medications per Entry', value: Number((totalMedications/allEntries.length).toFixed(3))});
+         trendItems.push({field: 'maxSymptoms', display: 'Most Symptoms in an Entry', value: maxSymptoms});
+         trendItems.push({field: 'maxMedications', display: 'Most Medications in an Entry', value: maxMedications});
          return trendItems
     }
 
@@ -86,8 +86,8 @@ class TrendCollection{
         trendItems.push({field: 'avgMood', display:'Average Mood ', value: avgMood});
         trendItems.push({field: 'avgSymptoms', display: 'Average Symptoms per Entry', value: avgSymptoms});
         trendItems.push({field: 'avgMedications', display: 'Average Medications per Entry', value: avgMedications});
-        trendItems.push({field: 'maxSymptoms', display: 'Greatest Number of Symptoms per Entry', value: maxSymptoms});
-        trendItems.push({field: 'maxMedications', display: 'Greatest Number of Medications per Entry', value: maxMedications});
+        trendItems.push({field: 'maxSymptoms', display: 'Most Symptoms in an Entry', value: maxSymptoms});
+        trendItems.push({field: 'maxMedications', display: 'Most Medications in an Entry', value: maxMedications});
         return trendItems
     }
 }
