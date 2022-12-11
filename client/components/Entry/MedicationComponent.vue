@@ -15,7 +15,7 @@
       <article>
         <div>
             <div>
-                <label><span v-if="!this.viewing" class="required">*</span>{{ this.name.label }}:</label>
+                <label>{{ this.name.label }} <span v-if="!this.viewing" class="required-asterisk">*</span></label>
                 <textarea
                   v-if="this.viewing"
                   disabled
@@ -35,7 +35,7 @@
                 ></textarea>
             </div>
             <div>
-                <label><span v-if="!this.viewing" class="required">*</span>{{ this.dosage.label }}:</label>
+                <label>{{ this.dosage.label }} <span v-if="!this.viewing" class="required-asterisk">*</span></label>
                 <input
                   v-if="this.viewing"
                   disabled
@@ -55,7 +55,7 @@
                 >
             </div>
             <div class = 'dosage-unit'>
-                <label :for="this.unit.id"><span v-if="!this.viewing" class="required">*</span>{{ this.unit.label }}: </label>
+                <label :for="this.unit.id">{{ this.unit.label }} <span v-if="!this.viewing" class="required-asterisk">*</span></label>
                 <select
                     v-if="this.viewing"
                     disabled
@@ -182,8 +182,5 @@ select:disabled{
 }
 label{
   cursor: text;
-}
-.required{
-  color: rgba(255,0, 0, 1);
 }
 </style>

@@ -14,7 +14,7 @@
       </header>
       <article>
         <div>
-            <label><span v-if="!this.viewing" class="required">*</span>{{ this.name.label }}:</label>
+            <label>{{ this.name.label }} <span v-if="!this.viewing" class="required-asterisk">*</span></label>
             <textarea
               v-if="this.viewing"
               disabled
@@ -79,7 +79,7 @@
                     @input="$emit('update-symptom-unit', $event.target.value)"
                 >
                     <option
-                        v-for="unit in ['','1 - 10','mL', 'kg', '°F', '°C', 'pound']"
+                        v-for="unit in ['','out of 1 - 10','mL', 'kg', '°F', '°C', 'pound']"
                         :name="unit.id"
                     >{{unit}}</option>
                 </select>
@@ -91,7 +91,7 @@
                     @input="$emit('update-symptom-unit', $event.target.value)"
                 >
                     <option
-                        v-for="unit in ['','1 - 10','mL', 'kg', '°F', '°C', 'pound']"
+                        v-for="unit in ['','out of 1 - 10','mL', 'kg', '°F', '°C', 'pound']"
                         :name="unit.id"
                     >{{unit}}</option>
                 </select>
@@ -192,8 +192,5 @@ textarea {
 }
 label{
   cursor: text;
-}
-.required{
-  color: rgba(255,0, 0, 1);
 }
 </style>
