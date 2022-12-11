@@ -278,7 +278,7 @@ export default {
       this.numMedications = this.medications.length;
     }
 
-    if (this.status == 'viewing'){ //lock
+    if (this.status == 'viewing'){ // lock
       document.getElementById("moodRange").disabled = true;
       document.getElementById("dateStarted").disabled = true;
       document.getElementById("dateEnded").disabled = true;
@@ -286,7 +286,7 @@ export default {
     }
 
     if (this.dateStarted == ""){
-      this.dateStarted = currentDate;
+      this.dateStarted = this.currentDate;
     }
 
   },
