@@ -1,6 +1,6 @@
 <template>
     <main>
-        <b-modal id="confirm-delete-modal"  size="lg" title="Confirm Delete" hide-footer @hide="cancelDelete">
+        <b-modal :id="`confirm-delete-modal-${itemName}-${itemId}`" size="lg" title="Confirm Delete" hide-footer @hide="cancelDelete">
             <section class="content">
                 <h4>Are you sure you want to delete your {{itemName}}?</h4>
                 <p>This action cannot be undone. </p>

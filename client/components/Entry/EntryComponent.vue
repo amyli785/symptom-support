@@ -149,7 +149,7 @@ export default {
     },
     deleteClick(){
       event.stopPropagation();
-      this.$bvModal.show('confirm-delete-modal');
+      this.$bvModal.show(`confirm-delete-modal-entry-${this.entry._id}`);
     },
     async deleteEntry(entryId) {
       event.stopPropagation();
