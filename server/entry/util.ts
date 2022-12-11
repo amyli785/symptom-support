@@ -3,6 +3,7 @@ import moment from 'moment';
 import type { Entry , PopulatedEntry } from './model';
 import type { Symptom } from '../symptom/model';
 import type { Medication } from '../medication/model';
+import FlagCollection from '../flag/collection';
 
 export type EntryResponse = {
   _id: string;
@@ -14,6 +15,7 @@ export type EntryResponse = {
   medications: Medication[];
   mood: string;
   notes: string;
+  flag: boolean;
 };
 
 /**
@@ -31,12 +33,14 @@ const formatDate = (date: Date): string => date.toString();
  * @param {HydratedDocument<Entry>} entry - An entry
  * @returns {EntryResponse} - The entry object formatted for the frontend
  */
-const constructEntryResponse = (entry: HydratedDocument<Entry>): EntryResponse => {
+const constructEntryResponse = async (entry: HydratedDocument<Entry>): Promise<EntryResponse> => {
   const entryCopy: PopulatedEntry = {
     ...entry.toObject({
       versionKey: false,
     }),
   };
+
+  const flag = await FlagCollection.findOneByEntryId(entry._id);
 
   return {
     _id: entry._id.toString(),
@@ -48,6 +52,7 @@ const constructEntryResponse = (entry: HydratedDocument<Entry>): EntryResponse =
     medications: entryCopy.medications,
     mood: entryCopy.mood ? entryCopy.mood.toString() : '',
     notes: entryCopy.notes ? entryCopy.notes.toString() : '',
+    flag: !!flag,
   };
 };
 

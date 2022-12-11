@@ -58,7 +58,22 @@ const store = new Vuex.Store({
       const res = await fetch(url).then(async r => r.json());
       state.entries = res;
     },
-    cleanEntry(state){
+    updateEntryFlag(state, entry){
+      const entryMatches = state.entries.filter(entryExisting => entryExisting._id === entry._id);
+
+      if (entryMatches.length > 1) {
+        console.log(`Number of matches found for entry > 1: ${entryMatches}`);
+        return;
+      }
+      if (entryMatches.length === 0) {
+        console.log(`Number of matches found for entry = 0`);
+        return;
+      }
+
+      const entryMatch = entryMatches[0];
+      entryMatch.flag = entry.flag;
+    },
+    clearEntries(state){
       state.entries = [];
     },
     goToEntry(state, entryStatus){
@@ -66,17 +81,6 @@ const store = new Vuex.Store({
     },
     cleanEntryStatus(state){
       state.entryStatus = null;
-    },
-    async refreshFlagged(state){
-      /**
-       * Request the server for the logged in user's entries
-       */
-      const url = `/api/flags?username=${state.username}`;
-      const res = await fetch(url).then(async r => r.json());
-      state.flagged = res;
-    },
-    cleanFlagged(state){
-      state.flagged = [];
     },
     updateSupported(state, supported) {
       /**

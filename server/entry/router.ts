@@ -44,7 +44,7 @@ export type MedicationDetails = {
     const user = await UserCollection.findOneByUsername(req.query.username as string);
 
     const entries = await EntryCollection.findAllByOwner(user._id);
-    const response = entries.map(util.constructEntryResponse);
+    const response = await Promise.all(entries.map(util.constructEntryResponse));
     res.status(200).json(response);
   },
 );
@@ -69,7 +69,7 @@ export type MedicationDetails = {
   ],
   async (req:Request, res:Response, next: NextFunction) => {
     const entry = await EntryCollection.findOneByEntryId(req.params.entryId as string);
-    const response = util.constructEntryResponse(entry);
+    const response = await util.constructEntryResponse(entry);
     res.status(200).json(response);
   },
 );
@@ -140,7 +140,7 @@ router.post(
 
     res.status(201).json({
       message: `You added a new entry for ${req.body.owner as string} successfully.`,
-      entry: util.constructEntryResponse(entry)
+      entry: await util.constructEntryResponse(entry)
     });
   }
 );
@@ -210,7 +210,7 @@ router.patch(
 
     res.status(200).json({
       message: 'Your entry was updated successfully.',
-      entry: util.constructEntryResponse(entryUpdated)
+      entry: await util.constructEntryResponse(entryUpdated)
     });
   }
 );

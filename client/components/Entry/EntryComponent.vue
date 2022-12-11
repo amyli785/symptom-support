@@ -64,7 +64,7 @@
       <div class = "icons-top">
         <FlagButton 
           v-if="(permission == 'creator' || permission == 'manager' || entry.owner == this.$store.state.username)"
-          :flagged="flagged" @click="toggleFlag" />
+          :flagged="entry.flag" @click="toggleFlag" />
       </div>
       
       <div v-if="((!sharingMode && !displayMode))" class = "icons-bottom">
@@ -132,20 +132,9 @@ export default {
   },
   data() {
     return {
-      flagged: false,
       shareSelected: false,
       alerts: {},
     };
-  },
-  updated() {
-    if (this.$store.state.username) {
-      this.findFlagStatus();
-    }
-  },
-  mounted() {
-    if (this.$store.state.username) {
-      this.findFlagStatus();
-    }
   },
   methods: {
     displayDate(date) {
@@ -202,58 +191,45 @@ export default {
     },
     async toggleFlag() {
       event.stopPropagation();
-      if (this.flagged){
-        if (this.$store.state.username === this.entry.owner || this.permission === 'manager'){
-          this.flagged = false;
+      if (this.$store.state.username === this.entry.owner || this.permission === 'manager') {
+        if (this.entry.flag) {
           const options = {
             method: 'DELETE', headers: {'Content-Type': 'application/json'}
           };
           try {
             const r = await fetch(`/api/flags/${this.entry._id}`, options);
+            const res = await r.json();
             if (!r.ok) {
-              const res = await r.json();
               throw new Error(res.error);
             }
+            this.$store.commit('updateEntryFlag', res.entry);
+          } catch (e) {
+            this.$set(this.alerts, e, 'error');
+            setTimeout(() => this.$delete(this.alerts, e), 3000);
+          }
+        } else {
+          const options = {
+            method: 'POST', body: JSON.stringify({entryId: this.entry._id}), headers: {'Content-Type': 'application/json'}
+          };
+          try {
+            const r = await fetch(`/api/flags/`, options);
+            const res = await r.json();
+            if (!r.ok) {
+              throw new Error(res.error);
+            }
+            this.$store.commit('updateEntryFlag', res.entry);
           } catch (e) {
             this.$set(this.alerts, e, 'error');
             setTimeout(() => this.$delete(this.alerts, e), 3000);
           }
         }
+        this.$emit('flagToggled');
       } else {
-        this.flagged = true;
-        const options = {
-          method: 'POST', body: JSON.stringify({entryId: this.entry._id}), headers: {'Content-Type': 'application/json'}
-        };
-        try {
-          const r = await fetch(`/api/flags/`, options);
-          if (!r.ok) {
-            const res = await r.json();
-            throw new Error(res.error);
-          }
-        } catch (e) {
-          this.$set(this.alerts, e, 'error');
-          setTimeout(() => this.$delete(this.alerts, e), 3000);
-        }
-      }
-      this.$store.commit('refreshFlagged');
-    },
-    async findFlagStatus(){
-      const options = {
-        method: 'GET', headers: {'Content-Type': 'application/json'}
-      };
-      try {
-        const r = await fetch(`/api/flags?entryId=${this.entry._id}`, options);
-        const res = await r.json();
-        if (!r.ok) {
-          throw new Error(res.error);
-        }
-        this.flagged = res;
-
-      } catch (e) {
+        const e = 'Missing needed manager permissions to change flag status.';
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
-    }
+    },
   }
 };
 </script>

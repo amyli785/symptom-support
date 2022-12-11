@@ -10,7 +10,7 @@ import * as supportValidator from '../support/middleware'
 import * as entryValidator from '../entry/middleware'
 import * as flagValidator from '../flag/middleware'
 import * as util from './util';
-import * as util2 from '../entry/util';
+import * as entryUtil from '../entry/util';
 import { HydratedDocument } from 'mongoose';
 
 const router = express.Router();
@@ -40,10 +40,12 @@ router.post(
     async (req: Request, res: Response) => {
         const entryId = req.body.entryId as string ?? '';
         const flag = await FlagCollection.addOne(entryId);
+        const entry = await EntryCollection.findOneByEntryId(entryId);
 
         res.status(201).json({
             message: `You flagged entry ${req.body.entryId as string} successfully.`,
-            support: util.constructFlagResponse(flag)
+            flag: util.constructFlagResponse(flag),
+            entry: await entryUtil.constructEntryResponse(entry),
         });
     }
 );
@@ -69,9 +71,11 @@ router.post(
     ],
     async (req: Request, res: Response) => {
         await FlagCollection.deleteOne(req.params.entryId as string);
+        const entry = await EntryCollection.findOneByEntryId(req.params.entryId as string);
 
         res.status(200).json({
             message: `You unflagged Entry ${req.params.entryId as string} successfully.`,
+            entry: await entryUtil.constructEntryResponse(entry),
         });
     }
 );
@@ -116,10 +120,7 @@ router.post(
     async (req:Request, res:Response) => {
         if (req.query.entryId !== undefined) {
             const flag = await FlagCollection.findOneByEntryId(req.query.entryId as string);
-            let response: boolean = false
-            if (flag){
-                response = true;
-            }
+            const response = !!flag;
             res.status(200).json(response);
             return;
         }
@@ -129,7 +130,7 @@ router.post(
             const allFlags = await FlagCollection.findAllFlagByUserId(owner._id);
             const allIds = allFlags.map(v => v.entry._id);
             const allEntries = await EntryCollection.findAllByEntryIds(allIds);
-            const response = allEntries.map(util2.constructEntryResponse);
+            const response = await Promise.all(allEntries.map(entryUtil.constructEntryResponse));
             res.status(200).json(response);
             return;
         }

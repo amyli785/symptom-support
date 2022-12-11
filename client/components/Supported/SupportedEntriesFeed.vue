@@ -21,6 +21,7 @@
                 :entry="entry"
                 :permission="permission"
                 :clickable="true"
+                @flagToggled="refreshEntries"
             />
         </div>
         <div v-else>
@@ -35,43 +36,7 @@ import EntryComponent from '@/components/Entry/EntryComponent.vue'
 export default {
     name: "SupportedEntriesFeed",
     components: {EntryComponent},
-    // async beforeCreate() {
-    //     try {
-    //         if (this.$store.state.username === this.$route.query.username){
-    //             this.valid = true;
-    //             this.permission = 'manager';
-    //             this.owner = this.$route.query.username;
-    //             this.ownerDisplay = this.$store.state.displayName;
-    //         }
-    //         else {
-    //             this.$store.commit('refreshSupported');
-    //             for (const support of this.$store.state.supported){
-    //                 if(support.supported === this.$route.query.username){
-    //                     this.valid = true;
-    //                     this.permission = support.permission;
-    //                     this.owner = this.$route.query.username;
-    //                     this.ownerDisplay = support.supportedDisplay;
-    //                 }
-    //             }
-    //         }
-
-    //         if(!this.valid){
-    //             this.$router.push({name: 'Not Found'});
-    //         }
-    //         else{
-    //             const r = await fetch(`/api/entries?username=${this.$route.query.username}`);
-    //             if (!r.ok) {
-    //                 const res = await r.json();
-    //                 throw new Error(res.error);
-    //             }
-
-    //             this.entries = await r.json();
-    //         }
-    //     } catch {
-    //         this.$router.push({name: 'Not Found'})
-    //     }
-    // },
-    async mounted(){
+    async mounted() {
         try {
             if (this.$store.state.username === this.$route.query.username){
                 this.valid = true;
@@ -80,9 +45,9 @@ export default {
                 this.ownerDisplay = this.$store.state.displayName;
             }
             else {
-                this.$store.commit('refreshSupported');
+                await this.$store.commit('refreshSupported');
                 for (const support of this.$store.state.supported){
-                    if(support.supported === this.$route.query.username){
+                    if (support.supported === this.$route.query.username){
                         this.valid = true;
                         this.permission = support.permission;
                         this.owner = this.$route.query.username;
@@ -95,16 +60,10 @@ export default {
                 this.$router.push({name: 'Not Found'});
             }
             else{
-                const r = await fetch(`/api/entries?username=${this.$route.query.username}`);
-                if (!r.ok) {
-                    const res = await r.json();
-                    throw new Error(res.error);
-                }
-
-                this.entries = await r.json();
+                await this.refreshEntries();
             }
-        } catch {
-            this.$router.push({name: 'Not Found'})
+        } catch (e) {
+            this.$router.push({name: 'Not Found'});
         }
     },
     data() {
@@ -117,20 +76,25 @@ export default {
         }
     },
     methods: {
-        goHome(){
+        goHome() {
             this.$router.push({name: 'Home'});
         },
-        back(){
+        back() {
             this.$router.back();
         },
-        createEntry(){
+        createEntry() {
             this.$store.commit('goToEntry', {entry: null, owner: this.owner, status: 'creating', viewOnly: false});
             this.$router.push({name: 'Entry'});
         },
-        viewPermission() {
-            console.log(this.permission);
-            console.log(this.valid)
-        }
+        async refreshEntries() {
+            const url = `/api/entries?username=${this.$route.query.username}`;
+            const r = await fetch(url);
+            const res = await r.json();
+            if (!r.ok) {
+                throw new Error(res.error);
+            }
+            this.entries = res;
+        },
     }
 }
 </script>

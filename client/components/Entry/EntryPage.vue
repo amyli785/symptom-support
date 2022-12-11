@@ -8,7 +8,7 @@
       <h2 v-else-if = "this.status == 'creating'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp; New Entry </h2>
       <div v-if = "!this.viewOnly" class = "icons">
         <FlagButton 
-          :flagged="flagged" 
+          :flagged="entry === null ? false : entry.flag" 
           @click="toggleFlag"
         />
         <EditButton 
@@ -253,14 +253,11 @@ export default {
     };
   },
   async mounted(){
-    let entryStatus = this.$store.state.entryStatus;
+    const entryStatus = this.$store.state.entryStatus;
     this.entry = entryStatus.entry;
     this.owner = entryStatus.owner;
     this.status = entryStatus.status;
     this.viewOnly = entryStatus.viewOnly;
-    if (this.$store.state.username){
-      await this.findFlagStatus();
-    }
 
     if (this.status !== 'creating'){//prepopulate
       this.dateStarted = this.entry.dateStarted;
@@ -457,56 +454,44 @@ export default {
       }
     },
     async toggleFlag() {
-      if (this.flagged){
-        this.flagged = false;
-        const options = {
-          method: 'DELETE', headers: {'Content-Type': 'application/json'}
-        };
-        try {
-          const r = await fetch(`/api/flags/${this.entry._id}`, options);
-          if (!r.ok) {
+      if (this.$store.state.username === this.entry.owner || this.permission === 'manager') {
+        if (this.entry.flag) {
+          const options = {
+            method: 'DELETE', headers: {'Content-Type': 'application/json'}
+          };
+          try {
+            const r = await fetch(`/api/flags/${this.entry._id}`, options);
             const res = await r.json();
-            throw new Error(res.error);
+            if (!r.ok) {
+              throw new Error(res.error);
+            }
+            this.$store.commit('updateEntryFlag', res.entry);
+          } catch (e) {
+            this.$set(this.alerts, e, 'error');
+            setTimeout(() => this.$delete(this.alerts, e), 3000);
           }
-        } catch (e) {
-          this.$set(this.alerts, e, 'error');
-          setTimeout(() => this.$delete(this.alerts, e), 3000);
+        } else {
+          const options = {
+            method: 'POST', body: JSON.stringify({entryId: this.entry._id}), headers: {'Content-Type': 'application/json'}
+          };
+          try {
+            const r = await fetch(`/api/flags/`, options);
+            const res = await r.json();
+            if (!r.ok) {
+              throw new Error(res.error);
+            }
+            this.$store.commit('updateEntryFlag', res.entry);
+          } catch (e) {
+            this.$set(this.alerts, e, 'error');
+            setTimeout(() => this.$delete(this.alerts, e), 3000);
+          }
         }
       } else {
-        this.flagged = true;
-        const options = {
-          method: 'POST', body: JSON.stringify({entryId: this.entry._id}), headers: {'Content-Type': 'application/json'}
-        };
-        try {
-          const r = await fetch(`/api/flags/`, options);
-          if (!r.ok) {
-            const res = await r.json();
-            throw new Error(res.error);
-          }
-        } catch (e) {
-          this.$set(this.alerts, e, 'error');
-          setTimeout(() => this.$delete(this.alerts, e), 3000);
-        }
-      }
-      this.$store.commit('refreshFlagged');
-    },
-    async findFlagStatus(){
-      const options = {
-        method: 'GET', headers: {'Content-Type': 'application/json'}
-      };
-      try {
-        const r = await fetch(`/api/flags?entryId=${this.entry._id}`, options);
-        const res = await r.json();
-        if (!r.ok) {
-          throw new Error(res.error);
-        }
-        this.flagged = res;
-
-      } catch (e) {
+        const e = 'Missing needed manager permissions to change flag status.';
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
-    }
+    },
   }
 }
 

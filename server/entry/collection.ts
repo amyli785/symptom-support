@@ -48,8 +48,8 @@ class EntryCollection {
    * @return {Promise<HydratedDocument<Entry>> | Promise<null>} - The entry with the given id, if any
    */
   static async findOneByEntryId(entryId: Types.ObjectId | string): Promise<HydratedDocument<Entry>> {
-    const entry = await EntryModel.findOne({_id: entryId});
-    return entry.populate(['owner', 'author', 'symptoms', 'medications']);
+    const entry = EntryModel.findOne({_id: entryId}).populate(['owner', 'author', 'symptoms', 'medications']);
+    return entry;
   }
 
   /**
@@ -60,8 +60,8 @@ class EntryCollection {
    */
   static async findAllByEntryIds(entryIds: (Types.ObjectId | string)[]): Promise<Array<HydratedDocument<Entry>>> {
     const entries = await Promise.all(entryIds.map(async (entryId) => {
-      const entry = await EntryModel.findOne({_id: entryId});
-      return entry.populate(['owner', 'author', 'symptoms', 'medications']);
+      const entry = EntryModel.findOne({_id: entryId}).populate(['owner', 'author', 'symptoms', 'medications']);
+      return entry;
     }));
     return entries;
   }

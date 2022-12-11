@@ -21,9 +21,8 @@ export default {
         this.$store.commit('updateSupporterRequest',[]);
         this.$store.commit('setUsername',null);
         localStorage.removeItem('username');
-        this.$store.commit('cleanEntry');
+        this.$store.commit('clearEntries');
         this.$store.commit('cleanEntryStatus');
-        this.$store.commit('cleanFlagged');
         this.$store.commit('alert', {
           message: 'You are now signed out!', status: 'success'
         });
