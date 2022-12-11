@@ -23,16 +23,16 @@
       </section>
       <section class = 'all-trends' v-if="$store.state.username">
         <TrendComponent 
-            :title="'All Time Entry Trends'"
-            :trendItems="allTimeTrends"
-        />
-        <TrendComponent 
-            :title="'Weekly Entry Trends'"
+            :title="'Last 7 Days'"
             :trendItems="weeklyTrends"
         />
         <TrendComponent 
-            :title="'Monthly Entry Trends'"
+            :title="'Last 30 Days'"
             :trendItems="monthlyTrends"
+        />
+        <TrendComponent 
+            :title="'All Time'"
+            :trendItems="allTimeTrends"
         />
     </section>
         <article
