@@ -25,7 +25,7 @@
       <div class = "dates">
         <div class = "started time box">
           <div class = "label-time">
-            <p><span class="required">*</span> Started:</p>  
+            <p><span v-if="!(this.status == 'viewing')" class="required">*</span> Started:</p>  
           </div>
           <input
             type = "datetime-local"

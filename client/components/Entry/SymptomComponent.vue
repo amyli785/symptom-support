@@ -14,7 +14,7 @@
       </header>
       <article>
         <div>
-            <label><span class="required">*</span>{{ this.name.label }}:</label>
+            <label><span v-if="!this.viewing" class="required">*</span>{{ this.name.label }}:</label>
             <textarea
               v-if="this.viewing"
               disabled
@@ -123,8 +123,8 @@ export default {
      * Options for submitting this form.
      */
     return {
-      name: {id: 'name', label: 'Name', value: ''},
-      location: {id: 'location', label: 'Location', value: ''},
+      name: {id: 'name', label: 'Symptom Name', value: ''},
+      location: {id: 'location', label: 'Affected Area', value: ''},
       measurement: {id: 'measurement', label: 'Measurement', value: ''},
       unit: {id: 'unit', label: 'Unit', value: ''},
     };

@@ -15,7 +15,7 @@
       <article>
         <div>
             <div>
-                <label><span class="required">*</span>{{ this.name.label }}:</label>
+                <label><span v-if="!this.viewing" class="required">*</span>{{ this.name.label }}:</label>
                 <textarea
                   v-if="this.viewing"
                   disabled
@@ -35,7 +35,7 @@
                 ></textarea>
             </div>
             <div>
-                <label><span class="required">*</span>{{ this.dosage.label }}:</label>
+                <label><span v-if="!this.viewing" class="required">*</span>{{ this.dosage.label }}:</label>
                 <input
                   v-if="this.viewing"
                   disabled
@@ -55,7 +55,7 @@
                 >
             </div>
             <div class = 'dosage-unit'>
-                <label :for="this.unit.id"><span class="required">*</span>{{ this.unit.label }}: </label>
+                <label :for="this.unit.id"><span v-if="!this.viewing" class="required">*</span>{{ this.unit.label }}: </label>
                 <select
                     v-if="this.viewing"
                     disabled
@@ -111,7 +111,7 @@ export default {
      * Options for submitting this form.
      */
     return {
-      name: {id: 'name', label: 'Name', value: ''},
+      name: {id: 'name', label: 'Medication Name', value: ''},
       dosage: {id: 'dosage', label: 'Dosage', value: ''},
       unit: {id: 'unit', label: 'Unit', value: ''}
     };
