@@ -2,59 +2,41 @@
 
 <template>
   <main>
-    <section v-if="$store.state.displayName">
-      <header>
+    <section v-if="$store.state.displayName" class="entry-feed-container">
+      <header class="entry-feed-header">
         <h2>Welcome {{ $store.state.displayName }}</h2>
         <button 
-          v-if = "($store.state.entries.length && !sharingMode)" 
-          class = "b share"
-          @click = "startShare"
+          v-if="($store.state.entries.length && !sharingMode)" 
+          class="text-button"
+          @click="startShare"
         >
           Share
           &nbsp;
           <font-awesome-icon icon="fa-solid fa-share-nodes" />
         </button>
-      </header>
-      <div class = "create-entry">
-        <div class = "right">
-          <p class = "create-words"> Create an Entry for: &nbsp;</p>
-          <select
-            class = "create-words"
-            id = "entry-selector"
-          >
-            <option
-              v-for="person in this.people"
-              :value = "person.username"
-            >{{person.username == $store.state.username? 'myself': person.display + ' @' + person.username}}</option>
-          </select>
+        <div class="share-instructions" v-if="sharingMode">
+          Click to select the entries you want to share. 
         </div>
-        <button 
-          class = "b create" 
-          @click = 'createEntry'
+      </header>
+      <section class="entry-feed-main">
+        <CreateEntryComponent />
+        <section
+          v-if="$store.state.entries.length"
+          class="entries"
         >
-          Create&nbsp;<font-awesome-icon icon="fa-solid fa-plus" />
-        </button>
-      </div>
-      
-      <p class="shareInstructions" v-if="sharingMode">
-        Click to select the entries you want to share. 
-      </p>
-      <section
-        v-if="$store.state.entries.length"
-        class = "entries"
-      >
-        <EntryComponent
-          v-on:select="selectEntry(entry)"
-          v-on:unselect="unselectEntry(entry)"
-          v-for="entry in $store.state.entries"
-          :key="entry._id"
-          :entry="entry"
-          :sharingMode="sharingMode"
-          :clickable="true"
-        />
-      </section>
-      <section v-else>
-        <h3>You have no entries.</h3>
+          <EntryComponent
+            v-on:select="selectEntry(entry)"
+            v-on:unselect="unselectEntry(entry)"
+            v-for="entry in $store.state.entries"
+            :key="entry._id"
+            :entry="entry"
+            :sharingMode="sharingMode"
+            :clickable="true"
+          />
+        </section>
+        <section v-else>
+          <h3>You have no entries.</h3>
+        </section>
       </section>
       <ShareBar v-if="($store.state.entries.length && sharingMode)"  
         :sharingMode="sharingMode"
@@ -62,6 +44,10 @@
         :shareSize="shareSize"
         v-on:cancel-share="cancelShare"
         v-on:show-share-modal="showShareModal"
+      />
+      <ShareModal class="modal"
+          :shareEntries="shareEntries"
+          v-on:cancel-share="cancelShare"
       />
     </section>
     <section v-else>
@@ -77,22 +63,19 @@
         </h3>
       </article>
     </section>
-    <ShareModal class="modal"
-        :shareEntries="shareEntries"
-        v-on:cancel-share="cancelShare"
-    />
   </main>
 </template>
 
 <script>
-import EntryComponent from '@/components/Entry/EntryComponent.vue'
-import ShareModal from '@/components/Share/ShareModal.vue'
-import ShareBar from '@/components/Share/ShareBar.vue'
+import CreateEntryComponent from '@/components/Entry/CreateEntryComponent.vue';
+import EntryComponent from '@/components/Entry/EntryComponent.vue';
+import ShareModal from '@/components/Share/ShareModal.vue';
+import ShareBar from '@/components/Share/ShareBar.vue';
 
 export default {
   name: 'EntryFeed',
   components: {
-    EntryComponent, ShareModal, ShareBar
+    CreateEntryComponent, EntryComponent, ShareModal, ShareBar
   },
   data() {
     return {
@@ -100,77 +83,58 @@ export default {
       sharingMode: false,
       shareEntries: {},
       shareSize: 0,
-      people:[{username: this.$store.state.username},],
     };
   },
   async mounted() {
-    this.shareSize = 0;
-    this.shareEntries = {};
-
-    let url = `/api/supports/supported?inviteStatus=accepted`;
-    try {
-      const r = await fetch(url);
-      const res = await r.json();
-      if (!r.ok) {
-        throw new Error(res.error);
-      }
-      this.$store.commit('updateSupported', res);
-    } catch (e) {
-
-      this.$set(this.alerts, e, 'error');
-      setTimeout(() => this.$delete(this.alerts, e), 3000);
-    }
-    for(const s of this.$store.state.supported){
-      if (s.permission == 'creator' || s.permission == 'manager'){
-        this.people.push({display:s.supportedDisplay, username:s.supported});
-        //this.people.push(s.supportedDisplay +  " @" + s.supported);
-      }
-    }
+    this.shareSize=0;
+    this.shareEntries={};
 
     await this.$store.commit('refreshEntries');
   },
   methods: {
     showShareModal(){
-      this.sharingMode = false;
+      this.sharingMode=false;
       this.$bvModal.show('share-modal');
     },
     selectEntry(entry){
-      this.shareEntries[entry._id] = entry;
-      this.shareSize = Object.keys(this.shareEntries).length;
+      this.shareEntries[entry._id]=entry;
+      this.shareSize=Object.keys(this.shareEntries).length;
     },
     unselectEntry(entry){
       delete this.shareEntries[entry._id]
-      this.shareSize = Object.keys(this.shareEntries).length;
+      this.shareSize=Object.keys(this.shareEntries).length;
     },
     startShare(){
-      this.sharingMode = !this.sharingMode;
+      this.sharingMode=!this.sharingMode;
     },
     cancelShare(){
-      this.shareSize = 0;
-      this.shareEntries = {};
-      this.sharingMode = false;
+      this.shareSize=0;
+      this.shareEntries={};
+      this.sharingMode=false;
     },
-    createEntry(){
-      this.$store.commit('goToEntry', {entry: null, owner: document.getElementById("entry-selector").value, status: 'creating', viewOnly: false});
-      this.$router.push({name: 'Entry'});
-    }
   },
 };
 </script>
 
 <style scoped>
-section {
+.entry-feed-container {
   display: flex;
   flex-direction: column;
 }
-h2 {
-  margin: 0;
-}
-header, header > * {
+
+.entry-feed-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
+.entry-feed-main {
+  display: flex;
+  flex-direction: column;
+
+  gap: 40px;
+}
+
 section .scrollbox {
   flex: 1 0 50vh;
   padding: 3%;
@@ -185,43 +149,18 @@ section .scrollbox {
 
   gap: 40px;
 }
-.b{
-  border-radius: 10px;
-  width:100px;
-  justify-content: center;
-}
 
-.shareInstructions{
+.share-instructions {
   font-weight: bold;
 }
-.create-entry{
-  width:100%;
-  display:flex;
-  flex-direction: row;
-  justify-content: space-between;
-  border-radius: 15px;
-  background-color: #ffffff;
-  filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
-  padding: 5px;
-  margin-bottom: 25px;
-}
-.create-words{
-  margin:0;
-  padding:0;
-  font-size: 1.5em;
-}
-#entry-selector{
+
+#entry-selector {
   width:70%;
   border-radius: 10px;
   overflow: hidden;
 }
-.right{
-  width:100%;
-  display:flex;
-  flex-direction: row;
-}
 
-.modal{
+.modal {
   padding: 0 !important;
 }
 </style>

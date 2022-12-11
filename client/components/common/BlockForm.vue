@@ -37,12 +37,14 @@
       <p>{{ content }}</p>
     </article>
     <button v-if="validationFunction && fields"
+      class="form-button"
       :disabled="!validationFunction(fields)"
       type="submit"
     >
       {{ title }}
     </button>
     <button v-else
+      class="form-button"
       type="submit"
     >
       {{ title }}
@@ -171,29 +173,31 @@ form {
   margin-bottom: 20px;
   position: relative;
 }
-button{
-  padding: 5px;
-  border-radius: 10px;
-}
+
 article > div {
   display: flex;
   flex-direction: column;
 }
+
 form > article p {
   margin: 0;
 }
+
 form h3,
 form > * {
   margin: 0.3em 0;
 }
+
 form h3 {
   margin-top: 0;
 }
+
 textarea {
   font-family: inherit;
   font-size: inherit;
 }
-input{
+
+input {
   border-radius: 10px;
   border: 1px solid rgb(120, 120, 120);
 }

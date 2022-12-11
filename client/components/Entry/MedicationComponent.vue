@@ -165,22 +165,17 @@ select:disabled{
     width:30%;
     border-radius:15px;
 }
-.add-button{
-  flex: 1 0 0%;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-}
-.i{
+.i {
   cursor: pointer;
   font-size: 20px;
 }
-.i:hover{
+
+.i:hover {
   transform: scale(1.1, 1.1);
 }
-label{
+
+label {
   cursor: text;
 }
 </style>

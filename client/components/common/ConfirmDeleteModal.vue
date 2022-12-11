@@ -7,10 +7,10 @@
             </section>
 
             <section class="modal-footer">
-                <button class="delete" @click="deleteItem">
+                <button class="form-button delete" @click="deleteItem">
                 Yes, delete
                 </button>
-                <button @click="cancelDelete">
+                <button class="form-button" @click="cancelDelete">
                     Cancel
                 </button>
             </section>

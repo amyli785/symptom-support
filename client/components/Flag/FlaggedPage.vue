@@ -8,7 +8,7 @@
                 <button 
                     v-if="Object.keys(this.flaggedEntries).length > 0"
                     @click = "startShare"
-                    class = "share"
+                    class = "text-button"
                 >
                     Share
                     &nbsp;
@@ -115,12 +115,6 @@ section .scrollbox {
     justify-content: space-between;
 
     gap: 40px;
-}
-
-.share{
-    border-radius: 10px;
-    width: 100px;
-    justify-content: center;
 }
 
 .icon{

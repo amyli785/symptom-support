@@ -4,7 +4,7 @@
             <h2><font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp;{{ownerDisplay}}'s Entries </h2>
             <h2><font-awesome-icon @click ="goHome" class = "icon" icon="fa-solid fa-house" /></h2>
         </header>
-        <button class = "createEntry" 
+        <button class = "text-button createEntry" 
             v-if="(permission == 'creator' || permission == 'manager')"
             @click = 'createEntry'>
             Create Entry

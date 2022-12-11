@@ -66,22 +66,34 @@ main {
 button {
   background-color: var(--light-blue);
   border: 0;
-  border-radius: 10px  !important;
-  padding: 5px;
   color: white;
 }
 
-button:hover:enabled{
+button:hover:enabled {
   filter: brightness(80%);
 }
 
-button:active:enabled{
+button:active:enabled {
   filter: brightness(120%);
 }
 
-button:disabled,
-button[disabled]{
+button:disabled, button[disabled] {
   background-color: #cccccc;
+}
+
+.form-button {
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.text-button {
+  border-radius: 16px;
+  padding: 16px;
+
+  display: inline;
+  white-space: nowrap;
+
+  font-size: larger;
 }
 
 .icon-button {

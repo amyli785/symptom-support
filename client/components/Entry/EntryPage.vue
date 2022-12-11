@@ -188,19 +188,19 @@
       </div>
       <div class = "end">
         <div v-if = "this.status == 'creating'">
-          <button @click = "submit" class ="b creating">
+          <button @click = "submit" class ="text-button creating">
             Create Entry
             &nbsp;
             <font-awesome-icon icon="fa-solid fa-plus" />
           </button>
         </div>
         <div v-else-if = "this.status == 'editing'" class = "both">
-          <button @click = "save" class = "b editing save">
+          <button @click = "save" class = "text-button editing save">
             Save Changes
             &nbsp;
             <font-awesome-icon icon="fa-solid fa-check" />
           </button>
-          <button @click = "discard" class = "b editing discard">
+          <button @click = "discard" class = "text-button editing discard">
             Discard Changes
             &nbsp;
             <font-awesome-icon icon="fa-solid fa-x" />
