@@ -249,7 +249,7 @@ export default {
       mood: 5,
       notes: "",
       alerts: {},
-      currentDate: new Date(),
+      currentDate: (new Date()).toString(),
     };
   },
   async mounted(){
@@ -259,7 +259,7 @@ export default {
     this.status = entryStatus.status;
     this.viewOnly = entryStatus.viewOnly;
 
-    if (this.status !== 'creating'){//prepopulate
+    if (this.status !== 'creating'){ // prepopulate
       this.dateStarted = this.entry.dateStarted;
       this.dateEnded = this.entry.dateEnded;
       this.mood = this.entry.mood;
@@ -269,7 +269,7 @@ export default {
       this.numMedications = this.medications.length;
     }
 
-    if (this.status == 'viewing'){//lock
+    if (this.status == 'viewing'){ //lock
       document.getElementById("moodRange").disabled = true;
       document.getElementById("dateStarted").disabled = true;
       document.getElementById("dateEnded").disabled = true;
@@ -277,7 +277,7 @@ export default {
     }
 
     if (this.dateStarted == ""){
-      this.dateStarted = new Date();
+      this.dateStarted = currentDate;
     }
 
   },
@@ -289,7 +289,7 @@ export default {
       this.$router.back();
     },
     displayDate(date) {
-      let formattedDate = moment(new Date(date)).format('yyyy-MM-DDThh:mm');
+      const formattedDate = moment(new Date(date)).format('yyyy-MM-DDTHH:mm');
       return formattedDate == "Invalid date"? "" : formattedDate;
     },
     addMedication(){
@@ -359,7 +359,7 @@ export default {
       const params = {
         body: JSON.stringify({
             owner: this.owner,
-            dateStarted: this.dateStarted == ""? new Date() : this.dateStarted,
+            dateStarted: this.dateStarted,
             dateEnded: this.dateEnded,
             symptoms: this.symptoms,
             medications: this.medications,
@@ -501,15 +501,18 @@ export default {
 h2 {
   margin:0 ;
 }
+
 header, header > * {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 p {
   padding: 0;
   margin: 0; 
 }
+
 .form {
   height: 100%;
   border-radius: 25px;
@@ -517,17 +520,21 @@ p {
   filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
   padding: 20px;
 }
+
 .dates{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
+
 .time {
   width: 47.5%;
 }
+
 .full {
   width: 100%;
 }
+
 .box {
   background-color: var(--light-blue-transparent);
   padding: 20px;
@@ -537,39 +544,46 @@ p {
   justify-content: space-between;
   margin-bottom: 25px;;
 }
+
 .date-time {
   width: 80%;
   background-color: white;
   border-radius: 5px;
 }
+
 .date{
-  width:67.5%;
+  width: 67.5%;
   border-radius: 5px;
   border: 0px;
 }
+
 .label-time{
-  width:27.5%;
+  width: 27.5%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .all {
   display: flex;
-  flex-direction:row;
-  flex-wrap:wrap;
+  flex-direction: row;
+  flex-wrap: wrap;
   width: 85%;
   background-color: white;
   border-radius: 5px;
 }
+
 .label {
   width: 12.5%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 #moodRange {
   width: 100%;
 }
+
 #notes {
   width: 85%;
   border: 0;
@@ -578,90 +592,111 @@ p {
   overflow: hidden;
 	box-sizing: border-box;
 }
+
 header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
+
 .icons{
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 10px;
 }
+
 .end {
   width: 100%;
 }
-.editing{
+
+.editing {
   width: 49%;
 }
-.creating{
+
+.creating {
   width: 100%;
 }
-.b{
+
+.b {
   padding: 10px;
   border-radius: 15px;
 }
-.both{
+
+.both {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-.i{
+
+.i {
   font-size: 40px;
 }
-.icon{
+
+.icon {
   font-size: 40px;
 }
+
 .icon:hover {
   transform: scale(1.1, 1.1);
   cursor: pointer;
 }
-input{
+
+input {
   cursor: pointer;
 }
-input:disabled{
-  cursor:context-menu;
+
+input:disabled {
+  cursor: context-menu;
 }
-#notes:disabled{
-  cursor:context-menu;
+
+#notes:disabled {
+  cursor: context-menu;
 }
-.s{
-  margin:1.65%;
+
+.s {
+  margin: 1.65%;
 }
-.m{
-  margin:1.65%;
+
+.m {
+  margin: 1.65%;
 }
-.label-icon{
-  height:100%;
+
+.label-icon {
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.slider{
+
+.slider {
   margin: 0 20px 0 20px;
   accent-color: var(--salmon);
 }
 
-textarea{
+textarea {
   border: 0px;
   border-radius: 5px;
   height: 1.75em;
 }
-.i-small{
-  font-size:20px;
+
+.i-small {
+  font-size: 20px;
 }
-.ticks{
+
+.ticks {
   margin: 0 18px 0 18px;
   width: 100%;
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
 }
-.save{
+
+.save {
   color: rgba(0,155,0, 1);
 }
-.discard{
+
+.discard {
   color: rgba(200,0, 0, 1);
 }
 </style>
