@@ -69,7 +69,6 @@ export default {
        * Shows modal to confirm removing a supported. 
        */
       event.stopPropagation();
-      console.log("hello")
       this.$bvModal.show(`confirm-delete-modal-supporting-${this.supported._id}`);
     },
     removeSupported() {
