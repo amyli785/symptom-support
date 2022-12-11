@@ -79,7 +79,7 @@
                     @input="$emit('update-symptom-unit', $event.target.value)"
                 >
                     <option
-                        v-for="unit in ['','pain level','mL', 'kg', 'deg F', 'deg C']"
+                        v-for="unit in ['','1 - 10','mL', 'kg', '°F', '°C', 'pound']"
                         :name="unit.id"
                     >{{unit}}</option>
                 </select>
@@ -91,7 +91,7 @@
                     @input="$emit('update-symptom-unit', $event.target.value)"
                 >
                     <option
-                        v-for="unit in ['','pain level','mL', 'kg', 'deg F', 'deg C']"
+                        v-for="unit in ['','1 - 10','mL', 'kg', '°F', '°C', 'pound']"
                         :name="unit.id"
                     >{{unit}}</option>
                 </select>
