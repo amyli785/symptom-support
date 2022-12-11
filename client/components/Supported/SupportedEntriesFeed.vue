@@ -22,6 +22,7 @@
                 :permission="permission"
                 :clickable="true"
                 @flagToggled="refreshEntries"
+                @deleted="refreshEntries"
             />
         </div>
         <div v-else>

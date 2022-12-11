@@ -165,7 +165,7 @@ export default {
         }
 
         this.$store.commit('refreshEntries');
-
+        this.$emit('deleted');
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
@@ -178,9 +178,9 @@ export default {
     },
     entryClick() {
       if (this.sharingMode) {
-        this.shareEntry()
+        this.shareEntry();
       } else if (this.clickable){
-        this.viewEntry()
+        this.viewEntry();
       }
     },
     viewEntry() {

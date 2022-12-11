@@ -27,6 +27,7 @@
             :entry="entry"
             :clickable="true"
             @flagToggled="refreshFlagged"
+            @deleted="refreshFlagged"
           />
         </section>
         <section v-else>
