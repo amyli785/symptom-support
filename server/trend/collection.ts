@@ -83,7 +83,7 @@ class TrendCollection{
         avgMood = trendEntries.length > 0 ? Number((avgMood/trendEntries.length).toFixed(3)) : 0;
         avgSymptoms = trendEntries.length > 0 ? Number((avgSymptoms/trendEntries.length).toFixed(3)) : 0;
         avgMedications = trendEntries.length > 0 ? Number((avgMedications/trendEntries.length).toFixed(3)) : 0;
-        trendItems.push({field: 'avgMood', display:'Average Mood ', value: avgMood});
+        trendItems.push({field: 'avgMood', display:'Average Mood', value: avgMood});
         trendItems.push({field: 'avgSymptoms', display: 'Average Symptoms per Entry', value: avgSymptoms});
         trendItems.push({field: 'avgMedications', display: 'Average Medications per Entry', value: avgMedications});
         trendItems.push({field: 'maxSymptoms', display: 'Most Symptoms in an Entry', value: maxSymptoms});

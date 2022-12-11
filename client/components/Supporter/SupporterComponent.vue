@@ -221,10 +221,4 @@ export default {
   gap: 12px;
 }
 
-.supporter {
-  border: 1px solid #111;
-  padding: 20px;
-  position: relative;
-}
-
 </style>
