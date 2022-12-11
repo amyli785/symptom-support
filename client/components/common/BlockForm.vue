@@ -16,7 +16,8 @@
         >
           {{currentLabel}}: {{currentValue}}
         </p>
-        <label :for="field.id">{{ field.label }}:</label>
+        <label v-if="field.description" :for="field.id">{{ field.label }} <span class="description">({{field.description}}):</span></label>
+        <label v-else :for="field.id">{{ field.label }}:</label>
         <textarea
           v-if="field.id === 'content'"
           :name="field.id"
@@ -195,5 +196,10 @@ textarea {
 input{
   border-radius: 10px;
   border: 1px solid rgb(120, 120, 120);
+}
+
+.description{
+  font-style: italic;
+  font-size: smaller;
 }
 </style>

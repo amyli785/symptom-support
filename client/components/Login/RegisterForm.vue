@@ -13,9 +13,9 @@ export default {
       hasBody: true,
       setUserDetails: true,
       fields: [
-        {id: 'username', label: 'Username', value: ''},
-        {id: 'displayName', label: 'Display Name', value: ''},
-        {id: 'password', label: 'Password', value: ''}
+        {id: 'username', label: 'Username', description: 'letters and numbers only', value: ''},
+        {id: 'displayName', label: 'Display Name', description: 'letters and spaces only', value: ''},
+        {id: 'password', label: 'Password', description: 'between 6 and 50 characters', value: ''}
       ],
       validationFunction: (fields) => {
         const username = fields[0].value;

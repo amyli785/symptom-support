@@ -12,7 +12,7 @@ export default {
       method: 'PATCH',
       hasBody: true,
       fields: [
-        {id: 'password', label: 'Password', value: ''}
+        {id: 'password', label: 'Password', description: 'between 6 and 50 characters', value: ''}
       ],
       validationFunction: (fieldValues) => {
         const passwordRegex = /^\S+$/;

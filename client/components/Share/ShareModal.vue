@@ -2,9 +2,9 @@
     <main>
         <b-modal :hide-footer=true size="xl" id="share-modal" title="Share Entries" @shown="handleShown" @hide="handleHidden">
             <section v-if="!shareCreated" class="nameInput">
-                <p>Enter a name for this share: </p>
+                <p>Enter a title for this share: </p>
                 <input 
-                placeholder="Share Name"
+                placeholder="Share Title"
                 :value=name
                 @input="name = $event.target.value"
                 />

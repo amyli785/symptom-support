@@ -13,7 +13,7 @@ export default {
       hasBody: true,
       setUsername: true,
       fields: [
-        {id: 'username', label: 'New Username', value: ''}
+        {id: 'username', label: 'New Username', description: 'letters and numbers only', value: ''}
       ],
       validationFunction: (fieldValues) => {
         const usernameRegex = /^\w+$/i;

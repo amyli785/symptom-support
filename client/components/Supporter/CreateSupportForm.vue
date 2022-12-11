@@ -46,7 +46,7 @@
             </select>
         </div>
       </article>
-      <button
+      <button :disabled="textFields[0].value === '' || dropdownFields[0].value === ''"
         type="submit"
       >
         {{ title }}
