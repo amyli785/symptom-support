@@ -14,7 +14,7 @@
       </header>
       <article>
         <div>
-            <label><span v-if="!this.viewing" class="required">*</span>{{ this.name.label }}:</label>
+            <label>{{ this.name.label }} <span v-if="!this.viewing" class="required-asterisk">*</span></label>
             <textarea
               v-if="this.viewing"
               disabled
@@ -192,8 +192,5 @@ textarea {
 }
 label{
   cursor: text;
-}
-.required{
-  color: rgba(255,0, 0, 1);
 }
 </style>

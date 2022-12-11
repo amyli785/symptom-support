@@ -120,4 +120,9 @@ button[disabled]{
 .alerts .success {
     background-color: rgb(45, 135, 87);
 }
+
+.required-asterisk {
+  color: rgba(255,0, 0, 1);
+  font-weight: bold;
+}
 </style>
