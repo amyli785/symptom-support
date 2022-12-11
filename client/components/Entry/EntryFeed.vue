@@ -77,7 +77,7 @@
         </h3>
       </article>
     </section>
-    <ShareModal 
+    <ShareModal class="modal"
         :shareEntries="shareEntries"
         v-on:cancel-share="cancelShare"
     />
@@ -219,5 +219,9 @@ section .scrollbox {
   width:100%;
   display:flex;
   flex-direction: row;
+}
+
+.modal{
+  padding: 0 !important;
 }
 </style>
