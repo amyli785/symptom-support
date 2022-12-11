@@ -23,7 +23,7 @@
           v-if="$store.state.supported.length"
           class="support-section-container"
         >
-          <h3>Accepted Invitations</h3>
+          <h3>Accepted</h3>
           <article class="support-section-content">
             <SupportedComponent
               v-for="supported in $store.state.supported"
