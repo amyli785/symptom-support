@@ -1,8 +1,8 @@
 <template>
     <main>
-        <b-modal :id="`confirm-delete-modal-${itemName}-${itemId}`" size="lg" title="Confirm Delete" hide-footer @hide="cancelDelete">
+        <b-modal :id="`confirm-delete-modal-${itemType}-${itemId}`" size="lg" title="Confirm Delete" hide-footer @hide="cancelDelete">
             <section class="content">
-                <h4>Are you sure you want to delete your {{itemName}}?</h4>
+                <h4>Are you sure you want to delete {{itemName}}?</h4>
                 <p>This action cannot be undone. </p>
             </section>
 
@@ -27,6 +27,10 @@ export default {
             type: String,
             required: true
         },
+        itemType: {
+            type: String,
+            required: true
+        },
         deleteFunction: {
             type: Function,
             required: true
@@ -38,11 +42,11 @@ export default {
     }, 
     methods: {
         cancelDelete() {
-            this.$bvModal.hide(`confirm-delete-modal-${this.itemName}-${this.itemId}`);
+            this.$bvModal.hide(`confirm-delete-modal-${this.itemType}-${this.itemId}`);
         },
         async deleteItem() {
             await this.deleteFunction();
-            this.$bvModal.hide(`confirm-delete-modal-${this.itemName}-${this.itemId}`);
+            this.$bvModal.hide(`confirm-delete-modal-${this.itemType}-${this.itemId}`);
         }
     }
 }

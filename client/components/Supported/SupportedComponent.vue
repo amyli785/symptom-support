@@ -26,7 +26,8 @@
       </article>
     </section>
     <ConfirmDeleteModal class="modal"
-    itemName = "supporting"
+    itemType = "supporting"
+    itemName = "your supporting"
     :itemId = "supported._id"
     :deleteFunction = "this.removeSupported"
     />

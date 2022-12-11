@@ -17,7 +17,8 @@
           @click="editEntry"
         />
         <DeleteButton 
-          @click="deleteEntry"
+          v-if="this.status !== 'creating'"
+          @click="deleteEntryClick"
         />
         <h2><font-awesome-icon @click ="goHome" class = "icon" icon="fa-solid fa-house" /></h2>
       </div>
@@ -207,6 +208,12 @@
           </button>
         </div>
       </div>
+      <ConfirmDeleteModal v-if="this.status !== 'creating'" class="modal"
+        itemName = "this entry"
+        itemType = "entry"
+        :itemId = "$store.state.entryStatus.entry._id"
+        :deleteFunction = "this.deleteEntry"
+      />
     </article>
   </main>
 </template>
@@ -216,6 +223,7 @@ import moment from 'moment';
 import FlagButton from '../common/FlagButton';
 import EditButton from '../common/EditButton';
 import DeleteButton from '../common/DeleteButton';
+import ConfirmDeleteModal from '../common/ConfirmDeleteModal';
 import SymptomComponent from './SymptomComponent';
 import MedicationComponent from './MedicationComponent';
 
@@ -225,6 +233,7 @@ export default {
     FlagButton,
     EditButton,
     DeleteButton,
+    ConfirmDeleteModal,
     SymptomComponent,
     MedicationComponent
   },
@@ -318,6 +327,9 @@ export default {
     },
     updateSymptomUnit(i,n){
       this.symptoms[i-1].unit = n;
+    },
+    deleteEntryClick(){
+      this.$bvModal.show(`confirm-delete-modal-entry-${this.$store.state.entryStatus.entry._id}`);
     },
     async deleteEntry() {
       if (this.status == 'creating'){
