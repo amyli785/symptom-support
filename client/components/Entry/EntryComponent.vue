@@ -73,9 +73,14 @@
           @click="editEntry" />
         <DeleteButton 
           v-if="(permission == 'manager' || entry.owner == this.$store.state.username)" 
-          @click="deleteEntry" />
+          @click="deleteClick" />
       </div>
     </div>
+    <ConfirmDeleteModal class="modal"
+    itemName = "entry"
+    :itemId = "entry._id"
+    :deleteFunction = "this.deleteEntry"
+    />
   </article>
 </template>
 
@@ -86,6 +91,7 @@ import MedicationSingleLine from './MedicationSingleLine';
 import FlagButton from '../common/FlagButton';
 import EditButton from '../common/EditButton';
 import DeleteButton from '../common/DeleteButton';
+import ConfirmDeleteModal from '../common/ConfirmDeleteModal';
 
 export default {
   name: 'EntryComponent',
@@ -95,6 +101,7 @@ export default {
     DeleteButton,
     SymptomSingleLine,
     MedicationSingleLine,
+    ConfirmDeleteModal
   },
   props: {
     // Data from the stored entry
@@ -151,14 +158,18 @@ export default {
     displayDate(date) {
       return moment(new Date(date)).format('MMM D, YYYY, h:mm a');
     },
-    async deleteEntry() {
+    deleteClick(){
+      event.stopPropagation();
+      this.$bvModal.show('confirm-delete-modal');
+    },
+    async deleteEntry(entryId) {
       event.stopPropagation();
       const options = {
         method: 'DELETE', headers: {'Content-Type': 'application/json'}
       };
 
       try {
-        const r = await fetch(`/api/entries/${this.entry._id}`, options);
+        const r = await fetch(`/api/entries/${entryId}`, options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
@@ -363,4 +374,7 @@ p{
   border: 2px solid black;
   padding: 0.125em 0.25em 0.125em 0.25em;
 }
+/* .modal {
+    padding: 0px !important;
+} */
 </style>
