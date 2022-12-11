@@ -68,7 +68,8 @@
                 v-if="!editing"
                 @click="startEditing"
             />
-            <DeleteButton @click="removeSupporter" />
+            <DeleteButton v-if="supporter.inviteStatus === 'invited'" @click="removeSupporter" />
+            <DeleteButton v-if="supporter.inviteStatus === 'accepted'" @click="removeSupporterClick" />
         </div>
 
       </header>
@@ -81,6 +82,12 @@
           <p>{{ alert }}</p>
         </article>
       </section>
+
+      <ConfirmDeleteModal class="modal"
+      itemName = "supporter"
+      :itemId = "supporter._id"
+      :deleteFunction = "this.removeSupporter"
+      />
     </article>
   </template>
   
@@ -90,6 +97,7 @@ import AcceptButton from '../common/AcceptButton';
 import CancelButton from '../common/CancelButton';
 import EditButton from '../common/EditButton';
 import DeleteButton from '../common/DeleteButton';
+import ConfirmDeleteModal from '../common/ConfirmDeleteModal';
   
 export default {
     name: 'SupporterComponent',
@@ -98,6 +106,7 @@ export default {
         CancelButton,
         EditButton,
         DeleteButton,
+        ConfirmDeleteModal
     },
     props: {
       // Data from the stored supporter
@@ -114,6 +123,12 @@ export default {
       };
     },
     methods: {
+        removeSupporterClick(){
+            /** 
+             * Shows modal to confirm removing a supporter. 
+             */
+            this.$bvModal.show(`confirm-delete-modal-supporter-${this.supporter._id}`);
+        },
         removeSupporter() {
             /**
              * Removes this supporter

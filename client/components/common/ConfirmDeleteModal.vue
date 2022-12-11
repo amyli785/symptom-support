@@ -38,11 +38,11 @@ export default {
     }, 
     methods: {
         cancelDelete() {
-            this.$bvModal.hide('confirm-delete-modal');
+            this.$bvModal.hide(`confirm-delete-modal-${this.itemName}-${this.itemId}`);
         },
         async deleteItem() {
-            await this.deleteFunction(this.itemId);
-            this.$bvModal.hide('confirm-delete-modal');
+            await this.deleteFunction();
+            this.$bvModal.hide(`confirm-delete-modal-${this.itemName}-${this.itemId}`);
         }
     }
 }

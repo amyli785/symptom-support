@@ -22,7 +22,8 @@
             v-if="supported.inviteStatus === 'invited'"
             @click="acceptInvite"
           />
-          <DeleteButton @click="removeSupported"/>
+          <DeleteButton v-if="supported.inviteStatus === 'invited'" @click="removeSupported"/>
+          <DeleteButton v-if="supported.inviteStatus === 'accepted'" @click="removeSupportedClick"/>
         </div>
       <section class="alerts">
         <article
@@ -33,6 +34,12 @@
           <p>{{ alert }}</p>
         </article>
       </section>
+
+      <ConfirmDeleteModal class="modal"
+      itemName = "supporting"
+      :itemId = "supported._id"
+      :deleteFunction = "this.removeSupported"
+      />
     </article>
   </template>
   
@@ -40,12 +47,14 @@
 
 import AcceptButton from '../common/AcceptButton';
 import DeleteButton from '../common/DeleteButton';
+import ConfirmDeleteModal from '../common/ConfirmDeleteModal';
   
 export default {
   name: 'SupportedComponent',
   components: {
     AcceptButton,
-    DeleteButton
+    DeleteButton,
+    ConfirmDeleteModal
   },
   props: {
     // Data from the stored supported
@@ -64,6 +73,13 @@ export default {
       if (this.supported.inviteStatus == 'accepted'){
         this.$router.push({ path: '/entries', query: { username: this.supported.supported } })
       }
+    },
+    removeSupportedClick(){
+      /**
+       * Shows modal to confirm removing a supported. 
+       */
+      event.stopPropagation();
+      this.$bvModal.show(`confirm-delete-modal-supporting-${this.supported._id}`);
     },
     removeSupported() {
       /**

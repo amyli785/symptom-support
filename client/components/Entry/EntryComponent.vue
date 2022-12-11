@@ -73,7 +73,7 @@
           @click="editEntry" />
         <DeleteButton 
           v-if="(permission == 'manager' || entry.owner == this.$store.state.username)" 
-          @click="deleteClick" />
+          @click="deleteEntryClick" />
       </div>
     </div>
     <ConfirmDeleteModal class="modal"
@@ -147,18 +147,18 @@ export default {
     displayDate(date) {
       return moment(new Date(date)).format('MMM D, YYYY, h:mm a');
     },
-    deleteClick(){
+    deleteEntryClick(){
       event.stopPropagation();
       this.$bvModal.show(`confirm-delete-modal-entry-${this.entry._id}`);
     },
-    async deleteEntry(entryId) {
+    async deleteEntry() {
       event.stopPropagation();
       const options = {
         method: 'DELETE', headers: {'Content-Type': 'application/json'}
       };
 
       try {
-        const r = await fetch(`/api/entries/${entryId}`, options);
+        const r = await fetch(`/api/entries/${this.entry._id}`, options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
@@ -350,7 +350,4 @@ p{
   border: 2px solid black;
   padding: 0.125em 0.25em 0.125em 0.25em;
 }
-/* .modal {
-    padding: 0px !important;
-} */
 </style>
