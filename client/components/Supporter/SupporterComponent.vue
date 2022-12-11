@@ -22,9 +22,6 @@
           <strong>{{ supporter.permission }}</strong>.
         </div>
       </div>
-      <div class="invite-container">
-        Invite status: <strong>{{supporter.inviteStatus}}</strong>.
-      </div>
       <div class="actions-container">
         <AcceptButton
           v-if="editing"
