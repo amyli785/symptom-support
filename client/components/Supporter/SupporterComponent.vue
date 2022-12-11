@@ -1,98 +1,65 @@
-<!-- Reusable component representing a single freet and its actions -->
-<!-- We've tagged some elements with classes; consider writing CSS using those classes to style them... -->
-
 <template>
-    <article
-      class="support-container"
-    >
-      <header>
-        <h2>
-            <div class="support-display-name"><strong>{{supporter.supporterDisplay}}</strong></div> <div class="support-username"> @{{ supporter.supporter }}</div>
-        </h2>
-        <!-- <h3 class="author">
-            {{ supporter.supporter.displayName }}
-          @{{ supporter.supporter }}
-        </h3> -->
-        <!-- <select
-            v-if="editing"
-            class="permission"
-            :value="draft"
-            @input="draft = $event.target.value"
+  <article class="support-container">
+    <section class="support-display-container">
+      <h2 class="support-header">
+        <div class="support-display-name"><strong>{{supporter.supporterDisplay}}</strong></div>
+        &nbsp;
+        <div class="support-username"> @{{ supporter.supporter }}</div>
+      </h2>
+      <div class="permission-container">
+        <div>This supporter is a&nbsp;</div>
+        <select
+          v-if="editing"
+          class="permission"
+          :value="draft"
+          @input="draft = $event.target.value"
         >
-            <option
-                v-for="level in ['','viewer','creator','manager']"
-            >{{level}}</option>
+          <option v-for="level in ['','viewer','creator','manager']">
+            {{level}}
+          </option>
         </select>
-        <p
-            v-else
-            class="permission"
-        >
-          This supporter is a <strong>{{ supporter.permission }}</strong>.
-        </p> -->
-        <div
-            class="permission-container"
-        >
-            <p>This supporter is a </p>
-            <select
-                v-if="editing"
-                class="permission"
-                :value="draft"
-                @input="draft = $event.target.value"
-            >
-                <option
-                    v-for="level in ['','viewer','creator','manager']"
-                >{{level}}</option>
-            </select>
-            <p
-                v-else
-                class="permission"
-            >
-                <strong>{{ supporter.permission }}</strong>.
-            </p>
+        <div v-else class="permission">
+          <strong>{{ supporter.permission }}</strong>.
         </div>
-        <p>
-            Invite status: <strong>{{supporter.inviteStatus}}</strong>.
-        </p>
-        <div
-            class="actions-container"
-        >
-            <AcceptButton
-                v-if="editing"
-                @click="submitEdit"
-            />
-            <CancelButton
-                v-if="editing"
-                @click="stopEditing"
-            />
-            <EditButton
-                v-if="!editing"
-                @click="startEditing"
-            />
-            <DeleteButton v-if="supporter.inviteStatus === 'invited'" @click="removeSupporter" />
-            <DeleteButton v-if="supporter.inviteStatus === 'accepted'" @click="removeSupporterClick" />
-        </div>
-
-      </header>
-      <section class="alerts">
-        <article
-          v-for="(status, alert, index) in alerts"
-          :key="index"
-          :class="status"
-        >
-          <p>{{ alert }}</p>
-        </article>
-      </section>
-
-      <ConfirmDeleteModal class="modal"
-      itemName = "supporter"
+      </div>
+      <div class="invite-container">
+        Invite status: <strong>{{supporter.inviteStatus}}</strong>.
+      </div>
+      <div class="actions-container">
+        <AcceptButton
+          v-if="editing"
+          @click="submitEdit"
+        />
+        <CancelButton
+          v-if="editing"
+          @click="stopEditing"
+        />
+        <EditButton
+          v-if="!editing"
+          @click="startEditing"
+        />
+          <DeleteButton v-if="supporter.inviteStatus === 'invited'" @click="removeSupporter" />
+          <DeleteButton v-if="supporter.inviteStatus === 'accepted'" @click="removeSupporterClick" />
+      </div>
+    </section>
+    <section class="alerts">
+      <article
+        v-for="(status, alert, index) in alerts"
+        :key="index"
+        :class="status"
+      >
+        <p>{{ alert }}</p>
+      </article>
+    </section>
+    <ConfirmDeleteModal class="modal"
+      itemName="supporter"
       :itemId = "supporter._id"
       :deleteFunction = "this.removeSupporter"
-      />
-    </article>
-  </template>
+    />
+  </article>
+</template>
   
-  <script>
-
+<script>
 import AcceptButton from '../common/AcceptButton';
 import CancelButton from '../common/CancelButton';
 import EditButton from '../common/EditButton';
@@ -215,27 +182,6 @@ export default {
 
 <style scoped>
 
-h2 {
-    display: flex;
-    flex-direction:row;
-    gap: 10px;
-    align-items: flex-end;
-}
-
-.support-username{
-    font-size:75%;
-}
-.supporter {
-    border: 1px solid #111;
-    padding: 20px;
-    position: relative;
-}
-.actions-container {
-    display:flex;
-    justify-content:flex-start;
-    gap: 12px;
-}
-
 .support-container {
   background-color: #ffffff;
   filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
@@ -243,20 +189,45 @@ h2 {
   border-radius: 20px;
   padding: 20px;
 
-  flex-basis: calc(31%);
+  flex-basis: calc(33.3333% - 8px);
+}
 
+.support-display-container {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
 
   gap: 12px;
+
+}
+
+.support-header {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.support-username{
+  font-size: 75%;
 }
 
 .permission-container {
-    display: flex;
-    flex-direction: row;
-    gap: 4px;
-    align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.actions-container {
+  display: flex;
+  justify-content:flex-start;
+  gap: 12px;
+}
+
+.supporter {
+  border: 1px solid #111;
+  padding: 20px;
+  position: relative;
 }
 
 </style>

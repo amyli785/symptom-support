@@ -142,14 +142,14 @@ form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 20px;
   position: relative;
 }
+
 button{
   padding: 5px;
   border-radius: 10px;
-
 }
+
 article > div {
   display: flex;
   flex-direction: column;
@@ -172,10 +172,12 @@ textarea {
   font-family: inherit;
   font-size: inherit;
 }
+
 input{
   border-radius: 10px;
   border: 1px solid rgb(120, 120, 120);
 }
+
 select{
   border-radius:10px;
   padding: 5px 0px 5px 0px;

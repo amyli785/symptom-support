@@ -1,133 +1,130 @@
-<!-- Default page that also displays freets -->
-
 <template>
-    <main>
-      <section v-if="$store.state.username">
-        <header>
-          <h2>
-            Supporting
-          </h2>
-          <h2><font-awesome-icon @click ="goHome" class = "icon" icon="fa-solid fa-house" /></h2>
-        </header>
+  <main>
+    <section v-if="$store.state.username" class="support-page-container">
+      <header class="support-page-header">
+        <h2>Supporting</h2>
+        <font-awesome-icon @click ="goHome" class = "icon" icon="fa-solid fa-house" />
+      </header>
+      <article class="support-page-content">
         <section
           v-if="$store.state.supportedRequests.length"
-          class="support-invited"
+          class="support-section-container"
         >
-          <SupportedComponent
-            v-for="supported in $store.state.supportedRequests"
-            :key="supported.id"
-            :supported="supported"
-          />
+          <h3>Requests</h3>
+          <article class="support-section-content">
+            <SupportedComponent
+              v-for="supported in $store.state.supportedRequests"
+              :key="supported.id"
+              :supported="supported"
+            />
+          </article>
         </section>
         <section
           v-if="$store.state.supported.length"
-          class="support-accepted"
+          class="support-section-container"
         >
-          <SupportedComponent
-            v-for="supported in $store.state.supported"
-            :key="supported.id"
-            :supported="supported"
-          />
+          <h3>Accepted Invitations</h3>
+          <article class="support-section-content">
+            <SupportedComponent
+              v-for="supported in $store.state.supported"
+              :key="supported.id"
+              :supported="supported"
+            />
+          </article>
         </section>
-        <article
-          v-else
-        >
+        <article v-else>
           <h3>No accepted supported found.</h3>
         </article>
-      </section>
-      <section v-else>
-        <header>
-          <h2>Welcome to Symptom Support!</h2>
-        </header>
-        <article>
-          <h3>
-            <router-link to="/login">
-              Sign in
-            </router-link>
-            to view supported.
-          </h3>
-        </article>
-      </section>
-    </main>
-  </template>
+      </article>
+    </section>
+    <section v-else class="support-page-container">
+      <header class="support-page-header">
+        <h2>Welcome to Symptom Support!</h2>
+      </header>
+      <article>
+        <h3>
+          <router-link to="/login">
+            Sign in
+          </router-link>
+          to view supporting.
+        </h3>
+      </article>
+    </section>
+  </main>
+</template>
   
-  <script>
-  import SupportedComponent from '@/components/Supported/SupportedComponent.vue';
-  
-  export default {
-    name: 'SupportedPage',
-    components: {SupportedComponent},
-    methods:{
-      goHome(){
-            this.$router.push({name: 'Home'});
-      },
-    },
-    async mounted() {
-      let url = `/api/supports/supported?inviteStatus=accepted`;
-      try {
-        const r = await fetch(url);
-        const res = await r.json();
-        if (!r.ok) {
-          throw new Error(res.error);
-        }
-        this.$store.commit('updateSupported', res);
-      } catch (e) {
-  
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
-      }
+<script>
+import SupportedComponent from '@/components/Supported/SupportedComponent.vue';
 
-      url = `/api/supports/supported?inviteStatus=invited`;
-      try {
-        const r = await fetch(url);
-        const res = await r.json();
-        if (!r.ok) {
-          throw new Error(res.error);
-        }
-        this.$store.commit('updateSupportedRequest', res);
-      } catch (e) {
-  
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+export default {
+  name: 'SupportedPage',
+  components: {SupportedComponent},
+  methods:{
+    goHome(){
+          this.$router.push({name: 'Home'});
+    },
+  },
+  async mounted() {
+    let url = `/api/supports/supported?inviteStatus=accepted`;
+    try {
+      const r = await fetch(url);
+      const res = await r.json();
+      if (!r.ok) {
+        throw new Error(res.error);
       }
+      this.$store.commit('updateSupported', res);
+    } catch (e) {
+
+      this.$set(this.alerts, e, 'error');
+      setTimeout(() => this.$delete(this.alerts, e), 3000);
     }
-  };
-  </script>
+
+    url = `/api/supports/supported?inviteStatus=invited`;
+    try {
+      const r = await fetch(url);
+      const res = await r.json();
+      if (!r.ok) {
+        throw new Error(res.error);
+      }
+      this.$store.commit('updateSupportedRequest', res);
+    } catch (e) {
+
+      this.$set(this.alerts, e, 'error');
+      setTimeout(() => this.$delete(this.alerts, e), 3000);
+    }
+  }
+};
+</script>
 
 <style scoped>
-section {
+.support-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.support-page-content {
   display: flex;
   flex-direction: column;
-}
-.support-invited {
-  display: flex;
-
-  flex-direction: row;
-  flex-wrap: wrap;
-  /* justify-content: space-around; */
-  /* justify-content:space-evenly; */
+  align-items: stretch;
 
   gap: 40px;
 }
 
-.support-accepted {
+.support-section-container {
   display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
 
+.support-section-content {
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /* justify-content: space-between; */
+  justify-content: space-between;
+  align-items: flex-start;
 
-  gap: 40px;
-}
-
-h2 {
-  margin: 0;
-}
-
-header, header > * {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  gap: 12px;
 }
 
 .icon{

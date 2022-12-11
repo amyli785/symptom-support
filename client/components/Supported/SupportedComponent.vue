@@ -1,49 +1,40 @@
-<!-- Reusable component representing a single supported and its actions -->
-
 <template>
-    <article :class="`support-container ${supported.inviteStatus}`" @click="goToSupportedEntryFeed"
-    >
-      <header>
-        <h2>
-            <div class="support-display-name"><strong>{{supported.supportedDisplay}}</strong></div> <div class="support-username"> @{{ supported.supported }}</div>
-        </h2>
-        <p>
-            You are a <strong>{{supported.permission}}</strong>.
-        </p>
-        <p>
-            Invite status: <strong>{{supported.inviteStatus}}</strong>.
-        </p>
-      </header>
-      <div
-          v-if="$store.state.username"
-          class="actions-container"
-        >
-          <AcceptButton
-            v-if="supported.inviteStatus === 'invited'"
-            @click="acceptInvite"
-          />
-          <DeleteButton v-if="supported.inviteStatus === 'invited'" @click="removeSupported"/>
-          <DeleteButton v-if="supported.inviteStatus === 'accepted'" @click="removeSupportedClick"/>
-        </div>
-      <section class="alerts">
-        <article
-          v-for="(status, alert, index) in alerts"
-          :key="index"
-          :class="status"
-        >
-          <p>{{ alert }}</p>
-        </article>
-      </section>
+  <article :class="`support-container ${supported.inviteStatus}`" @click="goToSupportedEntryFeed">
+    <section class="support-display-container">
+      <h2 class="support-header">
+        <div class="support-display-name"><strong>{{supported.supportedDisplay}}</strong></div>
+        &nbsp;
+        <div class="support-username"> @{{ supported.supported }}</div>
+      </h2>
+      <div>You are a <strong>{{supported.permission}}</strong>.</div>
+      <div>Invite status: <strong>{{supported.inviteStatus}}</strong>.</div>
+      <div class="actions-container">
+        <AcceptButton
+          v-if="supported.inviteStatus === 'invited'"
+          @click="acceptInvite"
+        />
+        <DeleteButton v-if="supported.inviteStatus === 'invited'" @click="removeSupported"/>
+        <DeleteButton v-if="supported.inviteStatus === 'accepted'" @click="removeSupportedClick"/>
+      </div>
+    </section>
+    <section class="alerts">
+      <article
+        v-for="(status, alert, index) in alerts"
+        :key="index"
+        :class="status"
+      >
+        <p>{{ alert }}</p>
+      </article>
+    </section>
+    <ConfirmDeleteModal class="modal"
+    itemName = "supported"
+    :itemId = "supported._id"
+    :deleteFunction = "this.removeSupported"
+    />
+  </article>
+</template>
 
-      <ConfirmDeleteModal class="modal"
-      itemName = "supporting"
-      :itemId = "supported._id"
-      :deleteFunction = "this.removeSupported"
-      />
-    </article>
-  </template>
-  
-  <script>
+<script>
 
 import AcceptButton from '../common/AcceptButton';
 import DeleteButton from '../common/DeleteButton';
@@ -141,17 +132,6 @@ export default {
 </script>
 
 <style scoped>
-.supported {
-    border: 1px solid #111;
-    padding: 20px;
-    position: relative;
-}
-.actions-container {
-    display:flex;
-    justify-content:flex-start;
-    align-items:center;
-    gap: 12px;
-}
 
 .support-container {
   background-color: #ffffff;
@@ -160,95 +140,51 @@ export default {
   border-radius: 20px;
   padding: 20px;
 
-  flex-basis: calc(50% - 20px);
+  flex-basis: calc(33.3333% - 8px);
+}
 
+.support-display-container {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items:flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
 
   gap: 12px;
+
 }
+
 .accepted:hover {
   cursor: pointer;
   filter: drop-shadow(0 0 4px var(--dark-blue-drop-shadow));
 }
 
-h2 {
-    display: flex;
-    flex-direction:row;
-    gap: 10px;
-    align-items: flex-end;
+.support-header {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
 }
 
 .support-username{
-    font-size:75%;
+  font-size: 75%;
 }
-.support-container {
-  background-color: #ffffff;
-  filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
-  color: black;
-  border-radius: 20px;
-  padding: 20px;
 
-  flex-basis: calc(31%);
-
+.permission-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  align-items: flex-start;
+}
 
-  gap: 12px;
-}
-/* .selected {
-  background-color: var(--salmon);
-}
-.left-content {
-  flex: 0 1 100%;
+.actions-container {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: stretch;
-
-  gap: 4px;
-}
-
-.right-icons {
-  flex: 1 0 0%;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.icons-top {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-
+  justify-content:flex-start;
   gap: 12px;
 }
 
-.icons-bottom {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
 
-  gap: 12px;
+.supported {
+    border: 1px solid #111;
+    padding: 20px;
+    position: relative;
 }
-
-.entry-dates-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-
-  padding: 0 8px;
-
-  font-weight: bold;
-  font-size: medium;
-} */
 
 </style>
