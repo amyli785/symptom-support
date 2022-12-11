@@ -26,7 +26,7 @@
       </article>
     </section>
     <ConfirmDeleteModal class="modal"
-    itemName = "supported"
+    itemName = "supporting"
     :itemId = "supported._id"
     :deleteFunction = "this.removeSupported"
     />
@@ -69,6 +69,7 @@ export default {
        * Shows modal to confirm removing a supported. 
        */
       event.stopPropagation();
+      console.log("hello")
       this.$bvModal.show(`confirm-delete-modal-supporting-${this.supported._id}`);
     },
     removeSupported() {
@@ -178,12 +179,4 @@ export default {
   justify-content:flex-start;
   gap: 12px;
 }
-
-
-.supported {
-    border: 1px solid #111;
-    padding: 20px;
-    position: relative;
-}
-
 </style>
