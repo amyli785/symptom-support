@@ -12,7 +12,7 @@
           v-if="supported.inviteStatus === 'invited'"
           @click="acceptInvite"
         />
-        <DeleteButton v-if="supported.inviteStatus === 'invited'" @click="removeSupported"/>
+        <XButton v-if="supported.inviteStatus === 'invited'" @click="removeSupported"/>
         <DeleteButton v-if="supported.inviteStatus === 'accepted'" @click="removeSupportedClick"/>
       </div>
     </section>
@@ -37,6 +37,7 @@
 
 import AcceptButton from '../common/AcceptButton';
 import DeleteButton from '../common/DeleteButton';
+import XButton from '../common/XButton';
 import ConfirmDeleteModal from '../common/ConfirmDeleteModal';
   
 export default {
@@ -44,6 +45,7 @@ export default {
   components: {
     AcceptButton,
     DeleteButton,
+    XButton,
     ConfirmDeleteModal
   },
   props: {
@@ -177,5 +179,6 @@ export default {
   display: flex;
   justify-content:flex-start;
   gap: 12px;
+  align-items: center;
 }
 </style>
