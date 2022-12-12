@@ -14,9 +14,7 @@
           &nbsp;
           <font-awesome-icon icon="fa-solid fa-share-nodes" />
         </button>
-        <div class="share-instructions" v-if="sharingMode">
-          Click to select the entries you want to share. 
-        </div>
+        <div v-if="sharingMode"><strong>Click to select the entries you want to share.</strong></div>
       </header>
       <section class="entry-feed-main">
         <CreateEntryComponent />
@@ -129,11 +127,6 @@ export default {
   gap: 40px;
 }
 
-section .scrollbox {
-  flex: 1 0 50vh;
-  padding: 3%;
-  overflow-y: scroll;
-}
 .entries {
   display: flex;
 
@@ -142,10 +135,6 @@ section .scrollbox {
   justify-content: space-between;
 
   gap: 40px;
-}
-
-.share-instructions {
-  font-weight: bold;
 }
 
 #entry-selector {
