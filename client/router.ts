@@ -51,7 +51,7 @@ router.beforeResolve((to, from, next) => {
       return;
     }
   }
-  else if (!username && to.name !== 'Login') {
+  else if (!username && to.name !== 'Login' && to.name !== 'Share' && from.name !== 'Share') {
     next({name: 'Login'});
     return;
   }
