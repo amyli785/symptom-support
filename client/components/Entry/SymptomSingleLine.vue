@@ -1,21 +1,21 @@
 <template>
 	<article class="symptom-container">
-    <div v-if = "!description" class="symptom-background normal">&nbsp;</div>
-    <div v-else class="no-background description">&nbsp;</div>
-    <div v-if = "!description" class="symptom-content normal">
-      <p class="symptom-content-item">
+    <div v-if="!description" class="symptom-background symptom-normal">&nbsp;</div>
+    <div v-else class="no-background symptom-description">&nbsp;</div>
+    <div v-if="!description" class="symptom-content symptom-normal">
+      <div class="symptom-content-item">
         {{ getContent() }}
-      </p>
+      </div>
     </div>
-    <div v-else-if = "extra" class="symptom-content description">
-      <p class="symptom-content-item d">
+    <div v-else-if="extra" class="symptom-content symptom-description">
+      <i class="symptom-content-item">
         ...
-      </p>
+      </i>
     </div>
-    <div v-else = "description" class="symptom-content description">
-      <p class="symptom-content-item d">
+    <div v-else="description" class="symptom-content symptom-description">
+      <i class="symptom-content-item">
         Symptom: name (measurement unit) - location
-      </p>
+      </i>
     </div>
   </article>
 </template>
@@ -89,15 +89,22 @@ export default {
   flex: 1 0 100%;
 
   background-color: var(--salmon-transparent);
-
-  border-radius: 8px;
+  border-radius: 10px;
 }
+
 .no-background {
   flex: 1 0 100%;
 
   background-color: white;
+  border-radius: 10px;
+}
 
-  border-radius: 8px;
+.symptom-normal {
+  padding: 10px;
+} 
+
+.symptom-description {
+  padding: 0 10px;
 }
 
 .symptom-content {
@@ -109,8 +116,7 @@ export default {
   width: 100%;
 
   opacity: 1;
-
-  border-radius: 8px;
+  border-radius: 10px;
 
   display: flex;
   flex-direction: row;
@@ -124,14 +130,5 @@ export default {
 .symptom-content-item {
   overflow: hidden;
   white-space: nowrap;
-}
-.normal{
-  padding: 8px;
-}
-.description{
-  padding: 0 8px 0 8px;
-}
-.d{
-  font-style: italic;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <article :class="`entry-container ${shareSelected ? 'selected' : 'unselected'}`" @click="entryClick">
-    <div class="left-content">
+    <div class="entry-left-content">
       <div class="entry-dates-container">
         <div>
           {{ displayDate(entry.dateStarted) }}
@@ -9,7 +9,7 @@
           &nbsp;-&nbsp;{{ displayDate(entry.dateEnded) }}
         </div>
       </div>
-      <div class="syms">
+      <div class="entry-category-container entry-category-symptoms">
         <SymptomSingleLine
           :name="''"
           :measurement="''"
@@ -35,7 +35,7 @@
           :extra="true"
         />
       </div>
-      <div class="meds">
+      <div class="entry-category-container entry-category-medications">
         <MedicationSingleLine
           :name="''"
           :dosage="''"
@@ -55,19 +55,21 @@
           :extra="true"
         />
       </div>
-      <div class="notes">
-        <p>Notes: {{this.entry.notes}}</p>
+      <div class="entry-category-container entry-notes-container">
+        <div class="entry-notes">
+          Notes: {{this.entry.notes}}
+        </div>
       </div>
     </div>
 
-    <div v-if="(!sharingMode && !displayMode)" class="right-icons">
-      <div class="icons-top">
+    <div v-if="(!sharingMode && !displayMode)" class="entry-right-icons icon-xl">
+      <div class="entry-icons-top">
         <FlagButton 
           v-if="(permission == 'creator' || permission == 'manager' || entry.owner == this.$store.state.username)"
           :flagged="entry.flag" @click="toggleFlag" />
       </div>
       
-      <div v-if="((!sharingMode && !displayMode))" class="icons-bottom">
+      <div v-if="((!sharingMode && !displayMode))" class="entry-icons-bottom">
         <EditButton 
           v-if="(permission == 'manager' || entry.owner == this.$store.state.username)"
           @click="editEntry" />
@@ -77,10 +79,10 @@
       </div>
     </div>
     <ConfirmDeleteModal class="modal"
-    itemName="this entry"
-    itemType="entry"
-    :itemId="entry._id"
-    :deleteFunction="this.deleteEntry"
+      itemName="this entry"
+      itemType="entry"
+      :itemId="entry._id"
+      :deleteFunction="this.deleteEntry"
     />
   </article>
 </template>
@@ -102,7 +104,7 @@ export default {
     DeleteButton,
     SymptomSingleLine,
     MedicationSingleLine,
-    ConfirmDeleteModal
+    ConfirmDeleteModal,
   },
   props: {
     // Data from the stored entry
@@ -260,10 +262,7 @@ export default {
 </script>
 
 <style scoped>
-p{
-  margin: 0;
-  padding: 0;
-}
+
 .entry-container {
   background-color: #ffffff;
   filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
@@ -289,62 +288,19 @@ p{
 .selected:hover{
   filter: drop-shadow(0 0 10px var(--dark-blue));
 }
+
 .selected {
   filter: drop-shadow(0 0 10px var(--dark-blue));
 }
-.left-content {
+
+.entry-left-content {
   flex: 0 1 100%;
+
   display: flex;
   flex-direction: column;
   align-items: stretch;
+
   gap: 5px;
-}
-.meds{
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 5px;
-  border: 2px solid var(--dark-blue-transparent);
-  border-radius: 15px;
-  padding: 5px;
-  height: 50%;
-}
-.syms{
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 5px;
-  border: 2px solid var(--salmon-transparent);
-  border-radius: 15px;
-  padding: 5px;
-  height: 50%;
-}
-
-.right-icons {
-  flex: 1 0 0%;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.icons-top {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-
-  gap: 10px;
-}
-
-.icons-bottom {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-
-  gap: 10px;
 }
 
 .entry-dates-container {
@@ -353,16 +309,70 @@ p{
   justify-content: flex-start;
   align-items: center;
 
-  padding: 0 8px;
+  padding: 0;
 
   font-weight: bold;
   font-size: medium;
 }
 
-.notes{
-  width:100%;
-  border-radius: 10px;
-  border: 2px solid black;
-  padding: 0.125em 0.25em 0.125em 0.25em;
+.entry-category-container {
+  height: 50%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  padding: 5px;
+  gap: 5px;
+
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 15px;
 }
+
+.entry-category-symptoms {
+  border-color: var(--salmon-transparent);
+}
+
+.entry-category-medications {
+  border-color: var(--dark-blue-transparent);
+}
+
+.entry-notes-container {
+  height: 10%;
+  border-color: black;
+  padding: 5px 10px;
+}
+
+.entry-notes {
+  overflow: hidden;
+}
+
+.entry-right-icons {
+  flex: 1 0 0%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.entry-icons-top {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.entry-icons-bottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  gap: 10px;
+}
+
 </style>

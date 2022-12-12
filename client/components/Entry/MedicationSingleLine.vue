@@ -1,21 +1,21 @@
 <template>
 	<article class="medication-container">
-    <div v-if = "!description" class="medication-background normal">&nbsp;</div>
-    <div v-else class="no-background description">&nbsp;</div>
-    <div v-if = "(!description)" class="medication-content normal">
+    <div v-if = "!description" class="medication-background medication-normal">&nbsp;</div>
+    <div v-else class="no-background medication-description">&nbsp;</div>
+    <div v-if = "(!description)" class="medication-content medication-normal">
       <div class="medication-content-item">
         {{ getContent() }}
       </div>
     </div>
-    <div v-else-if = "extra" class="medication-content description">
-      <p class="medication-content-item d">
+    <div v-else-if = "extra" class="medication-content medication-description">
+      <i class="medication-content-item">
         ...
-      </p>
+      </i>
     </div>
-    <div v-else-if = "description" class="medication-content description">
-      <p class="medication-content-item d">
+    <div v-else-if = "description" class="medication-content medication-description">
+      <i class="medication-content-item">
         Medications: name (dosage)
-      </p>
+      </i>
     </div>
   </article>
 </template>
@@ -54,6 +54,7 @@ export default {
 </script>
 
 <style scoped>
+
 .medication-container {
   position: relative;
 
@@ -61,20 +62,29 @@ export default {
   justify-content: flex-start;
   align-items: stretch;
 }
+
 .medication-background {
   flex: 1 0 100%;
 
   background-color: var(--dark-blue-transparent);
-
-  border-radius: 8px;
+  border-radius: 10px;
 }
+
 .no-background {
   flex: 1 0 100%;
 
   background-color: white;
-
-  border-radius: 8px;
+  border-radius: 10px;
 }
+
+.medication-normal{
+  padding: 10px;
+}
+
+.medication-description{
+  padding: 0 10px;
+}
+
 .medication-content {
   position: absolute;
   top: 0;
@@ -84,8 +94,7 @@ export default {
   width: 100%;
 
   opacity: 1;
-
-  border-radius: 8px;
+  border-radius: 10px;
 
   display: flex;
   flex-direction: row;
@@ -95,17 +104,9 @@ export default {
   overflow: hidden;
   white-space: nowrap;
 }
+
 .medication-content-item {
   overflow: hidden;
   white-space: nowrap;
-}
-.normal{
-  padding: 8px;
-}
-.description{
-  padding: 0 8px 0 8px;
-}
-.d{
-  font-style: italic;
 }
 </style>
