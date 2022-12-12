@@ -104,7 +104,7 @@ export default {
     justify-content: flex-start;
     align-items: stretch;
 
-    gap: 12px;
+    gap: 10px;
 }
 
 .share-modal-content {
@@ -113,7 +113,7 @@ export default {
     justify-content: flex-start;
     align-items: stretch;
 
-    gap: 12px;
+    gap: 10px;
 }
 
 .share-modal-entries {

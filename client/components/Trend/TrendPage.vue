@@ -90,6 +90,6 @@ section {
 .all-trends{
     display: flex;
     flex-direction: row;
-    gap: 12px;
+    gap: 10px;
 }
 </style>

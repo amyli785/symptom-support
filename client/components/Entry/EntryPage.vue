@@ -512,7 +512,7 @@ export default {
 <style scoped>
 
 .entry-page-header-left {
-  gap: 12px;
+  gap: 10px;
 }
 
 p {
@@ -604,7 +604,7 @@ p {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .end {

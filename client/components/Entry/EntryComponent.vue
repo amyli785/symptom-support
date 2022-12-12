@@ -322,7 +322,7 @@ p{
   justify-content: flex-start;
   align-items: center;
 
-  gap: 12px;
+  gap: 10px;
 }
 
 .icons-bottom {
@@ -331,7 +331,7 @@ p{
   justify-content: flex-start;
   align-items: center;
 
-  gap: 12px;
+  gap: 10px;
 }
 
 .entry-dates-container {

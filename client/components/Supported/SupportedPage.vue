@@ -120,7 +120,7 @@ export default {
   justify-content: flex-start;
   align-items: flex-start;
 
-  gap: 12px;
+  gap: 10px;
 }
 
 </style>

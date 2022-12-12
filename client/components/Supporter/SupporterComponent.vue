@@ -196,7 +196,7 @@ export default {
   justify-content: flex-start;
   align-items: stretch;
 
-  gap: 12px;
+  gap: 10px;
 
 }
 
@@ -219,7 +219,7 @@ export default {
 .actions-container {
   display: flex;
   justify-content:flex-start;
-  gap: 12px;
+  gap: 10px;
 }
 
 </style>

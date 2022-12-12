@@ -70,7 +70,7 @@ export default {
 
   flex-basis: calc(33%);
 
-  gap: 12px;
+  gap: 10px;
 }
 
 .change-amt {
