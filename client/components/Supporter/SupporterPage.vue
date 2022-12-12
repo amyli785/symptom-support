@@ -3,7 +3,7 @@
     <section v-if="$store.state.username" class="support-page-container">
       <header class="support-page-header">
         <h2>Supporters</h2>
-        <font-awesome-icon @click ="goHome" class="icon-button" icon="fa-solid fa-house" />
+        <HomeButton />
       </header>
       <article class="support-page-content">
         <CreateSupportForm />
@@ -55,16 +55,14 @@
 </template>
   
 <script>
+import HomeButton from '@/components/common/HomeButtonWithAction.vue';
 import SupporterComponent from '@/components/Supporter/SupporterComponent.vue';
 import CreateSupportForm from '@/components/Supporter/CreateSupportForm.vue';
 
 export default {
   name: 'SupporterPage',
-  components: {SupporterComponent, CreateSupportForm},
+  components: {HomeButton, SupporterComponent, CreateSupportForm},
   methods:{
-    goHome(){
-          this.$router.push({name: 'Home'});
-    },
     toSupporterPage() {
       this.$router.push({name: 'Supporter Request'})
     }

@@ -1,10 +1,9 @@
 <template>
-	<div class="edit-button-container icon-button" @click="$emit('click')">
-    <font-awesome-icon
-      class = "i" 
-      icon="fa-solid fa-pen"
-    />
-  </div>
+  <font-awesome-icon
+    class="icon-button"
+    icon="fa-solid fa-pen"
+    @click="$emit('click')"
+  />
 </template>
 
 <script>
@@ -12,17 +11,3 @@ export default {
   name: 'EditButton',
 }
 </script>
-
-<style scoped>
-
-.edit-button-container {
-  display: flex;
-
-  flex-direction: column;
-  justify-self: center;
-  align-items: center;
-}
-.i{
-  font-size: 30px;
-}
-</style>

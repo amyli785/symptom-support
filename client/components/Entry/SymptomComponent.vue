@@ -99,13 +99,15 @@
     </article>
 </form>
 </template>
-  
+
 <script>
-import DeleteButton from '../common/DeleteButton'
+import XButton from '../common/XButton';
+import DeleteButton from '../common/DeleteButton';
+
 export default {
   name: 'SymptomComponent',
   components: {
-    DeleteButton,
+    XButton, DeleteButton,
   },
   props:{
       symptom: {

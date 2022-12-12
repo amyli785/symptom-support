@@ -1,12 +1,10 @@
 <template>
 	<div class="flag-button-container icon-button" @click="$emit('click')">
     <font-awesome-icon
-      class = "i"
       v-if="flagged"
       icon="fa-solid fa-flag"
     />
     <font-awesome-icon
-      class = "i"
       v-else
       icon="fa-regular fa-flag"
     />
@@ -33,8 +31,5 @@ export default {
   flex-direction: column;
   justify-self: center;
   align-items: center;
-}
-.i{
-  font-size: 30px;
 }
 </style>
