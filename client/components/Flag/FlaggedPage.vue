@@ -14,7 +14,7 @@
                     &nbsp;
                     <font-awesome-icon icon="fa-solid fa-share-nodes" />
                 </button>
-                <h2><font-awesome-icon @click="goHome" class="icon-button" icon="fa-solid fa-house" /></h2>
+                <h2><HomeButton /></h2>
             </div>
         </header>
         <section
@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import HomeButton from '@/components/common/HomeButtonWithAction.vue';
 import XButton from '@/components/common/XButton.vue';
 import EntryComponent from '@/components/Entry/EntryComponent.vue';
 import ShareModal from '@/components/Share/ShareModal.vue';
@@ -47,7 +48,7 @@ import ShareModal from '@/components/Share/ShareModal.vue';
 export default {
     name: 'FlaggedPage',
     components: {
-        XButton, EntryComponent, ShareModal,
+        HomeButton, XButton, EntryComponent, ShareModal,
     },
     data() {
         return {
@@ -59,12 +60,6 @@ export default {
         this.refreshFlagged();
     },
     methods: {
-        goHome(){
-            this.$router.push({name: 'Home'});
-        },
-        back() {
-            this.$router.push({name: 'Home'});
-        },
         startShare(){
             this.$bvModal.show('share-modal');
         },

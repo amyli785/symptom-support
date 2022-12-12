@@ -5,7 +5,7 @@
       <section v-if="$store.state.username">
         <header>
           <h2>Trends</h2>
-          <h2><font-awesome-icon @click ="goHome" class="icon-button" icon="fa-solid fa-house" /></h2>
+          <h2><HomeButton /></h2>
         </header>
       </section>
       <section v-else>
@@ -44,12 +44,13 @@
   </template>
   
   <script>
+  import HomeButton from '@/components/common/HomeButtonWithAction.vue';
   import TrendComponent from './TrendComponent.vue';
   
   export default {
     name: 'TrendPage',
     components: {
-        TrendComponent
+      HomeButton, TrendComponent,
     },
     data(){
         return {
@@ -58,11 +59,6 @@
             monthlyTrends: [],
             trendItems: {}
         }
-    },
-    methods:{
-      goHome(){
-            this.$router.push({name: 'Home'});
-      },
     },
     async mounted() {
       let url = `/api/trends`;

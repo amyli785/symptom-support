@@ -6,7 +6,7 @@
     <section>
       <header>
         <h2>Account settings for {{ $store.state.displayName}}</h2>
-        <h2><font-awesome-icon @click="goHome" class="icon-button icon-xxl" icon="fa-solid fa-house" /></h2>
+        <HomeButton />
       </header>
       <ChangeUsernameForm 
         :currentLabel="'Current username'"
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import HomeButton from '@/components/common/HomeButtonWithAction.vue';
 import ChangeUsernameForm from '@/components/Account/ChangeUsernameForm.vue';
 import ChangePasswordForm from '@/components/Account/ChangePasswordForm.vue';
 import ChangeDisplayNameForm from '@/components/Account/ChangeDisplayNameForm.vue';
@@ -38,19 +39,16 @@ import LogoutForm from '@/components/Account/LogoutForm.vue';
 export default {
   name: 'AccountPage',
   components: {
+    HomeButton,
     ChangeUsernameForm,
     ChangePasswordForm,
     ChangeDisplayNameForm,
     DeleteAccountForm,
     LogoutForm
   },
-  methods: {
-    goHome(){
-      this.$router.push({name: 'Home'});
-    },
-  }
 };
 </script>
+
 <style scoped>
 h2 {
   margin: 0;

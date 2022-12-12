@@ -26,7 +26,7 @@
           v-if="this.status !== 'creating'"
           @click="deleteEntryClick"
         />
-        <h2><font-awesome-icon @click="goHome" class="icon-button" icon="fa-solid fa-house" /></h2>
+        <h2><HomeButton /></h2>
       </div>
     </header>
     <article class="form">
@@ -226,6 +226,7 @@
 
 <script>
 import moment from 'moment';
+import HomeButton from '../common/HomeButtonWithAction';
 import FlagButton from '../common/FlagButton';
 import EditButton from '../common/EditButton';
 import DeleteButton from '../common/DeleteButton';
@@ -236,6 +237,7 @@ import MedicationComponent from './MedicationComponent';
 export default {
   name: 'EntryPage',
   components: {
+    HomeButton,
     FlagButton,
     EditButton,
     DeleteButton,
@@ -291,9 +293,6 @@ export default {
 
   },
   methods: {
-    goHome(){
-      this.$router.push({name: 'Home'});
-    },
     back(){
       this.$router.back();
     },

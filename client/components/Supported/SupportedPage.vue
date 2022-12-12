@@ -3,7 +3,7 @@
     <section v-if="$store.state.username" class="support-page-container">
       <header class="support-page-header">
         <h2>Supporting</h2>
-        <font-awesome-icon @click ="goHome" class="icon-button" icon="fa-solid fa-house" />
+        <HomeButton />
       </header>
       <article class="support-page-content">
         <section
@@ -52,17 +52,16 @@
     </section>
   </main>
 </template>
-  
+
 <script>
+import HomeButton from '@/components/common/HomeButtonWithAction.vue';
 import SupportedComponent from '@/components/Supported/SupportedComponent.vue';
 
 export default {
   name: 'SupportedPage',
-  components: {SupportedComponent},
-  methods:{
-    goHome(){
-          this.$router.push({name: 'Home'});
-    },
+  components: {
+    HomeButton,
+    SupportedComponent,
   },
   async mounted() {
     let url = `/api/supports/supported?inviteStatus=accepted`;

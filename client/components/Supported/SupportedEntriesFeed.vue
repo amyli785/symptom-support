@@ -2,7 +2,7 @@
     <main>
         <header>
             <h2><font-awesome-icon @click="back" class="icon-button" icon="fa-solid fa-arrow-left" /> &nbsp;{{ownerDisplay}}'s Entries </h2>
-            <h2><font-awesome-icon @click="goHome" class="icon-button" icon="fa-solid fa-house" /></h2>
+            <h2><HomeButton /></h2>
         </header>
         <button class = "text-button createEntry" 
             v-if="(permission == 'creator' || permission == 'manager')"
@@ -32,11 +32,14 @@
 </template>
 
 <script>
-import EntryComponent from '@/components/Entry/EntryComponent.vue'
+import HomeButton from '@/components/common/HomeButtonWithAction.vue';
+import EntryComponent from '@/components/Entry/EntryComponent.vue';
 
 export default {
     name: "SupportedEntriesFeed",
-    components: {EntryComponent},
+    components: {
+        HomeButton, EntryComponent,
+    },
     async mounted() {
         try {
             if (this.$store.state.username === this.$route.query.username){
@@ -77,9 +80,6 @@ export default {
         }
     },
     methods: {
-        goHome() {
-            this.$router.push({name: 'Home'});
-        },
         back() {
             this.$router.back();
         },

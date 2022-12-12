@@ -1,10 +1,9 @@
 <template>
-	<div class="x-button-container icon-button" @click="$emit('click')">
-    <font-awesome-icon
-    class = "i"
-      icon="fa-solid fa-x"
-    />
-  </div>
+  <font-awesome-icon
+    class="icon-button"
+    icon="fa-solid fa-x"
+    @click="$emit('click')"
+  />
 </template>
 
 <script>
@@ -12,14 +11,3 @@ export default {
   name: 'XButton',
 }
 </script>
-
-<style scoped>
-
-.x-button-container {
-  display: flex;
-
-  flex-direction: column;
-  justify-self: center;
-  align-items: center;
-}
-</style>
