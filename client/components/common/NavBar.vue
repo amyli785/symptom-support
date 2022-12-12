@@ -110,9 +110,7 @@ img {
 .right a {
     margin-left: 5px;
 }
-.alerts {
-    width: 25%;
-}
+
 a:link { 
   text-decoration: none; 
 }

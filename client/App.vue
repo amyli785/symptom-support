@@ -144,13 +144,13 @@ button:disabled, button[disabled] {
 }
 
 .alerts {
-  display: inline-block;
   position: absolute;
   z-index: 99;
-  bottom: 0;
   top: 100%;
   left: 50%;
-  width: 100%;
+  width: fit-content;
+  block-size: fit-content;
+  max-width: 100%;
   transform: translate(-50%, 10%);
   text-align: center;
 }
