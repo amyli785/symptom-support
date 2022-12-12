@@ -55,12 +55,27 @@ body {
   font-size: 1.2em;
 }
 
-header{
-  margin: 1.5em 0 1.5em 0;
-}
-
 main {
   padding: 0 5em 5em;
+}
+
+header {
+  margin: 1em 0;
+}
+
+header, header > * {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header > h2 {
+  margin: 0.5em 0;
+}
+
+header > h5 {
+  margin: 0;
 }
 
 button {
@@ -87,8 +102,8 @@ button:disabled, button[disabled] {
 }
 
 .text-button {
-  border-radius: 16px;
-  padding: 16px;
+  border-radius: 12px;
+  padding: 12px;
 
   display: inline;
   white-space: nowrap;

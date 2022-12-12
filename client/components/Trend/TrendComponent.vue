@@ -2,34 +2,31 @@
 <!-- We've tagged some elements with classes; consider writing CSS using those classes to style them... -->
 
 <template>
-    <article
-      class="trend-container"
+  <article
+    class="trend-container"
+  >
+    <h2>
+        <strong>{{title}}</strong>
+    </h2>
+    <section
+      v-if="trendItems.length"
     >
-      <header>
-        <h2>
-            <div class="support-display-name"><strong>{{title}}</strong></div>
-        </h2>
-      </header>
-      <section
-          v-if="trendItems.length"
-        >
-            <p class="trend-item"
-                v-for="trend in trendItems"
-                v-if="(typeof trend.value) === (typeof 1)"> <strong>{{trend.display}}:</strong> {{trend.value}}
-            </p>
-            <p class="trend-item"
-              v-else
-            >
-              <strong>{{trend.display}}:</strong> <br>
-              <i>- {{trend.value[0].display}}:</i> {{trend.value[0].value}} <br>
-              <i>- {{trend.value[1].display}}:</i> {{trend.value[1].value}}
-            </p>
-        </section>
-    </article>
-  </template>
+      <p class="trend-item"
+          v-for="trend in trendItems"
+          v-if="(typeof trend.value) === (typeof 1)"> <strong>{{trend.display}}:</strong> {{trend.value}}
+      </p>
+      <p class="trend-item"
+        v-else
+      >
+        <strong>{{trend.display}}:</strong> <br>
+        <i>- {{trend.value[0].display}}:</i> {{trend.value[0].value}} <br>
+        <i>- {{trend.value[1].display}}:</i> {{trend.value[1].value}}
+      </p>
+    </section>
+  </article>  
+</template>
   
-  <script>
-  
+<script>
 export default {
     name: 'TrendComponent',
     components: {
@@ -49,27 +46,6 @@ export default {
 </script>
 
 <style scoped>
-
-h2 {
-    display: flex;
-    flex-direction:row;
-    gap: 10px;
-    align-items: flex-end;
-}
-
-.support-username{
-    font-size:75%;
-}
-.supporter {
-    border: 1px solid #111;
-    padding: 20px;
-    position: relative;
-}
-.actions-container {
-    display:flex;
-    justify-content:flex-start;
-    gap: 12px;
-}
 
 .trend-container {
   background-color: #ffffff;

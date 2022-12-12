@@ -3,16 +3,14 @@
 <template>
   <main>
     <header>
-      <h2 v-if="status=='viewing' | status=='editing' | status=='creating'">
+      <h2 v-if="status=='viewing' | status=='editing' | status=='creating'" class="entry-page-header-left">
         <font-awesome-icon @click="back" class="icon-button icon-xxl" icon="fa-solid fa-arrow-left" />
-        &nbsp;
         <div v-if="status=='viewing'">Viewing</div>
         <div v-if="status=='editing'">Editing</div>
         <div v-if="status=='creating'">New</div>
-        &nbsp;
         Entry
       </h2>
-      <div v-if="!this.viewOnly" class="icons">
+      <h2 v-if="!this.viewOnly" class="icons">
         <FlagButton 
           v-if="this.status != 'creating'"
           :flagged="entry === null ? false : entry.flag" 
@@ -26,8 +24,8 @@
           v-if="this.status !== 'creating'"
           @click="deleteEntryClick"
         />
-        <h2><HomeButton /></h2>
-      </div>
+        <HomeButton />
+      </h2>
     </header>
     <article class="form">
       <div class="dates">
@@ -512,14 +510,9 @@ export default {
 </script>
 
 <style scoped>
-h2 {
-  margin:0 ;
-}
 
-header, header > * {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.entry-page-header-left {
+  gap: 12px;
 }
 
 p {
@@ -607,17 +600,11 @@ p {
 	box-sizing: border-box;
 }
 
-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
 .icons {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .end {

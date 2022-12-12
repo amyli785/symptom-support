@@ -30,13 +30,3 @@ export default {
   }
 };
 </script>
-<style scoped>
-h2 {
-  margin: 0;
-}
-header, header > * {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-</style>

@@ -7,6 +7,20 @@
           <h2>Trends</h2>
           <h2><HomeButton /></h2>
         </header>
+        <section class="all-trends">
+          <TrendComponent 
+            :title="'Last 7 Days'"
+            :trendItems="weeklyTrends"
+          />
+          <TrendComponent 
+            :title="'Last 30 Days'"
+            :trendItems="monthlyTrends"
+          />
+          <TrendComponent 
+            :title="'All Time'"
+            :trendItems="allTimeTrends"
+          />
+        </section>
       </section>
       <section v-else>
         <header>
@@ -21,25 +35,6 @@
           </h3>
         </article>
       </section>
-      <section class = 'all-trends' v-if="$store.state.username">
-        <TrendComponent 
-            :title="'Last 7 Days'"
-            :trendItems="weeklyTrends"
-        />
-        <TrendComponent 
-            :title="'Last 30 Days'"
-            :trendItems="monthlyTrends"
-        />
-        <TrendComponent 
-            :title="'All Time'"
-            :trendItems="allTimeTrends"
-        />
-    </section>
-        <article
-          v-else
-        >
-          <h3>No trends found.</h3>
-        </article>
     </main>
   </template>
   
@@ -90,12 +85,6 @@
 section {
   display: flex;
   flex-direction: column;
-}
-
-header, header > * {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .all-trends{

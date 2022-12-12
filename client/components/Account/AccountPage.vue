@@ -6,24 +6,28 @@
     <section>
       <header>
         <h2>Account settings for {{ $store.state.displayName}}</h2>
-        <HomeButton />
+        <h2><HomeButton /></h2>
       </header>
-      <ChangeUsernameForm 
-        :currentLabel="'Current username'"
-        :currentValue="$store.state.username"
-      />
-      <ChangeDisplayNameForm 
-        :currentLabel="'Current Display Name'"
-        :currentValue="$store.state.displayName"
-      />
-      <ChangePasswordForm />
+      <div class="account-page-form-group">
+        <ChangeUsernameForm 
+          :currentLabel="'Current username'"
+          :currentValue="$store.state.username"
+        />
+        <ChangeDisplayNameForm 
+          :currentLabel="'Current Display Name'"
+          :currentValue="$store.state.displayName"
+        />
+        <ChangePasswordForm />
+      </div>
     </section>
     <section>
       <header>
         <h2>Account management</h2>
       </header>
-      <LogoutForm />
-      <DeleteAccountForm />
+      <div class="account-page-form-group">
+        <LogoutForm />
+        <DeleteAccountForm />
+      </div>
     </section>
   </main>
 </template>
@@ -50,14 +54,12 @@ export default {
 </script>
 
 <style scoped>
-h2 {
-  margin: 0;
-}
-
-header, header > * {
+.account-page-form-group {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
 
+  gap: 20px;
+}
 </style>

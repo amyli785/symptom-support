@@ -133,13 +133,7 @@ textarea{
   border-radius: 5px;
   height: 1.75em;
 }
-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin:0;
-  padding: 0;
-}
+
 textarea {
    font-family: inherit;
    font-size: inherit;

@@ -3,7 +3,7 @@
 <template>
   <main>
     <section v-if="$store.state.displayName" class="entry-feed-container">
-      <header class="entry-feed-header">
+      <header>
         <h2>Welcome {{ $store.state.displayName }}</h2>
         <button 
           v-if="($store.state.entries.length && !sharingMode)" 
@@ -120,12 +120,6 @@ export default {
 .entry-feed-container {
   display: flex;
   flex-direction: column;
-}
-
-.entry-feed-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .entry-feed-main {

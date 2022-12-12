@@ -1,7 +1,7 @@
 <template>
     <main>
         <header>
-            <h2><font-awesome-icon @click="back" class="icon-button" icon="fa-solid fa-arrow-left" /> &nbsp;{{ownerDisplay}}'s Entries </h2>
+            <h2><font-awesome-icon @click="back" class="icon-button" icon="fa-solid fa-arrow-left" />&nbsp;{{ownerDisplay}}'s Entries</h2>
             <h2><HomeButton /></h2>
         </header>
         <button class = "text-button createEntry" 
@@ -116,11 +116,4 @@ export default {
   padding: 10px;
   margin-bottom: 25px;
 }
-
-header, header > * {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 </style>

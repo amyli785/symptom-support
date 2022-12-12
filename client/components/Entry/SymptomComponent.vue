@@ -164,13 +164,7 @@ select {
 select:disabled{
   background-color: rgba(255,255,255,0.3);
 }
-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding:0;
-  margin:0;
-}
+
 textarea {
    font-family: inherit;
    font-size: inherit;

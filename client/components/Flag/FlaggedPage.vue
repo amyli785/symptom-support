@@ -3,12 +3,12 @@
 <template>
     <main>
         <header>
-            <h2> Flagged Entries </h2>
-            <div class="header-right">
+            <h2>Flagged Entries</h2>
+            <div class="flagged-page-header-right">
                 <button 
                     v-if="Object.keys(this.flaggedEntries).length > 0"
-                    @click = "startShare"
-                    class = "text-button"
+                    @click="startShare"
+                    class="text-button"
                 >
                     Share
                     &nbsp;
@@ -82,26 +82,24 @@ section {
     flex-direction: column;
 }
 
-h2 {
-    margin: 0;
-}
-
-header, header > * {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-
 section .scrollbox {
     flex: 1 0 50vh;
     padding: 3%;
     overflow-y: scroll;
 }
 
-.header-right{
+.flagged-page-header-right, .flagged-page-header-right > * {
     display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.flagged-page-header-right {
     gap: 10px;
+}
+
+.flagged-page-header-right > h2 {
+    margin: 0;
 }
 
 .entries {

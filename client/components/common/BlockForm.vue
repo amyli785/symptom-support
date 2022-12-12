@@ -170,7 +170,6 @@ form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 20px;
   position: relative;
 }
 

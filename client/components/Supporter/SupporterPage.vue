@@ -1,9 +1,9 @@
 <template>
   <main>
     <section v-if="$store.state.username" class="support-page-container">
-      <header class="support-page-header">
+      <header>
         <h2>Supporters</h2>
-        <HomeButton />
+        <h2><HomeButton /></h2>
       </header>
       <article class="support-page-content">
         <CreateSupportForm />
@@ -39,7 +39,7 @@
       </article>
     </section>
     <section v-else class="support-page-container">
-      <header class="support-page-header">
+      <header>
         <h2>Welcome to Symptom Support!</h2>
       </header>
       <article>
@@ -101,12 +101,6 @@ export default {
 </script>
 
 <style scoped>
-.support-page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .support-page-content {
   display: flex;
   flex-direction: column;
