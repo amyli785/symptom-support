@@ -475,7 +475,12 @@ export default {
           throw new Error(res.error);
         }
         await this.$store.commit('refreshEntries');
-        this.$router.push({name: 'Home'});
+        if (this.entry.owner !== this.$store.state.username){
+          this.$router.push({ path: '/entries', query: { username: this.entry.owner } })
+        }
+        else{
+          this.$router.push({name: 'Home'});
+        }
         this.$store.commit('cleanEntryStatus');
         if (params.callback){
           params.callback();
