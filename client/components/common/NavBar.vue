@@ -81,6 +81,7 @@ nav {
     position: sticky;
     top: 0;
     z-index: 99;
+    width: 100%;
 }
 
 .title {
@@ -109,9 +110,7 @@ img {
 .right a {
     margin-left: 5px;
 }
-.alerts {
-    width: 25%;
-}
+
 a:link { 
   text-decoration: none; 
 }

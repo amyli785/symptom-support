@@ -102,8 +102,8 @@ button:disabled, button[disabled] {
 }
 
 .text-button {
-  border-radius: 12px;
-  padding: 12px;
+  border-radius: 15px;
+  padding: 15px;
 
   display: inline;
   white-space: nowrap;
@@ -144,33 +144,34 @@ button:disabled, button[disabled] {
 }
 
 .alerts {
-    position: absolute;
-    z-index: 99;
-    bottom: 0;
-    top: 100%;
-    left: 50%;
-    transform: translate(-50%, 10%);
-    width: 100%;
-    text-align: center;
+  position: absolute;
+  z-index: 99;
+  top: 100%;
+  left: 50%;
+  width: fit-content;
+  block-size: fit-content;
+  max-width: 100%;
+  transform: translate(-50%, 10%);
+  text-align: center;
 }
 
 .alerts article {
-    border-radius: 10px;
-    padding: 10px 20px;
-    margin: 5px;
-    color: #fff;
+  border-radius: 10px;
+  padding: 10px 20px;
+  margin: 5px;
+  color: #fff;
 }
 
 .alerts p {
-    margin: 0;
+  margin: 0;
 }
 
 .alerts .error {
-    background-color: var(--salmon);
+  background-color: var(--salmon);
 }
 
 .alerts .success {
-    background-color: var(--dark-blue);
+  background-color: var(--dark-blue);
 }
 
 .required-asterisk {

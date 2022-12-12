@@ -3,7 +3,6 @@
     <div class="create-entry-main">
       <div> Create an entry for&nbsp;</div>
       <select
-        class="create-entry-select"
         id="entry-selector"
       >
         <option
@@ -48,8 +47,9 @@ export default {
         }
         this.$store.commit('updateSupported', res);
       } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
 
       this.people = [{username: this.$store.state.username},];
@@ -94,11 +94,16 @@ export default {
   white-space: nowrap;
 }
 
-.create-entry-select {
+#entry-selector {
   margin: 0;
-  padding: 0;
+  padding: 0 5px;
   
   flex-basis: 100%;
+  
+  border-radius: 10px;
+  overflow: hidden;
+
+  background-color: #ffffff;
 }
 
 </style>

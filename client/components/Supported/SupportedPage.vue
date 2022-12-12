@@ -76,9 +76,9 @@ export default {
       }
       this.$store.commit('updateSupported', res);
     } catch (e) {
-
-      this.$set(this.alerts, e, 'error');
-      setTimeout(() => this.$delete(this.alerts, e), 3000);
+      this.$store.commit('alert', {
+        message: e, status: 'error'
+      });
     }
 
     url = `/api/supports/supported?inviteStatus=invited`;
@@ -90,9 +90,9 @@ export default {
       }
       this.$store.commit('updateSupportedRequest', res);
     } catch (e) {
-
-      this.$set(this.alerts, e, 'error');
-      setTimeout(() => this.$delete(this.alerts, e), 3000);
+      this.$store.commit('alert', {
+        message: e, status: 'error'
+      });
     }
   }
 };

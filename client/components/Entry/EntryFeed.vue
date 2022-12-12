@@ -137,12 +137,6 @@ export default {
   gap: 40px;
 }
 
-#entry-selector {
-  width:70%;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
 .modal {
   padding: 0 !important;
 }
