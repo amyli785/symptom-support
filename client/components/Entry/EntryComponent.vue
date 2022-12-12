@@ -167,6 +167,9 @@ export default {
 
         this.$store.commit('refreshEntries');
         this.$emit('deleted');
+        this.$store.commit('alert', {
+            message: 'Successfully deleted Entry!', status: 'success'
+        });
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
@@ -215,6 +218,10 @@ export default {
               throw new Error(res.error);
             }
             this.$store.commit('updateEntryFlag', res.entry);
+            
+            this.$store.commit('alert', {
+              message: 'Successfully unflagged entry!', status: 'success'
+            });
           } catch (e) {
             this.$set(this.alerts, e, 'error');
             setTimeout(() => this.$delete(this.alerts, e), 3000);
@@ -230,6 +237,9 @@ export default {
               throw new Error(res.error);
             }
             this.$store.commit('updateEntryFlag', res.entry);
+            this.$store.commit('alert', {
+              message: 'Successfully flagged entry!', status: 'success'
+            });
           } catch (e) {
             this.$set(this.alerts, e, 'error');
             setTimeout(() => this.$delete(this.alerts, e), 3000);

@@ -16,15 +16,6 @@
         <DeleteButton v-if="supported.inviteStatus === 'accepted'" @click="removeSupportedClick"/>
       </div>
     </section>
-    <section class="alerts">
-      <article
-        v-for="(status, alert, index) in alerts"
-        :key="index"
-        :class="status"
-      >
-        <p>{{ alert }}</p>
-      </article>
-    </section>
     <ConfirmDeleteModal class="modal"
     itemType = "supporting"
     itemName = "your supporting"
@@ -91,11 +82,11 @@ export default {
     acceptInvite(){
       const params = {
           method: 'PATCH',
-          message: 'Successfully accepted invite!',
           body: JSON.stringify({inviteStatus: 'accepted'}),
           callback: () => {
-          this.$set(this.alerts, params.message, 'success');
-          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+            this.$store.commit('alert', {
+              message: 'Successfully accepted invite!', status: 'success'
+            });
           }
       };
       this.request(params);
@@ -134,7 +125,6 @@ export default {
 </script>
 
 <style scoped>
-
 .support-container {
   background-color: #ffffff;
   filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));

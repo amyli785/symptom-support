@@ -353,6 +353,9 @@ export default {
           await this.$store.commit('refreshEntries');
           this.$router.push({name: 'Home'});
           this.$store.commit('cleanEntryStatus');
+          this.$store.commit('alert', {
+            message: 'Successfully deleted Entry!', status: 'success'
+          });
 
         } catch (e) {
           this.$set(this.alerts, e, 'error');
@@ -378,11 +381,11 @@ export default {
             mood: this.mood,
             notes: this.notes,
         }),
-        message: 'Successfully created Entry!',
         method: 'POST',
         callback: () => {
-          this.$set(this.alerts, params.message, 'success');
-          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+          this.$store.commit('alert', {
+            message: 'Successfully created Entry!', status: 'success'
+          });
         }
       };
       this.request(params);
@@ -397,11 +400,11 @@ export default {
             mood: this.mood,
             notes: this.notes,
         }),
-        message: 'Successfully modified Entry!',
         method: 'PATCH',
         callback: () => {
-          this.$set(this.alerts, params.message, 'success');
-          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+          this.$store.commit('alert', {
+            message: 'Successfully modified Entry!', status: 'success'
+          });
         }
       };
       this.request2(params);
@@ -440,6 +443,9 @@ export default {
           this.$router.push({name: 'Home'});
         }
         this.$store.commit('cleanEntryStatus');
+        if (params.callback){
+          params.callback();
+        }
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
@@ -460,6 +466,9 @@ export default {
         await this.$store.commit('refreshEntries');
         this.$router.push({name: 'Home'});
         this.$store.commit('cleanEntryStatus');
+        if (params.callback){
+          params.callback();
+        }
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);

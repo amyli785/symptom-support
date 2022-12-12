@@ -78,7 +78,9 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 99;
 }
 
 .title {

@@ -155,8 +155,9 @@ button:disabled, button[disabled] {
 }
 
 .alerts article {
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 10px 20px;
+    margin: 5px;
     color: #fff;
 }
 
@@ -165,11 +166,11 @@ button:disabled, button[disabled] {
 }
 
 .alerts .error {
-    background-color: rgb(166, 23, 33);
+    background-color: var(--salmon);
 }
 
 .alerts .success {
-    background-color: rgb(45, 135, 87);
+    background-color: var(--dark-blue);
 }
 
 .required-asterisk {

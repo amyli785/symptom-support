@@ -39,15 +39,6 @@
     >
       {{ title }}
     </button>
-    <section class="alerts">
-      <article
-        v-for="(status, alert, index) in alerts"
-        :key="index"
-        :class="status"
-      >
-        <p>{{ alert }}</p>
-      </article>
-    </section>
   </form>
 </template>
 
@@ -76,7 +67,11 @@ export default {
       ],
       title: 'Add supporter',
       alerts: {}, // Displays success/error messages encountered during form submission
-      callback: null // Function to run after successful form submission
+      callback: () => {// Function to run after successful form submission
+        this.$store.commit('alert', {
+          message: 'Successfully invited supporter!', status: 'success'
+        });
+      } 
     };
   },
   methods: {

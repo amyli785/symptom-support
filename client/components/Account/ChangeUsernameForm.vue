@@ -21,9 +21,9 @@ export default {
       },
       title: 'Change username',
       callback: () => {
-        const message = 'Successfully changed username!';
-        this.$set(this.alerts, message, 'success');
-        setTimeout(() => this.$delete(this.alerts, message), 3000);
+        this.$store.commit('alert', {
+          message: 'Successfully changed display username!', status: 'success'
+        });
       }
     };
   }

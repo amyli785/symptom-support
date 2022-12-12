@@ -39,15 +39,6 @@
           <DeleteButton v-if="supporter.inviteStatus === 'accepted'" @click="removeSupporterClick" />
       </div>
     </section>
-    <section class="alerts">
-      <article
-        v-for="(status, alert, index) in alerts"
-        :key="index"
-        :class="status"
-      >
-        <p>{{ alert }}</p>
-      </article>
-    </section>
     <ConfirmDeleteModal class="modal"
       itemName="your supporter"
       itemType="supporter"
@@ -88,92 +79,92 @@ export default {
       };
     },
     methods: {
-        removeSupporterClick(){
-            /** 
-             * Shows modal to confirm removing a supporter. 
-             */
-            this.$bvModal.show(`confirm-delete-modal-supporter-${this.supporter._id}`);
-        },
-        removeSupporter() {
-            /**
-             * Removes this supporter
-             */
-            const params = {
-            method: 'DELETE',
-            callback: () => {
-                this.$store.commit('alert', {
-                message: 'Successfully removed supporter!', status: 'success'
-                });
-            }
-            };
-            this.request(params);
-        },
-        startEditing() {
-            /**
-             * Enables edit mode on this freet.
-             */
-            this.editing = true; // Keeps track of if a freet is being edited
-            this.draft = this.supporter.permission; // The permission of our current "draft" while being edited
-        },
-        stopEditing() {
-            /**
-             * Disables edit mode on this freet.
-             */
-            this.editing = false;
-            this.draft = this.supporter.permission;
-        },
-        submitEdit() {
-            /**
-             * Updates freet to have the submitted draft content.
-             */
-            this.editing = false;
-            if (this.supporter.permission === this.draft) {
-                const error = 'Error: Edited permission level should be different than current permission level.';
-                this.$set(this.alerts, error, 'error'); // Set an alert to be the error text, timeout of 3000 ms
-                setTimeout(() => this.$delete(this.alerts, error), 3000);
-                return;
-            }
-
-            const params = {
-                method: 'PATCH',
-                message: 'Successfully edited permission!',
-                body: JSON.stringify({permission: this.draft}),
-                callback: () => {
-                this.$set(this.alerts, params.message, 'success');
-                setTimeout(() => this.$delete(this.alerts, params.message), 3000);
-                }
-            };
-            this.request(params);
-        },
-        async request(params) {
-        /**
-         * Submits a request to the support endpoint
-         * @param params - Options for the request
-         * @param params.body - Body for the request, if it exists
-         * @param params.callback - Function to run if the the request succeeds
+      removeSupporterClick(){
+        /** 
+         * Shows modal to confirm removing a supporter. 
          */
-            const options = {
-                method: params.method, headers: {'Content-Type': 'application/json'}
-            };
-            if (params.body) {
-                options.body = params.body;
-            }
-
-            try {
-                const r = await fetch(`/api/supports/supporter/${this.supporter.supporter}`, options);
-                if (!r.ok) {
-                    const res = await r.json();
-                    throw new Error(res.error);
-                }
-
-                this.$store.commit('refreshSupporter');
-                this.$store.commit('refreshSupporterRequest');
-                params.callback();
-            } catch (e) {
-                this.$set(this.alerts, e, 'error');
-                setTimeout(() => this.$delete(this.alerts, e), 3000);
-            }
+        this.$bvModal.show(`confirm-delete-modal-supporter-${this.supporter._id}`);
+      },
+      removeSupporter() {
+        /**
+         * Removes this supporter
+         */
+        const params = {
+          method: 'DELETE',
+          callback: () => {
+            this.$store.commit('alert', {
+            message: 'Successfully removed supporter!', status: 'success'
+            });
+          }
+        };
+        this.request(params);
+      },
+      startEditing() {
+          /**
+           * Enables edit mode on this freet.
+           */
+          this.editing = true; // Keeps track of if a freet is being edited
+          this.draft = this.supporter.permission; // The permission of our current "draft" while being edited
+      },
+      stopEditing() {
+        /**
+         * Disables edit mode on this freet.
+         */
+        this.editing = false;
+        this.draft = this.supporter.permission;
+      },
+      submitEdit() {
+        /**
+         * Updates freet to have the submitted draft content.
+         */
+        this.editing = false;
+        if (this.supporter.permission === this.draft) {
+            const error = 'Error: Edited permission level should be different than current permission level.';
+            this.$set(this.alerts, error, 'error'); // Set an alert to be the error text, timeout of 3000 ms
+            setTimeout(() => this.$delete(this.alerts, error), 3000);
+            return;
         }
+
+        const params = {
+            method: 'PATCH',
+            body: JSON.stringify({permission: this.draft}),
+            callback: () => {
+              this.$store.commit('alert', {
+                message: 'Successfully edited permission!', status: 'success'
+              });
+            }
+        };
+        this.request(params);
+      },
+      async request(params) {
+      /**
+       * Submits a request to the support endpoint
+       * @param params - Options for the request
+       * @param params.body - Body for the request, if it exists
+       * @param params.callback - Function to run if the the request succeeds
+       */
+        const options = {
+            method: params.method, headers: {'Content-Type': 'application/json'}
+        };
+        if (params.body) {
+            options.body = params.body;
+        }
+
+        try {
+            const r = await fetch(`/api/supports/supporter/${this.supporter.supporter}`, options);
+            if (!r.ok) {
+                const res = await r.json();
+                throw new Error(res.error);
+            }
+
+            this.$store.commit('refreshSupporter');
+            this.$store.commit('refreshSupporterRequest');
+            params.callback();
+        } catch (e) {
+            this.$set(this.alerts, e, 'error');
+            setTimeout(() => this.$delete(this.alerts, e), 3000);
+        }
+      }
     }
 };
 </script>
