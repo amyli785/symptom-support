@@ -367,8 +367,9 @@ export default {
           });
 
         } catch (e) {
-          this.$set(this.alerts, e, 'error');
-          setTimeout(() => this.$delete(this.alerts, e), 3000);
+          this.$store.commit('alert', {
+            message: e, status: 'error'
+          });
         }
       }
     },
@@ -456,8 +457,9 @@ export default {
           params.callback();
         }
       } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     },
     async request2(params){
@@ -479,8 +481,9 @@ export default {
           params.callback();
         }
       } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     },
     async toggleFlag() {
@@ -497,8 +500,9 @@ export default {
             }
             this.$store.commit('updateEntryFlag', res.entry);
           } catch (e) {
-            this.$set(this.alerts, e, 'error');
-            setTimeout(() => this.$delete(this.alerts, e), 3000);
+            this.$store.commit('alert', {
+              message: e, status: 'error'
+            });
           }
         } else {
           const options = {
@@ -512,8 +516,9 @@ export default {
             }
             this.$store.commit('updateEntryFlag', res.entry);
           } catch (e) {
-            this.$set(this.alerts, e, 'error');
-            setTimeout(() => this.$delete(this.alerts, e), 3000);
+            this.$store.commit('alert', {
+              message: e, status: 'error'
+            });
           }
         }
       } else {

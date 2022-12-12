@@ -171,8 +171,9 @@ export default {
             message: 'Successfully deleted Entry!', status: 'success'
         });
       } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     },
     editEntry() {
@@ -223,8 +224,9 @@ export default {
               message: 'Successfully unflagged entry!', status: 'success'
             });
           } catch (e) {
-            this.$set(this.alerts, e, 'error');
-            setTimeout(() => this.$delete(this.alerts, e), 3000);
+            this.$store.commit('alert', {
+              message: e, status: 'error'
+            });
           }
         } else {
           const options = {
@@ -241,8 +243,9 @@ export default {
               message: 'Successfully flagged entry!', status: 'success'
             });
           } catch (e) {
-            this.$set(this.alerts, e, 'error');
-            setTimeout(() => this.$delete(this.alerts, e), 3000);
+            this.$store.commit('alert', {
+              message: e, status: 'error'
+            });
           }
         }
         this.$emit('flagToggled');
