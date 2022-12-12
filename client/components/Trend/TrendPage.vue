@@ -7,7 +7,7 @@
           <h2>Trends</h2>
           <h2><HomeButton /></h2>
         </header>
-        <section class="all-trends">
+        <article class="all-trends">
           <TrendComponent 
             :title="'Last 7 Days'"
             :trendItems="weeklyTrends"
@@ -20,7 +20,7 @@
             :title="'All Time'"
             :trendItems="allTimeTrends"
           />
-        </section>
+        </article>
       </section>
       <section v-else>
         <header>
