@@ -218,6 +218,15 @@
         :itemId="$store.state.entryStatus.entry._id"
         :deleteFunction="this.deleteEntry"
       />
+      <section class="alerts">
+        <article
+          v-for="(status, alert, index) in alerts"
+          :key="index"
+          :class="status"
+        >
+          <p>{{ alert }}</p>
+        </article>
+      </section>
     </article>
   </main>
 </template>
