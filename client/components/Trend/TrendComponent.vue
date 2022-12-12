@@ -13,7 +13,17 @@
       <section
           v-if="trendItems.length"
         >
-            <p class="trend-item" v-for="trend in trendItems"> <strong>{{trend.display}}:</strong> {{trend.value}}</p>
+            <p class="trend-item"
+                v-for="trend in trendItems"
+                v-if="(typeof trend.value) === (typeof 1)"> <strong>{{trend.display}}:</strong> {{trend.value}}
+            </p>
+            <p class="trend-item"
+              v-else
+            >
+              <strong>{{trend.display}}:</strong> <br>
+              <i>- {{trend.value[0].display}}:</i> {{trend.value[0].value}} <br>
+              <i>- {{trend.value[1].display}}:</i> {{trend.value[1].value}}
+            </p>
         </section>
     </article>
   </template>

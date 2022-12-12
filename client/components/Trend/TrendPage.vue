@@ -56,7 +56,7 @@
             allTimeTrends: [],
             weeklyTrends: [],
             monthlyTrends: [],
-            trendItems: {}
+            // trendItems: {}
         }
     },
     methods:{
@@ -77,7 +77,10 @@
         this.allTimeTrends = res['allTimeTrends'];
         this.weeklyTrends = res['weeklyTrends'];
         this.monthlyTrends = res['monthlyTrends'];
-        this.trendItems = res;
+        // this.trendItems = res;
+        // for (const obj of res){
+        //   console.log(obj);
+        // }
       } catch (e) {
   
         this.$set(this.alerts, e, 'error');
