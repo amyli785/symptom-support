@@ -5,7 +5,7 @@
       <section v-if="$store.state.username">
         <header>
           <h2>Trends</h2>
-          <h2><font-awesome-icon @click ="goHome" class = "icon" icon="fa-solid fa-house" /></h2>
+          <h2><font-awesome-icon @click ="goHome" class="icon-button" icon="fa-solid fa-house" /></h2>
         </header>
       </section>
       <section v-else>
@@ -100,14 +100,6 @@ header, header > * {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.icon{
-  font-size: 40px;
-}
-.icon:hover {
-  transform: scale(1.1, 1.1);
-  cursor: pointer;
 }
 
 .all-trends{

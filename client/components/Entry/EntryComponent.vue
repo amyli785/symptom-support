@@ -1,73 +1,73 @@
 <template>
-  <article :class = "`entry-container ${shareSelected ? 'selected' : 'unselected'}`" @click = "entryClick">
-    <div class = "left-content">
+  <article :class="`entry-container ${shareSelected ? 'selected' : 'unselected'}`" @click="entryClick">
+    <div class="left-content">
       <div class="entry-dates-container">
         <div>
           {{ displayDate(entry.dateStarted) }}
         </div>
-        <div v-if = "entry.dateEnded">
+        <div v-if="entry.dateEnded">
           &nbsp;-&nbsp;{{ displayDate(entry.dateEnded) }}
         </div>
       </div>
-      <div class = "syms">
+      <div class="syms">
         <SymptomSingleLine
-          :name = "''"
-          :measurement = "''"
-          :unit = "''"
-          :location = "''"
-          :description = "true"
+          :name="''"
+          :measurement="''"
+          :unit="''"
+          :location="''"
+          :description="true"
         />
         <SymptomSingleLine
-          v-for = "symptom in entry.symptoms.slice(0,2)"
-          :key = "(entry.dateStarted.toString()+' '+symptom.name+symptom.intensity)"
-          :name = "symptom.name"
-          :measurement = "symptom.measurement"
-          :unit = "symptom.unit"
-          :location = "symptom.location"
+          v-for="symptom in entry.symptoms.slice(0,2)"
+          :key="(entry.dateStarted.toString()+' '+symptom.name+symptom.intensity)"
+          :name="symptom.name"
+          :measurement="symptom.measurement"
+          :unit="symptom.unit"
+          :location="symptom.location"
         />
         <SymptomSingleLine
-          v-if = "(entry.symptoms.length > 2)"
-          :name = "''"
-          :measurement = "''"
-          :unit = "''"
-          :location = "''"
-          :description = "true"
-          :extra = "true"
+          v-if="(entry.symptoms.length > 2)"
+          :name="''"
+          :measurement="''"
+          :unit="''"
+          :location="''"
+          :description="true"
+          :extra="true"
         />
       </div>
-      <div class = "meds">
+      <div class="meds">
         <MedicationSingleLine
-          :name = "''"
-          :dosage = "''"
-          :description = "true"
+          :name="''"
+          :dosage="''"
+          :description="true"
         />
         <MedicationSingleLine
-          v-for = "medication in entry.medications.slice(0,2)"
-          :key = "(entry.dateStarted.toString()+' '+medication.name+medication.dosage)"
-          :name = "medication.name"
-          :dosage = "medication.dosage"
+          v-for="medication in entry.medications.slice(0,2)"
+          :key="(entry.dateStarted.toString()+' '+medication.name+medication.dosage)"
+          :name="medication.name"
+          :dosage="medication.dosage"
         />
         <MedicationSingleLine
-          v-if = "(entry.medications.length > 2)"
-          :name = "''"
-          :dosage = "''"
-          :description = "true"
-          :extra = "true"
+          v-if="(entry.medications.length > 2)"
+          :name="''"
+          :dosage="''"
+          :description="true"
+          :extra="true"
         />
       </div>
-      <div class = "notes">
+      <div class="notes">
         <p>Notes: {{this.entry.notes}}</p>
       </div>
     </div>
 
-    <div v-if="(!sharingMode && !displayMode)" class = "right-icons">
-      <div class = "icons-top">
+    <div v-if="(!sharingMode && !displayMode)" class="right-icons">
+      <div class="icons-top">
         <FlagButton 
           v-if="(permission == 'creator' || permission == 'manager' || entry.owner == this.$store.state.username)"
           :flagged="entry.flag" @click="toggleFlag" />
       </div>
       
-      <div v-if="((!sharingMode && !displayMode))" class = "icons-bottom">
+      <div v-if="((!sharingMode && !displayMode))" class="icons-bottom">
         <EditButton 
           v-if="(permission == 'manager' || entry.owner == this.$store.state.username)"
           @click="editEntry" />
@@ -77,9 +77,10 @@
       </div>
     </div>
     <ConfirmDeleteModal class="modal"
-    itemName = "entry"
-    :itemId = "entry._id"
-    :deleteFunction = "this.deleteEntry"
+    itemName="this entry"
+    itemType="entry"
+    :itemId="entry._id"
+    :deleteFunction="this.deleteEntry"
     />
   </article>
 </template>
@@ -344,6 +345,7 @@ p{
   font-weight: bold;
   font-size: medium;
 }
+
 .notes{
   width:100%;
   border-radius: 10px;

@@ -57,9 +57,9 @@ const isValidPassword = (req: Request, res: Response, next: NextFunction) => {
  */
  const isValidDisplayName = (req: Request, res: Response, next: NextFunction) => {
   const nameRegex = /^[a-zA-Z ]+$/;
-  if (!nameRegex.test(req.body.displayName)) {
+  if (req.body.displayName.trim().length === 0) {
     res.status(400).json({
-      error: 'Display name must be a nonempty alphanumeric string.'
+      error: 'Display name must be nonempty.'
     });
     return;
   }

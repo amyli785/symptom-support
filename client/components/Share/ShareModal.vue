@@ -1,24 +1,25 @@
 <template>
     <main>
-        <b-modal :hide-footer=true size="xl" id="share-modal" title="Share Entries" @shown="handleShown" @hide="handleHidden">
-            <section v-if="!shareCreated" class="nameInput">
-                <p>Enter a title for this share: </p>
-                <input 
-                placeholder="Share Title"
-                :value=name
-                @input="name = $event.target.value"
-                />
-            </section>
-            <section v-else>
-                <p>Use this link to share the entries you selected. Note that the link will expire in 72 hours. </p>
-                <a :href="shareLink">{{this.shareLink}}</a>
-            </section>
-
-            <hr/>
-            <section v-if="!shareCreated">
-                <p>Sharing Entries:</p>
-                <div class="entries">
-                    <EntryComponent class="entry"
+        <b-modal 
+            id="share-modal"
+            title="Share Entries"
+            :hide-footer=true
+            size="xl"
+            @shown="handleShown"
+            @hide="handleHidden"
+        >
+            <section v-if="!shareCreated" class="share-modal-content">
+                <section class="share-modal-name-input">
+                    <div>Enter a title for this share:&nbsp;</div>
+                    <input
+                        :value=name
+                        @input="name = $event.target.value"
+                        placeholder="Share Title"
+                    />
+                </section>
+                <h4>Sharing Entries:</h4>
+                <div class="share-modal-entries">
+                    <EntryComponent class="share-modal-entry"
                         v-for="entry in entries"
                         :key="entry._id"
                         :entry="entry"
@@ -26,15 +27,16 @@
                         :clickable="false"
                     />
                 </div>
-
-            </section>
-            <section class="footer">
-                <button :disabled="(name.length == 0)" v-if="!shareCreated" @click="createShare">
-                Create Share
+                <button class="form-button" :disabled="(name.length == 0)" @click="createShare">
+                    Create Share
                 </button>
             </section>
-
-
+            <section v-else class="share-modal-content">
+                <div>
+                    Use this link to share the entries you selected. The link will expire in 72 hours.
+                </div>
+                <a :href="shareLink" target="_blank">{{this.shareLink}}</a>
+            </section>
         </b-modal>
     </main>
 </template>
@@ -96,7 +98,25 @@ export default {
 </script>
 
 <style scoped>
-.entries {
+#share-modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    gap: 12px;
+}
+
+.share-modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    gap: 12px;
+}
+
+.share-modal-entries {
   display: flex;
 
   flex-direction: row;
@@ -106,28 +126,13 @@ export default {
   gap: 40px;
 }
 
-p{
-    margin: 5px;
-}
-
-button {
-    width: 95%;
-    margin: 20px;
-}
-
-.footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-.nameInput{
+.share-modal-name-input{
     display: flex;
     flex-direction: row;
 }
 
-.entry:hover {
-  cursor: auto;
-  filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
+.share-modal-entry:hover {
+    cursor: auto;
+    filter: drop-shadow(0 0 2px var(--dark-blue-drop-shadow));
 }
 </style>

@@ -8,13 +8,13 @@
                 <button 
                     v-if="Object.keys(this.flaggedEntries).length > 0"
                     @click = "startShare"
-                    class = "share"
+                    class = "text-button"
                 >
                     Share
                     &nbsp;
                     <font-awesome-icon icon="fa-solid fa-share-nodes" />
                 </button>
-                <h2><font-awesome-icon @click="goHome" class = "icon" icon="fa-solid fa-house" /></h2>
+                <h2><font-awesome-icon @click="goHome" class="icon-button" icon="fa-solid fa-house" /></h2>
             </div>
         </header>
         <section
@@ -40,12 +40,14 @@
 </template>
 
 <script>
-import EntryComponent from '@/components/Entry/EntryComponent.vue'
-import ShareModal from '@/components/Share/ShareModal.vue'
+import XButton from '@/components/common/XButton.vue';
+import EntryComponent from '@/components/Entry/EntryComponent.vue';
+import ShareModal from '@/components/Share/ShareModal.vue';
+
 export default {
     name: 'FlaggedPage',
     components: {
-        EntryComponent, ShareModal
+        XButton, EntryComponent, ShareModal,
     },
     data() {
         return {
@@ -117,18 +119,4 @@ section .scrollbox {
     gap: 40px;
 }
 
-.share{
-    border-radius: 10px;
-    width: 100px;
-    justify-content: center;
-}
-
-.icon{
-    font-size: 40px;
-}
-
-.icon:hover {
-    transform: scale(1.1, 1.1);
-    cursor: pointer;
-}
 </style>

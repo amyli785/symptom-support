@@ -2,10 +2,11 @@
     <form>
         <h3>Delete account</h3>
         <p>Deleting your account is permanent and irreversible. Proceed only if you understand these consequences.</p>
-        <button @click="showDeleteAccountModal">Delete account</button>
+        <button class="form-button" @click="showDeleteAccountModal">Delete account</button>
 
         <ConfirmDeleteModal class="modal"
-        itemName = "account"
+        itemName = "your account"
+        itemType = "account"
         :itemId = "$store.state.username"
         :deleteFunction = "this.deleteAccount"
         />
@@ -69,24 +70,25 @@ form {
   margin-bottom: 20px;
   position: relative;
 }
-button{
-  padding: 5px;
-  border-radius: 10px;
-}
+
 article > div {
   display: flex;
   flex-direction: column;
 }
+
 form > article p {
   margin: 0;
 }
+
 form h3,
 form > * {
   margin: 0.3em 0;
 }
+
 form h3 {
   margin-top: 0;
 }
+
 .modal{
     padding: 0 !important;
 }

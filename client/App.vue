@@ -66,22 +66,34 @@ main {
 button {
   background-color: var(--light-blue);
   border: 0;
-  border-radius: 10px  !important;
-  padding: 5px;
   color: white;
 }
 
-button:hover:enabled{
+button:hover:enabled {
   filter: brightness(80%);
 }
 
-button:active:enabled{
+button:active:enabled {
   filter: brightness(120%);
 }
 
-button:disabled,
-button[disabled]{
+button:disabled, button[disabled] {
   background-color: #cccccc;
+}
+
+.form-button {
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.text-button {
+  border-radius: 16px;
+  padding: 16px;
+
+  display: inline;
+  white-space: nowrap;
+
+  font-size: larger;
 }
 
 .icon-button {
@@ -90,6 +102,30 @@ button[disabled]{
 
 .icon-button:hover {
   transform: scale(1.1, 1.1);
+}
+
+.icon-s {
+  font-size: small;
+}
+
+.icon-m {
+  font-size: medium;
+}
+
+.icon-l {
+  font-size: large;
+}
+
+.icon-ler {
+  font-size: larger;
+}
+
+.icon-xl {
+  font-size: x-large;
+}
+
+.icon-xxl {
+  font-size: xx-large;
 }
 
 .alerts {

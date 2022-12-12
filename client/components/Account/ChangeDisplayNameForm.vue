@@ -13,11 +13,10 @@ export default {
       hasBody: true,
       setDisplayName: true,
       fields: [
-        {id: 'displayName', label: 'New Display Name', description: 'letters and spaces only', value: ''}
+        {id: 'displayName', label: 'New Display Name', value: ''}
       ],
       validationFunction: (fieldValues) => {
-        const displayNameRegex = /^[a-zA-Z ]+$/;
-        return displayNameRegex.test(fieldValues[0].value);
+        return fieldValues[0].value.trim().length > 0;
       },
       title: 'Change display name',
       callback: () => {

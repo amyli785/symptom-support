@@ -3,37 +3,45 @@
 <template>
   <main>
     <header>
-      <h2 v-if = "this.status == 'viewing'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp; Viewing Entry </h2>
-      <h2 v-else-if = "this.status == 'editing'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp; Editing Entry </h2>
-      <h2 v-else-if = "this.status == 'creating'"> <font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp; New Entry </h2>
-      <div v-if = "!this.viewOnly" class = "icons">
+      <h2 v-if="status=='viewing' | status=='editing' | status=='creating'">
+        <font-awesome-icon @click="back" class="icon-button icon-xxl" icon="fa-solid fa-arrow-left" />
+        &nbsp;
+        <div v-if="status=='viewing'">Viewing</div>
+        <div v-if="status=='editing'">Editing</div>
+        <div v-if="status=='creating'">New</div>
+        &nbsp;
+        Entry
+      </h2>
+      <div v-if="!this.viewOnly" class="icons">
         <FlagButton 
+          v-if="this.status != 'creating'"
           :flagged="entry === null ? false : entry.flag" 
           @click="toggleFlag"
         />
         <EditButton 
-          v-if = "this.status == 'viewing'"
+          v-if="this.status == 'viewing'"
           @click="editEntry"
         />
         <DeleteButton 
-          @click="deleteEntry"
+          v-if="this.status !== 'creating'"
+          @click="deleteEntryClick"
         />
-        <h2><font-awesome-icon @click ="goHome" class = "icon" icon="fa-solid fa-house" /></h2>
+        <h2><font-awesome-icon @click="goHome" class="icon-button" icon="fa-solid fa-house" /></h2>
       </div>
     </header>
-    <article class = "form">
-      <div class = "dates">
-        <div class = "started time box">
-          <div class = "label-time">
+    <article class="form">
+      <div class="dates">
+        <div class="started time box">
+          <div class="label-time">
             <p>Started <span v-if="!(this.status == 'viewing')" class="required-asterisk">*</span></p>  
           </div>
           <input
-            type = "datetime-local"
-            id = "dateStarted"
-            class = "date"
+            type="datetime-local"
+            id="dateStarted"
+            class="date"
             :value="displayDate(dateStarted)" 
-            @input="dateStarted = $event.target.value"
-            :max = "displayDate(currentDate)"
+            @input="dateStarted=$event.target.value"
+            :max="displayDate(currentDate)"
           />
         </div>
         <div class = "ended time box">
@@ -57,7 +65,7 @@
             <p>Symptoms:</p>
             <div class = "label-icon">
               <font-awesome-icon 
-                class = "icon"
+                class="icon-button icon-xxl"
                 v-if="this.status != 'viewing'"
                 @click="addSymptom"
                 icon="fa-solid fa-plus" 
@@ -86,7 +94,7 @@
             <p>Medications:</p>
             <div class = "label-icon">
               <font-awesome-icon 
-                  class = "icon"
+                  class="icon-button icon-xxl"
                   v-if="this.status != 'viewing'"
                   @click="addMedication"
                   icon="fa-solid fa-plus" 
@@ -103,118 +111,115 @@
               @update-medication-dosage="(n) => updateMedicationDosage(i,n)"
               @update-medication-unit="(n) => updateMedicationUnit(i,n)"
               @click="deleteMedication(i)"
-              class = "m"
+              class="m"
             />
           </div>
         </div>
       </div>
-      <div class = "mood">
-        <div class = "full box">
-          <div class = "label">
+      <div class="mood">
+        <div class="full box">
+          <div class="label">
             <p>Mood:</p>
             <font-awesome-icon
-              class = 'i'
-              v-if = "mood == 5"
-              icon = "fa-solid fa-face-laugh-beam"
+              class='icon-xxl'
+              v-if="mood == 5"
+              icon="fa-solid fa-face-laugh-beam"
             />
             <font-awesome-icon
-              class = 'i'
-              v-else-if = "mood == 4"
-              icon = "fa-solid fa-face-smile"
+              class='icon-xxl'
+              v-else-if="mood == 4"
+              icon="fa-solid fa-face-smile"
             />
             <font-awesome-icon
-              class = 'i'
-              v-else-if = "mood == 3"
-              icon = "fa-solid fa-face-meh"
+              class='icon-xxl'
+              v-else-if="mood == 3"
+              icon="fa-solid fa-face-meh"
             />
             <font-awesome-icon
-              class = 'i'
-              v-else-if = "mood == 2"
-              icon = "fa-solid fa-face-frown" 
+              class='icon-xxl'
+              v-else-if="mood == 2"
+              icon="fa-solid fa-face-frown" 
             />
             <font-awesome-icon
-              class = 'i' 
-              v-else-if = "mood == 1"
-              icon = "fa-solid fa-face-sad-tear" 
+              class='icon-xxl'
+              v-else-if="mood == 1"
+              icon="fa-solid fa-face-sad-tear" 
             />
           </div>
-          <div class = "all">
+          <div class="all">
             <input 
-              type = "range" 
-              min = "1" 
-              max = "5" 
-              :value = "mood"
-              @input="mood = $event.target.value"
-              id = "moodRange"
-              class = "slider"
+              type="range" 
+              min="1" 
+              max="5" 
+              :value="mood"
+              @input="mood=$event.target.value"
+              id="moodRange"
+              class="slider"
             />
-            <div class = "ticks">
+            <div class="ticks">
               <font-awesome-icon
-                class = 'i-small'
-                icon = "fa-solid fa-face-laugh-beam"
+                class='icon-m'
+                icon="fa-solid fa-face-laugh-beam"
               />
               <font-awesome-icon
-                class = 'i-small'
-                icon = "fa-solid fa-face-smile"
+                class='icon-m'
+                icon="fa-solid fa-face-smile"
               />
               <font-awesome-icon
-                class = 'i-small'
-                icon = "fa-solid fa-face-meh"
+                class='icon-m'
+                icon="fa-solid fa-face-meh"
               />
               <font-awesome-icon
-                class = 'i-small'
-                icon = "fa-solid fa-face-frown" 
+                class='icon-m'
+                icon="fa-solid fa-face-frown" 
               />
               <font-awesome-icon
-                class = 'i-small'
-                icon = "fa-solid fa-face-sad-tear" 
+                class='icon-m'
+                icon="fa-solid fa-face-sad-tear" 
               />
             </div>
           </div>
         </div>
       </div>
-      <div class = "notes">
-        <div class = "full box">
-          <div class = "label">
+      <div class="notes">
+        <div class="full box">
+          <div class="label">
             <p>Notes:</p>
           </div>
           <textarea
             :value="notes"
-            @input="notes = $event.target.value"
-            id = "notes"
+            @input="notes=$event.target.value"
+            id="notes"
           ></textarea>
         </div>
       </div>
-      <div class = "end">
-        <div v-if = "this.status == 'creating'">
-          <button @click = "submit" class ="b creating">
+      <div class="end">
+        <div v-if="this.status == 'creating'">
+          <button @click="submit" class ="text-button creating">
             Create Entry
             &nbsp;
             <font-awesome-icon icon="fa-solid fa-plus" />
           </button>
         </div>
-        <div v-else-if = "this.status == 'editing'" class = "both">
-          <button @click = "save" class = "b editing save">
+        <div v-else-if="this.status == 'editing'" class="both">
+          <button @click="save" class="text-button editing save">
             Save Changes
             &nbsp;
             <font-awesome-icon icon="fa-solid fa-check" />
           </button>
-          <button @click = "discard" class = "b editing discard">
+          <button @click="discard" class="text-button editing discard">
             Discard Changes
             &nbsp;
             <font-awesome-icon icon="fa-solid fa-x" />
           </button>
         </div>
       </div>
-      <section class="alerts">
-          <article
-            v-for="(status, alert, index) in alerts"
-            :key="index"
-            :class="status"
-          >
-            <p>{{ alert }}</p>
-          </article>
-        </section>
+      <ConfirmDeleteModal v-if="this.status !== 'creating'" class="modal"
+        itemName="this entry"
+        itemType="entry"
+        :itemId="$store.state.entryStatus.entry._id"
+        :deleteFunction="this.deleteEntry"
+      />
     </article>
   </main>
 </template>
@@ -224,6 +229,7 @@ import moment from 'moment';
 import FlagButton from '../common/FlagButton';
 import EditButton from '../common/EditButton';
 import DeleteButton from '../common/DeleteButton';
+import ConfirmDeleteModal from '../common/ConfirmDeleteModal';
 import SymptomComponent from './SymptomComponent';
 import MedicationComponent from './MedicationComponent';
 
@@ -233,6 +239,7 @@ export default {
     FlagButton,
     EditButton,
     DeleteButton,
+    ConfirmDeleteModal,
     SymptomComponent,
     MedicationComponent
   },
@@ -326,6 +333,9 @@ export default {
     },
     updateSymptomUnit(i,n){
       this.symptoms[i-1].unit = n;
+    },
+    deleteEntryClick(){
+      this.$bvModal.show(`confirm-delete-modal-entry-${this.$store.state.entryStatus.entry._id}`);
     },
     async deleteEntry() {
       if (this.status == 'creating'){
@@ -604,7 +614,7 @@ header {
   justify-content: space-between;
 }
 
-.icons{
+.icons {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -632,19 +642,6 @@ header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-}
-
-.i {
-  font-size: 40px;
-}
-
-.icon {
-  font-size: 40px;
-}
-
-.icon:hover {
-  transform: scale(1.1, 1.1);
-  cursor: pointer;
 }
 
 input {
@@ -685,10 +682,6 @@ textarea {
   height: 1.75em;
 }
 
-.i-small {
-  font-size: 20px;
-}
-
 .ticks {
   margin: 0 18px 0 18px;
   width: 100%;
@@ -698,10 +691,14 @@ textarea {
 }
 
 .save {
-  color: rgba(0,155,0, 1);
+  background-color: var(--dark-blue);
+  border: 2px solid var(--dark-blue);
+  color: white;
 }
 
 .discard {
-  color: rgba(200,0, 0, 1);
+  background-color: white;
+  border: 2px solid var(--salmon);
+  color: var(--salmon);
 }
 </style>

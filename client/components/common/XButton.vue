@@ -22,7 +22,4 @@ export default {
   justify-self: center;
   align-items: center;
 }
-.i{
-  font-size: 26px;
-}
 </style>
