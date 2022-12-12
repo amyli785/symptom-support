@@ -5,11 +5,10 @@
     <form class="symptom-component">
       <header>
         <h5>Symptom Component</h5>
-        <font-awesome-icon 
-          icon="fa-solid fa-x"
-          v-if = "!this.viewing"
+        <XButton
+          v-if="!this.viewing"
+          class="icon-m"
           @click="$emit('click')"
-          class = 'i'
         />
       </header>
       <article>
@@ -183,13 +182,7 @@ textarea {
     width:30%;
     border-radius: 15px;
 }
-.i{
-  cursor: pointer;
-  font-size: 20px;
-}
-.i:hover{
-  transform: scale(1.1, 1.1);
-}
+
 label{
   cursor: text;
 }

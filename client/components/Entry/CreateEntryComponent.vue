@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       alerts: {},
-      people: [],
+      people: [{username: this.$store.state.username},],
     };
   },
   async mounted() {

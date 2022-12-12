@@ -104,6 +104,30 @@ button:disabled, button[disabled] {
   transform: scale(1.1, 1.1);
 }
 
+.icon-s {
+  font-size: small;
+}
+
+.icon-m {
+  font-size: medium;
+}
+
+.icon-l {
+  font-size: large;
+}
+
+.icon-ler {
+  font-size: larger;
+}
+
+.icon-xl {
+  font-size: x-large;
+}
+
+.icon-xxl {
+  font-size: xx-large;
+}
+
 .alerts {
     position: absolute;
     z-index: 99;

@@ -3,7 +3,7 @@
     <section v-if="$store.state.username" class="support-page-container">
       <header class="support-page-header">
         <h2>Supporting</h2>
-        <font-awesome-icon @click ="goHome" class = "icon" icon="fa-solid fa-house" />
+        <font-awesome-icon @click ="goHome" class="icon-button" icon="fa-solid fa-house" />
       </header>
       <article class="support-page-content">
         <section
@@ -127,11 +127,4 @@ export default {
   gap: 12px;
 }
 
-.icon{
-  font-size: 40px;
-}
-.icon:hover {
-  transform: scale(1.1, 1.1);
-  cursor: pointer;
-}
 </style>

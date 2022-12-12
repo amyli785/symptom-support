@@ -1,15 +1,11 @@
-<!-- Reusable component representing a form in a block style -->
-<!-- This is just an example; feel free to define any reusable components you want! -->
-
 <template>
     <form class="medication-component">
       <header>
-        <h5>Medication Component</h5>
-        <font-awesome-icon 
-          icon="fa-solid fa-x"
-          v-if = "!this.viewing"
+        <h5>Medication</h5>
+        <XButton
+          v-if="!this.viewing"
+          class="icon-m"
           @click="$emit('click')"
-          class = 'i'
         />
       </header>
       <article>
@@ -88,13 +84,12 @@
   </template>
   
 <script>
-
-import DeleteButton from '../common/DeleteButton'
+import XButton from '../common/XButton';
 
 export default {
   name: 'MedicationComponent',
   components: {
-    DeleteButton,
+    XButton,
   },
   props:{
       medication: {
@@ -166,14 +161,6 @@ select:disabled{
     border-radius:15px;
 }
 
-.i {
-  cursor: pointer;
-  font-size: 20px;
-}
-
-.i:hover {
-  transform: scale(1.1, 1.1);
-}
 
 label {
   cursor: text;

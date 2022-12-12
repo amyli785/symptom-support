@@ -1,8 +1,8 @@
 <template>
     <main>
         <header>
-            <h2><font-awesome-icon @click = "back" class = "icon" icon="fa-solid fa-arrow-left" /> &nbsp;{{ownerDisplay}}'s Entries </h2>
-            <h2><font-awesome-icon @click ="goHome" class = "icon" icon="fa-solid fa-house" /></h2>
+            <h2><font-awesome-icon @click="back" class="icon-button" icon="fa-solid fa-arrow-left" /> &nbsp;{{ownerDisplay}}'s Entries </h2>
+            <h2><font-awesome-icon @click="goHome" class="icon-button" icon="fa-solid fa-house" /></h2>
         </header>
         <button class = "text-button createEntry" 
             v-if="(permission == 'creator' || permission == 'manager')"
@@ -116,10 +116,6 @@ export default {
   padding: 10px;
   margin-bottom: 25px;
 }
-.icon:hover {
-  transform: scale(1.1, 1.1);
-  cursor: pointer;
-}
 
 header, header > * {
     display: flex;
@@ -127,11 +123,4 @@ header, header > * {
     align-items: center;
 }
 
-.icon{
-  font-size: 40px;
-}
-.icon:hover {
-  transform: scale(1.1, 1.1);
-  cursor: pointer;
-}
 </style>
