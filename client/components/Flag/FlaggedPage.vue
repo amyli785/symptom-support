@@ -31,7 +31,7 @@
           />
         </section>
         <section v-else>
-          <h3>No flagged entries</h3>
+          <h3> You have no flagged entries.</h3>
         </section>
         <ShareModal 
             :shareEntries="flaggedEntries"

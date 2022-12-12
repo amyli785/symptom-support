@@ -212,7 +212,7 @@
           </button>
         </div>
       </div>
-      <ConfirmDeleteModal v-if="this.status !== 'creating'" class="modal"
+      <ConfirmDeleteModal v-if="this.status !== 'creating' && $store.state.entryStatus.entry" class="modal"
         itemName="this entry"
         itemType="entry"
         :itemId="$store.state.entryStatus.entry._id"
