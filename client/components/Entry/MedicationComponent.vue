@@ -1,87 +1,57 @@
 <template>
-    <form class="medication-component">
-      <header>
-        <h5>Medication</h5>
-        <XButton
-          v-if="!this.viewing"
-          class="icon-m"
-          @click="$emit('click')"
-        />
-      </header>
-      <article>
+  <form class="medication-component">
+    <header class="medication-component-header">
+      <h5>Medication</h5>
+      <XButton
+        v-if="!this.viewing"
+        class="icon-m"
+        @click="$emit('click')"
+      />
+    </header>
+    <article>
+      <div>
         <div>
-            <div>
-                <label>{{ this.name.label }} <span v-if="!this.viewing" class="required-asterisk">*</span></label>
-                <textarea
-                  v-if="this.viewing"
-                  disabled
-                  class = 'medication-name'
-                  :type="'text'"
-                  :name="this.name.id"
-                  :value="this.medication.name"
-                  @input="$emit('update-medication-name', $event.target.value)"
-                ></textarea>
-                <textarea
-                  v-else
-                  class = 'medication-name'
-                  :type="'text'"
-                  :name="this.name.id"
-                  :value="this.medication.name"
-                  @input="$emit('update-medication-name', $event.target.value)"
-                ></textarea>
-            </div>
-            <div>
-                <label>{{ this.dosage.label }} <span v-if="!this.viewing" class="required-asterisk">*</span></label>
-                <input
-                  v-if="this.viewing"
-                  disabled
-                  class = 'medication-dosage'
-                  :type="'text'"
-                  :name="this.dosage.id"
-                  :value="this.medication.dosage"
-                  @input="$emit('update-medication-dosage', $event.target.value)"
-                >
-                <input
-                  v-else
-                  class = 'medication-dosage'
-                  :type="'text'"
-                  :name="this.dosage.id"
-                  :value="this.medication.dosage"
-                  @input="$emit('update-medication-dosage', $event.target.value)"
-                >
-            </div>
-            <div class = 'dosage-unit'>
-                <label :for="this.unit.id">{{ this.unit.label }} <span v-if="!this.viewing" class="required-asterisk">*</span></label>
-                <select
-                    v-if="this.viewing"
-                    disabled
-                    :name="this.unit.id"
-                    :id="unit.id"
-                    :value="this.medication.unit"
-                    @input="$emit('update-medication-unit', $event.target.value)"
-                >
-                    <option
-                        v-for="unit in ['','mg', 'ml']"
-                        :name="unit.id"
-                    >{{unit}}</option>
-                </select>
-                <select
-                    v-else
-                    :name="this.unit.id"
-                    :id="unit.id"
-                    :value="this.medication.unit"
-                    @input="$emit('update-medication-unit', $event.target.value)"
-                >
-                    <option
-                        v-for="unit in ['','mg', 'ml']"
-                        :name="unit.id"
-                    >{{unit}}</option>
-                </select>
-            </div>
+          <label>{{ this.name.label }} <span v-if="!this.viewing" class="required-asterisk">*</span></label>
+          <textarea
+            class="medication-component-field"
+            :disabled="this.viewing"
+            :type="'text'"
+            :name="this.name.id"
+            :value="this.medication.name"
+            @input="$emit('update-medication-name', $event.target.value)"
+          ></textarea>
         </div>
-      </article>
-    </form>
-  </template>
+        <div>
+          <label>{{ this.dosage.label }} <span v-if="!this.viewing" class="required-asterisk">*</span></label>
+          <input
+            class="medication-component-field"
+            :disabled="this.viewing"
+            :type="'text'"
+            :name="this.dosage.id"
+            :value="this.medication.dosage"
+            @input="$emit('update-medication-dosage', $event.target.value)"
+          >
+        </div>
+        <div>
+          <label :for="this.unit.id">{{ this.unit.label }} <span v-if="!this.viewing" class="required-asterisk">*</span></label>
+          <select
+            class="medication-component-field"
+            :disabled="this.viewing"
+            :name="this.unit.id"
+            :id="unit.id"
+            :value="this.medication.unit"
+            @input="$emit('update-medication-unit', $event.target.value)"
+          >
+            <option
+              v-for="unit in ['','mg', 'ml']"
+              :name="unit.id"
+            >{{unit}}</option>
+          </select>
+        </div>
+      </div>
+    </article>
+  </form>
+</template>
   
 <script>
 import XButton from '../common/XButton';
@@ -115,23 +85,16 @@ export default {
 </script>  
 
 <style scoped>
-form {
-  border: 0px solid #000;
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--dark-blue-transparent);
+
+label {
+  cursor: text;
 }
-input {
-  width: 100%;
-  border: 0px;
-  border-radius: 5px;
+
+select {
+  background-color: white;
 }
-textarea{
-  width: 100%;
-  border: 0px;
-  border-radius: 5px;
-  height: 1.75em;
+select:disabled {
+  background-color: rgba(255,255,255,0.5);
 }
 
 textarea {
@@ -139,24 +102,29 @@ textarea {
    font-size: inherit;
 }
 
-select {
-  width:100%;
-  border-radius: 5px;
-  border: 0px;
-  padding-top: 0.125em;
-  padding-bottom: 0.125em;
-  height:1.75em;
-}
-select:disabled{
-  background-color: rgba(255,255,255,0.3);
-}
 .medication-component{
-    width:30%;
-    border-radius:15px;
+  flex-basis: calc((100% - 40px)/3);
+  background-color: var(--dark-blue-transparent);
+
+  border: none;
+  padding: 15px;
+  border-radius: 15px;
+  gap: 5px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
-
-label {
-  cursor: text;
+.medication-component-header {
+  margin: 0;
 }
+
+.medication-component-field {
+  width: 100%;
+  border: 0px;
+  border-radius: 5px;
+  height: 30px;
+}
+
 </style>
