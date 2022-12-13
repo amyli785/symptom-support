@@ -29,7 +29,6 @@ export default {
   name: 'CreateEntryComponent',
   data() {
     return {
-      alerts: {},
       people: [{username: this.$store.state.username},],
     };
   },

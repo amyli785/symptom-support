@@ -10,18 +10,18 @@
         <div v-if="status=='creating'">New</div>
         Entry
       </h2>
-      <h2 v-if="!this.viewOnly" class="entry-page-header-right">
+      <h2 class="entry-page-header-right">
         <FlagButton 
           v-if="this.status != 'creating'"
           :flagged="entry === null ? false : entry.flag" 
           @click="toggleFlag"
         />
         <EditButton 
-          v-if="this.status == 'viewing'"
+          v-if="(!this.viewOnly) && (this.status == 'viewing')"
           @click="editEntry"
         />
         <DeleteButton 
-          v-if="this.status !== 'creating'"
+          v-if="(!this.viewOnly) && (this.status !== 'creating')"
           @click="deleteEntryClick"
         />
         <HomeButton />
@@ -204,15 +204,6 @@
         :itemId="$store.state.entryStatus.entry._id"
         :deleteFunction="this.deleteEntry"
       />
-      <section class="alerts">
-        <article
-          v-for="(status, alert, index) in alerts"
-          :key="index"
-          :class="status"
-        >
-          <p>{{ alert }}</p>
-        </article>
-      </section>
     </article>
   </main>
 </template>
@@ -252,7 +243,6 @@ export default {
       medications: [],
       mood: 3,
       notes: "",
-      alerts: {},
       currentDate: (new Date()).toString(),
     };
   },
@@ -526,8 +516,9 @@ export default {
         }
       } else {
         const e = 'Missing needed manager permissions to change flag status.';
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     },
   }

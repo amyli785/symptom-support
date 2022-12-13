@@ -79,7 +79,6 @@ export default {
   },
   data() {
     return {
-      alerts: {},
       sharingMode: false,
       shareEntries: {},
       shareSize: 0,

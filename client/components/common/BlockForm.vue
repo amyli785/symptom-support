@@ -77,7 +77,6 @@ export default {
       setUserDetails: false, // Whether or not the stored display name and username should be updated after form submission
       setDisplayName: false, // Whether or not the stored display name should be updated after form submission
       setUsername: false, // Whether or not the stored username should be updated after form submission
-      alerts: {}, // Displays success/error messages encountered during form submission
       callback: null, // Function to run after successful form submission
       validationFunction: null, // Function to validate form input
       refreshSupported: false,

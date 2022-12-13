@@ -95,7 +95,7 @@ class SupportCollection{
      * @param {string} supported - The user that's supported in the relationship
      * @param {string} supporter - The user that is the supporter in the relationship
      * @param {string} permission - The new permission level of the supporter in the support
-     * @return {Promise<HydratedDocument<Freet>>} - The newly updated freet
+     * @return {Promise<HydratedDocument<Support>>} - The newly updated support object
      */
     static async updateOnePermission(supported: Types.ObjectId | string, supporter: Types.ObjectId | string, permission: string): Promise<HydratedDocument<Support>> {
         const support = await SupportModel.findOne({supported: supported, supporter: supporter});
@@ -110,7 +110,7 @@ class SupportCollection{
      * @param {string} supported - The user that's supported in the relationship
      * @param {string} supporter - The user that is the supporter in the relationship
      * @param {string} inviteStatus - The new inviteStatus of the support
-     * @return {Promise<HydratedDocument<Freet>>} - The newly updated freet
+     * @return {Promise<HydratedDocument<Support>>} - The newly updated support object
      */
     static async updateOneInviteStatus(supported: Types.ObjectId | string, supporter: Types.ObjectId | string, inviteStatus: string): Promise<HydratedDocument<Support>> {
         const support = await SupportModel.findOne({supported: supported, supporter: supporter});

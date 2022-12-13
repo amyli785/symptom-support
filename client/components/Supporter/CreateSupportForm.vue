@@ -66,7 +66,6 @@ export default {
         ]},
       ],
       title: 'Add supporter',
-      alerts: {}, // Displays success/error messages encountered during form submission
       callback: () => {// Function to run after successful form submission
         this.$store.commit('alert', {
           message: 'Successfully invited supporter!', status: 'success'

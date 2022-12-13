@@ -47,11 +47,6 @@ export default {
       required: true
     }
   },
-  data() {
-    return {
-      alerts: {} // Displays success/error messages encountered during freet modification
-    };
-  },
   methods: {
     goToSupportedEntryFeed(){
       if (this.supported.inviteStatus == 'accepted'){

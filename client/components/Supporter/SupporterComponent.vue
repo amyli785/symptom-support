@@ -72,9 +72,8 @@ export default {
     },
     data() {
       return {
-        editing: false, // Whether or not this freet is in edit mode
-        draft: this.supporter.permission, // Potentially-new content for this freet
-        alerts: {} // Displays success/error messages encountered during freet modification
+        editing: false,
+        draft: this.supporter.permission,
       };
     },
     methods: {
@@ -100,27 +99,28 @@ export default {
       },
       startEditing() {
           /**
-           * Enables edit mode on this freet.
+           * Enables edit mode on this component.
            */
-          this.editing = true; // Keeps track of if a freet is being edited
+          this.editing = true; // Keeps track of if a component is being edited
           this.draft = this.supporter.permission; // The permission of our current "draft" while being edited
       },
       stopEditing() {
         /**
-         * Disables edit mode on this freet.
+         * Disables edit mode on this component.
          */
         this.editing = false;
         this.draft = this.supporter.permission;
       },
       submitEdit() {
         /**
-         * Updates freet to have the submitted draft content.
+         * Updates component to have the submitted draft content.
          */
         this.editing = false;
         if (this.supporter.permission === this.draft) {
             const error = 'Error: Edited permission level should be different than current permission level.';
-            this.$set(this.alerts, error, 'error'); // Set an alert to be the error text, timeout of 3000 ms
-            setTimeout(() => this.$delete(this.alerts, error), 3000);
+            this.$store.commit('alert', {
+              message: error, status: 'error'
+            });
             return;
         }
 

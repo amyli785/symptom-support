@@ -251,7 +251,7 @@ router.patch(
  *
  * @name PATCH /api/supports/supported/:username
  *
- * @return {SupportResponse} - the updated freet
+ * @return {SupportResponse} - the updated support object
  * @throws {403} - if the user is not logged in
  * @throws {404} - If the support relationship does not exist
  * @throws {400} - If the permission level is not provided

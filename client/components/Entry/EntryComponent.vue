@@ -65,11 +65,11 @@
     <div v-if="(!sharingMode && !displayMode)" class="entry-right-icons icon-xl">
       <div class="entry-icons-top">
         <FlagButton 
-          v-if="(permission == 'creator' || permission == 'manager' || entry.owner == this.$store.state.username)"
+          v-if="(permission == 'viewer' || permission == 'creator' || permission == 'manager' || entry.owner == this.$store.state.username)"
           :flagged="entry.flag" @click="toggleFlag" />
       </div>
       
-      <div v-if="((!sharingMode && !displayMode))" class="entry-icons-bottom">
+      <div class="entry-icons-bottom">
         <EditButton 
           v-if="(permission == 'manager' || entry.owner == this.$store.state.username)"
           @click="editEntry" />
@@ -110,19 +110,19 @@ export default {
     // Data from the stored entry
     entry: {
       type: Object,
-      required: true
+      required: true,
     },
     sharingMode: {
       type: Boolean,
-      required: false
+      required: false,
     },
     displayMode: {
       type: Boolean,
-      required: false
+      required: false,
     },
     clickable: {
       type: Boolean,
-      required: false
+      required: false,
     },
     permission: {
       type: String,
@@ -143,7 +143,6 @@ export default {
   data() {
     return {
       shareSelected: false,
-      alerts: {},
     };
   },
   methods: {
@@ -253,8 +252,9 @@ export default {
         this.$emit('flagToggled');
       } else {
         const e = 'Missing needed manager permissions to change flag status.';
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     },
   }

@@ -1,5 +1,3 @@
-<!-- Default page that also displays freets -->
-
 <template>
     <main>
       <section v-if="$store.state.username">
