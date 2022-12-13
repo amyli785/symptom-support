@@ -18,6 +18,8 @@
       </header>
       <section class="entry-feed-main">
         <CreateEntryComponent />
+        <div v-if="!sharingMode"><strong>Click an entry to view details.</strong></div>
+        <div v-else><strong>&nbsp;</strong></div>
         <section
           v-if="$store.state.entries.length"
           class="entries"
@@ -124,7 +126,7 @@ export default {
   display: flex;
   flex-direction: column;
 
-  gap: 40px;
+  gap: 20px;
 }
 
 .entries {
