@@ -74,7 +74,7 @@ router.delete(
         const support = await SupportCollection.findOne(userId, supporter._id);
 
         res.status(200).json({
-            message: `Your removed ${req.params.username} as a supporter successfully.`,
+            message: `You removed ${req.params.username} as a supporter successfully.`,
         });
     }
 );

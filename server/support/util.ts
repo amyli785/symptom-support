@@ -1,5 +1,4 @@
 import type {HydratedDocument} from 'mongoose';
-import moment from 'moment';
 import type {Support, PopulatedSupport} from '../support/model';
 
 type SupportResponse = {
@@ -30,7 +29,10 @@ const constructSupportResponse = (support: HydratedDocument<Support>): SupportRe
     const supportingDisplay = supportCopy.supporting.displayName;
     const supporterDisplay = supportCopy.supporter.displayName;
 
-    return{
+    delete supportCopy.supporting;
+    delete supportCopy.supporter;
+
+    return {
         ...supportCopy,
         supporting: supporting,
         supporter: supporter,
