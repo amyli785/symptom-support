@@ -19,9 +19,6 @@
             />
           </article>
         </section>
-        <section v-else>
-          <h3>You have not been invited to support anyone.</h3>
-        </section>
         <section
           v-if="$store.state.supported.length"
           class="support-section-container"

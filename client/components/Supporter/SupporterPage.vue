@@ -20,9 +20,6 @@
             />
           </article>
         </section>
-        <section v-else>
-          <h3>You have no invited supporters.</h3>
-        </section>
         <section
           v-if="$store.state.supporter.length"
           class="support-section-container"
