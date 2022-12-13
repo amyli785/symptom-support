@@ -169,8 +169,10 @@ export default {
 
 .actions-container {
   display: flex;
-  justify-content:flex-start;
-  gap: 10px;
+  justify-content: flex-start;
   align-items: center;
+
+  gap: 10px;
+  font-size: x-large;
 }
 </style>

@@ -10,7 +10,6 @@
         <div>This supporter is a&nbsp;</div>
         <select
           v-if="editing"
-          class="permission"
           :value="draft"
           @input="draft = $event.target.value"
         >
@@ -189,7 +188,6 @@ export default {
   align-items: stretch;
 
   gap: 10px;
-
 }
 
 .support-header {
@@ -211,7 +209,9 @@ export default {
 .actions-container {
   display: flex;
   justify-content:flex-start;
+
   gap: 10px;
+  font-size: x-large;
 }
 
 </style>
