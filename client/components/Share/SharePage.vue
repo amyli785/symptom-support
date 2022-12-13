@@ -1,8 +1,8 @@
 <template>
     <main>
-        <h2>
-            {{name}}
-        </h2>
+        <header>
+            <h2>{{name}}</h2>
+        </header>
         <div class="entries">
             <EntryComponent
                 v-for="entry in entries"
@@ -21,6 +21,12 @@ import EntryComponent from '@/components/Entry/EntryComponent.vue'
 export default {
     name: "SharePage",
     components: {EntryComponent},
+    data() {
+        return {
+            entries: [],
+            name: undefined,
+        };
+    },
     async beforeCreate() {
         try {
             const r = await fetch(`/api/shares/${this.$route.params.shareId}`);
@@ -37,20 +43,11 @@ export default {
             this.$router.push({name: 'Not Found'})
         }
     },
-    data() {
-        return {
-            entries: [],
-            name: undefined
-        }
-    }
-}
+};
 </script>
 
 <style scoped>
 
-h2 {
-    margin: 20px 10px;
-}
 .entries {
   display: flex;
 

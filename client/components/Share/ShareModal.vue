@@ -3,11 +3,16 @@
         <b-modal 
             id="share-modal"
             title="Share Entries"
-            :hide-footer=true
+            :hide-header="true"
+            :hide-footer="true"
             size="xl"
             @shown="handleShown"
             @hide="handleHidden"
         >
+            <header>
+                <h2>Share Entries</h2>
+                <h2><XButton @click="cancel"/></h2>
+            </header>
             <section v-if="!shareCreated" class="share-modal-content">
                 <section class="share-modal-name-input">
                     <div>Enter a title for this share:&nbsp;</div>
@@ -42,12 +47,13 @@
 </template>
 
 <script>
-import EntryComponent from '@/components/Entry/EntryComponent.vue'
+import XButton from '@/components/common/XButton.vue';
+import EntryComponent from '@/components/Entry/EntryComponent.vue';
 
 export default {
     name: 'ShareModal',
     components: {
-        EntryComponent
+        XButton, EntryComponent,
     },
     props: {
         shareEntries: {
@@ -64,16 +70,19 @@ export default {
         }
     },
     methods: {
-        handleHidden(){
+        cancel() {
+            this.$bvModal.hide(`share-modal`);
+        },
+        handleHidden() {
             this.entries = [];
             this.$emit("cancel-share");
         },
-        handleShown(){
+        handleShown() {
             for (const entry in this.shareEntries) {
                 this.entries.push(this.shareEntries[entry]);
             }
         },
-        async createShare(){
+        async createShare() {
             const entryIds = this.entries.map(entry => entry._id);
             const options = {
                 method: 'POST', body: JSON.stringify({entryIds: entryIds, name: this.name}), headers: {'Content-Type': 'application/json'}
@@ -94,8 +103,8 @@ export default {
                 });
             }
         },
-    }
-}
+    },
+};
 </script>
 
 <style scoped>

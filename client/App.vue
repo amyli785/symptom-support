@@ -102,8 +102,8 @@ button:disabled, button[disabled] {
 }
 
 .text-button {
-  border-radius: 15px;
-  padding: 15px;
+  border-radius: 10px;
+  padding: 10px;
 
   display: inline;
   white-space: nowrap;

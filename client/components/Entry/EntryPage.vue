@@ -458,7 +458,7 @@ export default {
         }
       } catch (e) {
         this.$store.commit('alert', {
-          message: e, status: 'error'
+          message: e, status: 'error',
         });
       }
     },
@@ -581,13 +581,13 @@ p {
   border-radius: 5px;
 }
 
-.date{
+.date {
   width: 67.5%;
   border-radius: 5px;
   border: 0px;
 }
 
-.label-time{
+.label-time {
   width: 27.5%;
   display: flex;
   flex-direction: column;

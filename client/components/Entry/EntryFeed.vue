@@ -73,7 +73,7 @@ import ShareBar from '@/components/Share/ShareBar.vue';
 export default {
   name: 'EntryFeed',
   components: {
-    CreateEntryComponent, EntryComponent, ShareModal, ShareBar
+    CreateEntryComponent, EntryComponent, ShareModal, ShareBar,
   },
   data() {
     return {

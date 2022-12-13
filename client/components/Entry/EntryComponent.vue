@@ -277,7 +277,7 @@ export default {
   justify-content: space-between;
 
   gap: 10px;
-  height: 425px;
+  height: 450px;
 }
 
 .entry-container:hover {
@@ -286,11 +286,11 @@ export default {
 }
 
 .selected:hover{
-  filter: drop-shadow(0 0 10px var(--dark-blue));
+  filter: drop-shadow(0 0 8px var(--dark-blue));
 }
 
 .selected {
-  filter: drop-shadow(0 0 10px var(--dark-blue));
+  filter: drop-shadow(0 0 6px var(--dark-blue));
 }
 
 .entry-left-content {
