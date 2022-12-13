@@ -31,7 +31,7 @@
             ></textarea>
         </div>
         <div>
-            <label>{{ this.location.label }}:</label>
+            <label>{{ this.location.label }}</label>
             <textarea
               v-if="this.viewing"
               disabled
@@ -50,7 +50,7 @@
         </div>
         <div class="measurement-container">
             <div class = 'measurement-value'>
-                <label :for="measurement.id">{{ measurement.label }}: </label>
+                <label :for="measurement.id">{{ measurement.label }} </label>
                 <input
                     v-if="this.viewing"
                     disabled
@@ -68,7 +68,7 @@
                 >
             </div>
             <div class = 'measurement-unit'>
-                <label :for="unit.id">{{ unit.label }}: </label>
+                <label :for="unit.id">{{ unit.label }} </label>
                 <select
                     v-if="this.viewing"
                     disabled
