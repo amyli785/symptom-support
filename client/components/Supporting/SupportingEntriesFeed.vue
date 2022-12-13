@@ -36,7 +36,7 @@ import HomeButton from '@/components/common/HomeButtonWithAction.vue';
 import EntryComponent from '@/components/Entry/EntryComponent.vue';
 
 export default {
-    name: "SupportedEntriesFeed",
+    name: "SupportingEntriesFeed",
     components: {
         HomeButton, EntryComponent,
     },
@@ -49,13 +49,13 @@ export default {
                 this.ownerDisplay = this.$store.state.displayName;
             }
             else {
-                await this.$store.commit('refreshSupported');
-                for (const support of this.$store.state.supported){
-                    if (support.supported === this.$route.query.username){
+                await this.$store.commit('refreshSupporting');
+                for (const support of this.$store.state.supporting){
+                    if (support.supporting === this.$route.query.username){
                         this.valid = true;
                         this.permission = support.permission;
                         this.owner = this.$route.query.username;
-                        this.ownerDisplay = support.supportedDisplay;
+                        this.ownerDisplay = support.supportingDisplay;
                     }
                 }
             }

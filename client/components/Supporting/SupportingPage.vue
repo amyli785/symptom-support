@@ -7,28 +7,28 @@
       </header>
       <article class="support-page-content">
         <section
-          v-if="$store.state.supportedRequests.length"
+          v-if="$store.state.supportingRequests.length"
           class="support-section-container"
         >
           <h3>Requests</h3>
           <article class="support-section-content">
-            <SupportedComponent
-              v-for="supported in $store.state.supportedRequests"
-              :key="supported.id"
-              :supported="supported"
+            <SupportingComponent
+              v-for="supporting in $store.state.supportingRequests"
+              :key="supporting.id"
+              :supporting="supporting"
             />
           </article>
         </section>
         <section
-          v-if="$store.state.supported.length"
+          v-if="$store.state.supporting.length"
           class="support-section-container"
         >
           <h3>Accepted</h3>
           <article class="support-section-content">
-            <SupportedComponent
-              v-for="supported in $store.state.supported"
-              :key="supported.id"
-              :supported="supported"
+            <SupportingComponent
+              v-for="supporting in $store.state.supporting"
+              :key="supporting.id"
+              :supporting="supporting"
             />
           </article>
         </section>
@@ -55,37 +55,37 @@
 
 <script>
 import HomeButton from '@/components/common/HomeButtonWithAction.vue';
-import SupportedComponent from '@/components/Supported/SupportedComponent.vue';
+import SupportingComponent from '@/components/Supporting/SupportingComponent.vue';
 
 export default {
-  name: 'SupportedPage',
+  name: 'SupportingPage',
   components: {
     HomeButton,
-    SupportedComponent,
+    SupportingComponent,
   },
   async mounted() {
-    let url = `/api/supports/supported?inviteStatus=accepted`;
+    let url = `/api/supports/supporting?inviteStatus=accepted`;
     try {
       const r = await fetch(url);
       const res = await r.json();
       if (!r.ok) {
         throw new Error(res.error);
       }
-      this.$store.commit('updateSupported', res);
+      this.$store.commit('updateSupporting', res);
     } catch (e) {
       this.$store.commit('alert', {
         message: e, status: 'error'
       });
     }
 
-    url = `/api/supports/supported?inviteStatus=invited`;
+    url = `/api/supports/supporting?inviteStatus=invited`;
     try {
       const r = await fetch(url);
       const res = await r.json();
       if (!r.ok) {
         throw new Error(res.error);
       }
-      this.$store.commit('updateSupportedRequest', res);
+      this.$store.commit('updateSupportingRequest', res);
     } catch (e) {
       this.$store.commit('alert', {
         message: e, status: 'error'

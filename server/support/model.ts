@@ -8,28 +8,28 @@ import type {User} from '../user/model';
 
 // Type definition for Support on the backend
 export type Support = {
-    supported: Types.ObjectId;
+    supporting: Types.ObjectId;
     supporter: Types.ObjectId;
     permission: String;
     inviteStatus: String;
 };
 
 export type PopulatedSupport = {
-    supported: User;
+    supporting: User;
     supporter: User;
     permission: String;
     inviteStatus: String;
   };
 
 const SupportSchema = new Schema({
-    // the user being supported
-    supported: {
+    // the user being supporting
+    supporting: {
         type: Schema.Types.ObjectId,
         ref: "User",
         required: true
     },
 
-    // the user who is the supported
+    // the user who is the supporting
     supporter: {
         type: Schema.Types.ObjectId,
         ref: "User",

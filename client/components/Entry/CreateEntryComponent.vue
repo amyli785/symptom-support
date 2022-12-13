@@ -37,14 +37,14 @@ export default {
   },
   methods: {
     async getPeople() {
-      const url = `/api/supports/supported?inviteStatus=accepted`;
+      const url = `/api/supports/supporting?inviteStatus=accepted`;
       try {
         const r = await fetch(url);
         const res = await r.json();
         if (!r.ok) {
           throw new Error(res.error);
         }
-        this.$store.commit('updateSupported', res);
+        this.$store.commit('updateSupporting', res);
       } catch (e) {
         this.$store.commit('alert', {
           message: e, status: 'error'
@@ -52,9 +52,9 @@ export default {
       }
 
       this.people = [{username: this.$store.state.username},];
-      for (const s of this.$store.state.supported) {
+      for (const s of this.$store.state.supporting) {
         if (s.permission == 'creator' || s.permission == 'manager'){
-          this.people.push({display: s.supportedDisplay, username: s.supported});
+          this.people.push({display: s.supportingDisplay, username: s.supporting});
         }
       }
     },

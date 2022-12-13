@@ -1,26 +1,26 @@
 <template>
-  <article :class="`support-container ${supported.inviteStatus}`" @click="goToSupportedEntryFeed">
+  <article :class="`support-container ${supporting.inviteStatus}`" @click="goToSupportingEntryFeed">
     <section class="support-display-container">
       <h2 class="support-header">
-        <div class="support-display-name"><strong>{{supported.supportedDisplay}}</strong></div>
+        <div class="support-display-name"><strong>{{supporting.supportingDisplay}}</strong></div>
         &nbsp;
-        <div class="support-username"> @{{ supported.supported }}</div>
+        <div class="support-username"> @{{ supporting.supporting }}</div>
       </h2>
-      <div>You are a <strong>{{supported.permission}}</strong>.</div>
+      <div>You are a <strong>{{supporting.permission}}</strong>.</div>
       <div class="actions-container">
         <AcceptButton
-          v-if="supported.inviteStatus === 'invited'"
+          v-if="supporting.inviteStatus === 'invited'"
           @click="acceptInvite"
         />
-        <XButton v-if="supported.inviteStatus === 'invited'" @click="removeSupported"/>
-        <DeleteButton v-if="supported.inviteStatus === 'accepted'" @click="removeSupportedClick"/>
+        <XButton v-if="supporting.inviteStatus === 'invited'" @click="removeSupporting"/>
+        <DeleteButton v-if="supporting.inviteStatus === 'accepted'" @click="removeSupportingClick"/>
       </div>
     </section>
     <ConfirmDeleteModal class="modal"
     itemType = "supporting"
     itemName = "your supporting"
-    :itemId = "supported._id"
-    :deleteFunction = "this.removeSupported"
+    :itemId = "supporting._id"
+    :deleteFunction = "this.removeSupporting"
     />
   </article>
 </template>
@@ -33,7 +33,7 @@ import XButton from '../common/XButton';
 import ConfirmDeleteModal from '../common/ConfirmDeleteModal';
   
 export default {
-  name: 'SupportedComponent',
+  name: 'SupportingComponent',
   components: {
     AcceptButton,
     DeleteButton,
@@ -41,34 +41,34 @@ export default {
     ConfirmDeleteModal
   },
   props: {
-    // Data from the stored supported
-    supported: {
+    // Data from the stored supporting
+    supporting: {
       type: Object,
       required: true
     }
   },
   methods: {
-    goToSupportedEntryFeed(){
-      if (this.supported.inviteStatus == 'accepted'){
-        this.$router.push({ path: '/entries', query: { username: this.supported.supported } })
+    goToSupportingEntryFeed(){
+      if (this.supporting.inviteStatus == 'accepted'){
+        this.$router.push({ path: '/entries', query: { username: this.supporting.supporting } })
       }
     },
-    removeSupportedClick(){
+    removeSupportingClick(){
       /**
-       * Shows modal to confirm removing a supported. 
+       * Shows modal to confirm removing a supporting. 
        */
       event.stopPropagation();
-      this.$bvModal.show(`confirm-delete-modal-supporting-${this.supported._id}`);
+      this.$bvModal.show(`confirm-delete-modal-supporting-${this.supporting._id}`);
     },
-    removeSupported() {
+    removeSupporting() {
       /**
-       * Deletes this supported.
+       * Deletes this supporting.
        */
       const params = {
         method: 'DELETE',
         callback: () => {
           this.$store.commit('alert', {
-            message: 'Successfully removed supported!', status: 'success'
+            message: 'Successfully removed supporting!', status: 'success'
           });
         }
       };
@@ -101,14 +101,14 @@ export default {
       }
 
       try {
-        const r = await fetch(`/api/supports/supported/${this.supported.supported}`, options);
+        const r = await fetch(`/api/supports/supporting/${this.supporting.supporting}`, options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
         }
 
-        this.$store.commit('refreshSupported');
-        this.$store.commit('refreshSupportedRequest');
+        this.$store.commit('refreshSupporting');
+        this.$store.commit('refreshSupportingRequest');
         params.callback();
       } catch (e) {
         this.$store.commit('alert', {

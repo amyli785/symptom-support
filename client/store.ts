@@ -11,11 +11,11 @@ const store = new Vuex.Store({
   state: {
     username: null, // Username of the logged in user
     displayName: null, //Display name of logged in user
-    supported: [],
+    supporting: [],
     supporter: [],
     entries: [],
     flagged: [],
-    supportedRequests: [],
+    supportingRequests: [],
     supporterRequests: [],
     entryStatus: null,
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
@@ -82,20 +82,20 @@ const store = new Vuex.Store({
     cleanEntryStatus(state){
       state.entryStatus = null;
     },
-    updateSupported(state, supported) {
+    updateSupporting(state, supporting) {
       /**
-       * Update the stored supported to the provided supported.
-       * @param supported - Supported to store
+       * Update the stored supporting to the provided supporting.
+       * @param supporting - Supporting to store
        */
-      state.supported = supported;
+      state.supporting = supporting;
     },
-    async refreshSupported(state) {
+    async refreshSupporting(state) {
       /**
-       * Request the server for the currently available supported.
+       * Request the server for the currently available supporting.
        */
-      const url = `/api/supports/supported?inviteStatus=accepted`;
+      const url = `/api/supports/supporting?inviteStatus=accepted`;
       const res = await fetch(url).then(async r => r.json());
-      state.supported = res;
+      state.supporting = res;
     },
     updateSupporter(state, supporter) {
       /**
@@ -112,20 +112,20 @@ const store = new Vuex.Store({
       const res = await fetch(url).then(async r => r.json());
       state.supporter = res;
     },
-    updateSupportedRequest(state, supportedRequests) {
+    updateSupportingRequest(state, supportingRequests) {
       /**
        * Update the stored supporters to the provided supporters.
        * @param supporter - Supporters to store
        */
-      state.supportedRequests = supportedRequests;
+      state.supportingRequests = supportingRequests;
     },
-    async refreshSupportedRequest(state) {
+    async refreshSupportingRequest(state) {
       /**
        * Request the server for the currently available supporters.
        */
-      const url = `/api/supports/supported?inviteStatus=invited`;
+      const url = `/api/supports/supporting?inviteStatus=invited`;
       const res = await fetch(url).then(async r => r.json());
-      state.supportedRequests = res;
+      state.supportingRequests = res;
     },
     updateSupporterRequest(state, supporterRequests) {
       /**

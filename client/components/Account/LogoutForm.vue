@@ -15,9 +15,9 @@ export default {
       fields: [],
       content: 'Taking a break? See you later.',
       callback: () => {
-        this.$store.commit('updateSupported',[]);
+        this.$store.commit('updateSupporting',[]);
         this.$store.commit('updateSupporter',[]);
-        this.$store.commit('updateSupportedRequest',[]);
+        this.$store.commit('updateSupportingRequest',[]);
         this.$store.commit('updateSupporterRequest',[]);
         this.$store.commit('setUsername',null);
         localStorage.removeItem('username');

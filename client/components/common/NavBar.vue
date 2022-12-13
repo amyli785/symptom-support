@@ -42,9 +42,9 @@
       </router-link>
       <!-- <router-link 
         v-if="$store.state.username"
-        to="/supportedRequest"
+        to="/supportingRequest"
       >
-        Supported Requests
+        Supporting Requests
       </router-link> -->
       <router-link
         v-if="$store.state.username"

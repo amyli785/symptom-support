@@ -5,7 +5,7 @@ import SupportCollection from '../support/collection'
 
 
 /**
- * Checks if a Support with userId as supported and username in req.body as supporter exists
+ * Checks if a Support with userId as supporting and username in req.body as supporter exists
  */
  const isSupportAlreadyExists = async (req: Request, res: Response, next: NextFunction) => {
     const userId = (req.session.userId as string) ?? '';
@@ -25,7 +25,7 @@ import SupportCollection from '../support/collection'
 };
 
 /**
- * Checks if a Support with userId as supported and username in req.params as supporter does not exist
+ * Checks if a Support with userId as supporting and username in req.params as supporter does not exist
  */
 const isSupportDoesNotExist = async(req: Request, res: Response, next: NextFunction) => {
     const userId = (req.session.userId as string) ?? '';
@@ -44,12 +44,12 @@ const isSupportDoesNotExist = async(req: Request, res: Response, next: NextFunct
 };
 
 /**
- * Checks if a support with userId as supporter and username in req.params as supported does not exist
+ * Checks if a support with userId as supporter and username in req.params as supporting does not exist
  */
-const isSupportedDoesNotExist = async(req: Request, res: Response, next: NextFunction) => {
+const isSupportingDoesNotExist = async(req: Request, res: Response, next: NextFunction) => {
     const userId = (req.session.userId as string) ?? '';
-    const supported = await UserCollection.findOneByUsername(req.params.username);
-    const support = await SupportCollection.findOne(supported._id,userId);
+    const supporting = await UserCollection.findOneByUsername(req.params.username);
+    const support = await SupportCollection.findOne(supporting._id,userId);
 
     if (!support){
         res.status(404).json({
@@ -70,10 +70,10 @@ const isSupportRelationDoesNotExist = async(req: Request, res:Response, next: Ne
     const userId = (req.session.userId as string) ?? '';
     const userFromBody = await UserCollection.findOneByUsername(req.body.username);
     const userAsSupporter = await SupportCollection.findOne(userFromBody._id,userId);
-    const userAsSupported = await SupportCollection.findOne(userId, userFromBody._id);
+    const userAsSupporting = await SupportCollection.findOne(userId, userFromBody._id);
 
     if (!userAsSupporter){
-        if (!userAsSupported){
+        if (!userAsSupporting){
             res.status(404).json({
                 error:{
                     supportNotFound: `No support relation exists with ${req.body.username}`
@@ -100,7 +100,7 @@ const isPermissionInBody = async (req: Request, res: Response, next: NextFunctio
 };
 
 /**
- * Checks if a support with supporter is req.params and supported as logged in user exists
+ * Checks if a support with supporter is req.params and supporting as logged in user exists
  */
 const isSupportBySupporterExists = async (req: Request, res: Response, next: NextFunction) => {
     const userId = (req.session.userId as string) ?? '';
@@ -119,13 +119,13 @@ const isSupportBySupporterExists = async (req: Request, res: Response, next: Nex
 };
 
 /**
- * Checks if a support with supported is req.params and supporter as logged in user exists
+ * Checks if a support with supporting is req.params and supporter as logged in user exists
  */
- const isSupportBySupportedExists = async (req: Request, res: Response, next: NextFunction) => {
+ const isSupportBySupportingExists = async (req: Request, res: Response, next: NextFunction) => {
     const supporter = (req.session.userId as string) ?? '';
-    const supported = await UserCollection.findOneByUsername(req.params.username);
+    const supporting = await UserCollection.findOneByUsername(req.params.username);
 
-    const support = await SupportCollection.findOne(supported._id, supporter);
+    const support = await SupportCollection.findOne(supporting._id, supporter);
 
     if (!support) {
       res.status(404).json({
@@ -240,11 +240,11 @@ const isValidUpdatePermission = async (req: Request, res: Response, next: NextFu
 export {
     isSupportAlreadyExists,
     isSupportDoesNotExist,
-    isSupportedDoesNotExist,
+    isSupportingDoesNotExist,
     isSupportRelationDoesNotExist,
     isPermissionInBody,
     isSupportBySupporterExists,
-    isSupportBySupportedExists,
+    isSupportBySupportingExists,
     isValidUpdatePermission,
     isInviteStatusInBody,
     isValidUpdateInviteStatus,

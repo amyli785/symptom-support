@@ -80,9 +80,9 @@ router.delete(
 );
 
 /**
- * Remove a user from the logged in user's supported list.
+ * Remove a user from the logged in user's supporting list.
  *
- * @name DELETE /api/supports/supported/:username
+ * @name DELETE /api/supports/supporting/:username
  *
  * @return {string} - A success message
  * @throws {403} - If the user is not logged in
@@ -92,19 +92,19 @@ router.delete(
  * @throws {404} - If the support relationship does not exist
  */
  router.delete(
-    '/supported/:username?',
+    '/supporting/:username?',
     [
         userValidator.isUserLoggedIn,
         userValidator.isUserParamExists,
         userValidator.isParamsNotEqualLoggedInUser,
-        supportValidator.isSupportedDoesNotExist,
+        supportValidator.isSupportingDoesNotExist,
     ],
     async (req: Request, res: Response) => {
         const userId = (req.session.userId as string) ?? '';
-        const supported = await UserCollection.findOneByUsername(req.params.username);
-        await SupportCollection.deleteOne(supported._id,userId);
+        const supporting = await UserCollection.findOneByUsername(req.params.username);
+        await SupportCollection.deleteOne(supporting._id,userId);
 
-        const support = await SupportCollection.findOne(supported._id, userId);
+        const support = await SupportCollection.findOne(supporting._id, userId);
 
         res.status(200).json({
             message: `You stopped supporting ${req.params.username} successfully.`,
@@ -113,18 +113,18 @@ router.delete(
 );
 
 /**
- * Get all of user's supported.
+ * Get all of user's supporting.
  *
- * @name GET /api/supports/supported
+ * @name GET /api/supports/supporting
  *
  * @return {SupportResponse[]} - An array of supports where supporter = user
  * @throws {403} - If user not logged in
  *
  */
 /**
- * Get user's supported by invite status.
+ * Get user's supporting by invite status.
  *
- * @name GET /api/supports/supported?inviteStatus=inviteStatus
+ * @name GET /api/supports/supporting?inviteStatus=inviteStatus
  *
  * @return {SupporttResponse[]} - An array of supports where supporter = user and match the invite status
  * @throws {400} - If inviteStatus is not provided
@@ -132,7 +132,7 @@ router.delete(
  *
  */
 router.get(
-    '/supported',
+    '/supporting',
     [
         userValidator.isUserLoggedIn,
     ],
@@ -142,8 +142,8 @@ router.get(
             return;
         }
         const userId = (req.session.userId as string) ?? '';
-        const allSupported = await SupportCollection.findAllSupportedByUserId(userId);
-        const response = allSupported.map(util.constructSupportResponse);
+        const allSupporting = await SupportCollection.findAllSupportingByUserId(userId);
+        const response = allSupporting.map(util.constructSupportResponse);
         res.status(200).json(response);
     },
     [
@@ -153,8 +153,8 @@ router.get(
     async (req:Request, res:Response) => {
         let userId = (req.session.userId as string) ?? '';
         if (userId === ''){userId = undefined};
-        const allSupported = await SupportCollection.findAllSupportedByUserIdAndInviteStatus(userId,req.query.inviteStatus as string);
-        const response = allSupported.map(util.constructSupportResponse);
+        const allSupporting = await SupportCollection.findAllSupportingByUserIdAndInviteStatus(userId,req.query.inviteStatus as string);
+        const response = allSupporting.map(util.constructSupportResponse);
         res.status(200).json(response);
     }
 )
@@ -165,7 +165,7 @@ router.get(
  *
  * @name GET /api/supports/supporter
  *
- * @return {SupportResponse[]} - An array of supports where supported = user
+ * @return {SupportResponse[]} - An array of supports where supporting = user
  * @throws {403} - If user not logged in
  *
  */
@@ -174,7 +174,7 @@ router.get(
  *
  * @name GET /api/supports/supporter?inviteStatus=inviteStatus
  *
- * @return {SupporttResponse[]} - An array of supports where supported = user and match the invite status
+ * @return {SupporttResponse[]} - An array of supports where supporting = user and match the invite status
  * @throws {400} - If inviteStatus is not provided
  * @throws {400} - If inviteStatus is not valid (i.e. "invited" or "accepted")
  *
@@ -229,10 +229,10 @@ router.patch(
     async (req: Request, res: Response) => {
         let support = undefined;
   
-        const supported = (req.session.userId as string) ?? '';
+        const supporting = (req.session.userId as string) ?? '';
         const supporter = await UserCollection.findOneByUsername(req.params.username);
         if (req.body.permission){
-            support = await SupportCollection.updateOnePermission(supported, supporter._id, req.body.permission);
+            support = await SupportCollection.updateOnePermission(supporting, supporter._id, req.body.permission);
             res.status(200).json({
                 message: 'Your support was updated successfully.',
                 support: util.constructSupportResponse(support)
@@ -249,7 +249,7 @@ router.patch(
 /**
  * Modify a support
  *
- * @name PATCH /api/supports/supported/:username
+ * @name PATCH /api/supports/supporting/:username
  *
  * @return {SupportResponse} - the updated support object
  * @throws {403} - if the user is not logged in
@@ -258,19 +258,19 @@ router.patch(
  * @throws {400} - If the permission level is not a valid option
  */
 router.patch(
-    '/supported/:username?',
+    '/supporting/:username?',
     [
         userValidator.isUserLoggedIn,
-        supportValidator.isSupportBySupportedExists,
+        supportValidator.isSupportBySupportingExists,
         supportValidator.isValidUpdateInviteStatus,
     ],
     async (req: Request, res: Response) => {
         let support = undefined;
 
         const supporter = (req.session.userId as string) ?? '';
-        const supported = await UserCollection.findOneByUsername(req.params.username);
+        const supporting = await UserCollection.findOneByUsername(req.params.username);
         if (req.body.inviteStatus){
-            support = await SupportCollection.updateOneInviteStatus(supported._id, supporter, req.body.inviteStatus);
+            support = await SupportCollection.updateOneInviteStatus(supporting._id, supporter, req.body.inviteStatus);
             res.status(200).json({
                 message: 'Your support was accepted successfully.',
                 support: util.constructSupportResponse(support)

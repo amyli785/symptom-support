@@ -10,8 +10,8 @@ import * as medicationUtil from '../medication/util';
  * Checks if the current session user has view permissions to the req.query.username user.
  */
 const isUsernameViewable = async (req: Request, res: Response, next: NextFunction) => {
-  const supported = await UserCollection.findOneByUsername(req.query.username as string);
-  const canView = await SupportCollection.canView(supported._id, req.session.userId as string);
+  const supporting = await UserCollection.findOneByUsername(req.query.username as string);
+  const canView = await SupportCollection.canView(supporting._id, req.session.userId as string);
 
   if (!canView) {
     res.status(403).json({
@@ -114,8 +114,8 @@ const isOwnerExists = async (req: Request, res: Response, next: NextFunction) =>
  * Checks if the current session user has create permissions to the username req.body.owner.
  */
 const isOwnerCreateable = async (req: Request, res: Response, next: NextFunction) => {
-  const supported = await UserCollection.findOneByUsername(req.body.owner as string);
-  const canCreate = await SupportCollection.canCreate(supported._id, req.session.userId as string);
+  const supporting = await UserCollection.findOneByUsername(req.body.owner as string);
+  const canCreate = await SupportCollection.canCreate(supporting._id, req.session.userId as string);
 
   if (!canCreate) {
     res.status(403).json({

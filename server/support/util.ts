@@ -3,10 +3,10 @@ import moment from 'moment';
 import type {Support, PopulatedSupport} from '../support/model';
 
 type SupportResponse = {
-    supported: string;
+    supporting: string;
     supporter: string;
     permission: string;
-    supportedDisplay: string;
+    supportingDisplay: string;
     supporterDisplay: string;
     inviteStatus: string;
 };
@@ -25,17 +25,17 @@ const constructSupportResponse = (support: HydratedDocument<Support>): SupportRe
         })
     };
 
-    const supported = supportCopy.supported.username;
+    const supporting = supportCopy.supporting.username;
     const supporter = supportCopy.supporter.username;
-    const supportedDisplay = supportCopy.supported.displayName;
+    const supportingDisplay = supportCopy.supporting.displayName;
     const supporterDisplay = supportCopy.supporter.displayName;
 
     return{
         ...supportCopy,
-        supported: supported,
+        supporting: supporting,
         supporter: supporter,
         permission: supportCopy.permission.toString(),
-        supportedDisplay: supportedDisplay,
+        supportingDisplay: supportingDisplay,
         supporterDisplay: supporterDisplay,
         inviteStatus: supportCopy.inviteStatus.toString(),
     };
