@@ -28,24 +28,12 @@
       >
         Supporters
       </router-link>
-      <!-- <router-link 
-        v-if="$store.state.username"
-        to="/supporterRequest"
-      >
-        Supporter Requests
-      </router-link> -->
       <router-link 
         v-if="$store.state.username"
         to="/supporting"
       >
         Supporting
       </router-link>
-      <!-- <router-link 
-        v-if="$store.state.username"
-        to="/supportingRequest"
-      >
-        Supporting Requests
-      </router-link> -->
       <router-link
         v-if="$store.state.username"
         to="/account"
@@ -84,15 +72,6 @@ nav {
     width: 100%;
 }
 
-.title {
-    font-size: 32px;
-    margin: 0 5px;
-}
-
-img {
-    height: 32px;
-}
-
 .left {
   font-size: 20px;
 	display: flex;
@@ -124,7 +103,7 @@ a:hover {
 a:active { 
   text-decoration: none; 
 }
-a{
+a {
   color:black;
   font-weight: bold;
 }
