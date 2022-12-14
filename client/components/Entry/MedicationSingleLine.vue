@@ -1,21 +1,28 @@
 <template>
 	<article class="medication-container">
-    <div v-if = "!description" class="medication-background medication-normal">&nbsp;</div>
-    <div v-else class="no-background medication-description">&nbsp;</div>
-    <div v-if = "(!description)" class="medication-content medication-normal">
-      <div class="medication-content-item">
-        {{ getContent() }}
-      </div>
-    </div>
-    <div v-else-if = "extra" class="medication-content medication-description">
-      <i class="medication-content-item">
+    <div v-if="description" class="no-background medication-description">&nbsp;</div>
+    <div v-else-if="blank" class="no-background medication-normal">&nbsp;</div>
+    <div v-else class="medication-background medication-normal">&nbsp;</div>
+    <div v-if="description && extra" class="medication-content medication-description">
+      <i v-if="blank" class="medication-content-item">
+        &nbsp;
+      </i>
+      <i v-else class="medication-content-item">
         ...
       </i>
     </div>
-    <div v-else-if = "description" class="medication-content medication-description">
+    <div v-else-if="description" class="medication-content medication-description">
       <i class="medication-content-item">
         Medications: name (dosage)
       </i>
+    </div>
+    <div v-else class="medication-content medication-normal">
+      <div v-if="blank" class="medication-content-item">
+        &nbsp;
+      </div>
+      <div v-else class="medication-content-item">
+        {{ getContent() }}
+      </div>
     </div>
   </article>
 </template>
@@ -32,25 +39,33 @@ export default {
       Type: Number,
       required: true,
     },
+    unit: {
+      Type: String,
+      required: true,
+    },
     description: {
       Type: Boolean,
       required: false,
+      default: false,
     },
     extra: {
       Type: Boolean, 
       required: false,
-    }
+      default: false,
+    },
+    blank: {
+      Type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   methods: {
     getContent() {
-      if (!this.name) {
-        return " - ";
-      }
-      const content = `${this.name} (${this.dosage} mg)`;
+      const content = `${this.name} (${this.dosage} ${this.unit})`;
       return content;
     },
   },
-}
+};
 </script>
 
 <style scoped>

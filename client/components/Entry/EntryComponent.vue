@@ -26,19 +26,29 @@
           :location="symptom.location"
         />
         <SymptomSingleLine
-          v-if="(entry.symptoms.length > 2)"
+          v-for="i in Math.max(0, 2 - entry.symptoms.length)"
+          :key="(entry.dateStarted.toString()+' symptom '+i)"
+          :name="''"
+          :measurement="''"
+          :unit="''"
+          :location="''"
+          :blank="true"
+        />
+        <SymptomSingleLine
           :name="''"
           :measurement="''"
           :unit="''"
           :location="''"
           :description="true"
           :extra="true"
+          :blank="(entry.symptoms.length <= 2)"
         />
       </div>
       <div class="entry-category-container entry-category-medications">
         <MedicationSingleLine
           :name="''"
           :dosage="''"
+          :unit="''"
           :description="true"
         />
         <MedicationSingleLine
@@ -46,13 +56,23 @@
           :key="(entry.dateStarted.toString()+' '+medication.name+medication.dosage)"
           :name="medication.name"
           :dosage="medication.dosage"
+          :unit="medication.unit"
         />
         <MedicationSingleLine
-          v-if="(entry.medications.length > 2)"
+          v-for="i in Math.max(0, 2 - entry.medications.length)"
+          :key="(entry.dateStarted.toString()+' medication '+i)"
           :name="''"
           :dosage="''"
+          :unit="''"
+          :blank="true"
+        />
+        <MedicationSingleLine
+          :name="''"
+          :dosage="''"
+          :unit="''"
           :description="true"
           :extra="true"
+          :blank="(entry.medications.length <= 2)"
         />
       </div>
       <div class="entry-category-container entry-notes-container">
@@ -277,7 +297,6 @@ export default {
   justify-content: space-between;
 
   gap: 10px;
-  height: 450px;
 }
 
 .entry-container:hover {
@@ -316,8 +335,6 @@ export default {
 }
 
 .entry-category-container {
-  height: 50%;
-
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -339,12 +356,12 @@ export default {
 }
 
 .entry-notes-container {
-  height: 10%;
   border-color: black;
   padding: 5px 10px;
 }
 
 .entry-notes {
+  height: 1.5em;
   overflow: hidden;
 }
 

@@ -1,21 +1,28 @@
 <template>
 	<article class="symptom-container">
-    <div v-if="!description" class="symptom-background symptom-normal">&nbsp;</div>
-    <div v-else class="no-background symptom-description">&nbsp;</div>
-    <div v-if="!description" class="symptom-content symptom-normal">
-      <div class="symptom-content-item">
-        {{ getContent() }}
-      </div>
-    </div>
-    <div v-else-if="extra" class="symptom-content symptom-description">
-      <i class="symptom-content-item">
+    <div v-if="description" class="no-background symptom-description">&nbsp;</div>
+    <div v-else-if="blank" class="no-background symptom-normal">&nbsp;</div>
+    <div v-else class="symptom-background symptom-normal">&nbsp;</div>
+    <div v-if="description && extra" class="symptom-content symptom-description">
+      <i v-if="blank" class="symptom-content-item">
+        &nbsp;
+      </i>
+      <i v-else class="symptom-content-item">
         ...
       </i>
     </div>
-    <div v-else="description" class="symptom-content symptom-description">
+    <div v-else-if="description" class="symptom-content symptom-description">
       <i class="symptom-content-item">
-        Symptom: name (measurement unit) - location
+        Symptom: name (measurement) - affected area
       </i>
+    </div>
+    <div v-else class="symptom-content symptom-normal">
+      <div v-if="blank" class="symptom-content-item">
+        &nbsp;
+      </div>
+      <div v-else class="symptom-content-item">
+        {{ getContent() }}
+      </div>
     </div>
   </article>
 </template>
@@ -43,17 +50,21 @@ export default {
     description: {
       Type: Boolean,
       require: false,
+      default: false,
     },
     extra: {
       Type: Boolean, 
       required: false,
-    }
+      default: false,
+    },
+    blank: {
+      Type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   methods: {
     getContent() {
-      if (!this.name) {
-        return " - ";
-      }
       let contentStart = `${this.name}`;
       if (this.measurement){
         contentStart = contentStart + ` (${this.measurement}`;
