@@ -16,12 +16,12 @@ import { HydratedDocument } from 'mongoose';
 const router = express.Router();
 
 /**
- * Add a flag
+ * Flag an entry.
  *
  * @name POST /api/flags
  *
  * @param {string} entryId - The id of the entry to be flagged
- * @return {FlagResponse} - The created Flag
+ * @return {FlagResponse} - The created flag
  * @throws {403} - If the user is not logged in
  * @throws {400} - If entryId is not provided or not a correctly formatted Object ID
  * @throws {404} - If entry with id = entryId does not exist
